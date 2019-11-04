@@ -177,9 +177,9 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="hot_deal_box">
-                            <img class="img-fluid" src="img/product/hot_deals/deal1.jpg" alt="">
+                            <img class="img-fluid" src="img/product/hot_deals/deal-of-the-week.jpg" alt="">
                             <div class="content">
-                                <h2>Hot Deals of this Month</h2>
+                                <h2>Hot Deals of the Week</h2>
                                 <p>shop now</p>
                             </div>
                             <a class="hot_deal_link" href="#"></a>
@@ -188,9 +188,9 @@
 
                     <div class="col-lg-6">
                         <div class="hot_deal_box">
-                            <img class="img-fluid" src="img/product/hot_deals/deal1.jpg" alt="">
+                            <img class="img-fluid" src="img/product/hot_deals/deal-of-the-month.jpg" alt="">
                             <div class="content">
-                                <h2>Hot Deals of this Month</h2>
+                                <h2>Hot Deals of the Month</h2>
                                 <p>shop now</p>
                             </div>
                             <a class="hot_deal_link" href="#"></a>

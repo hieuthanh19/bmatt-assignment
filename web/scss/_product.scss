@@ -5,7 +5,7 @@
     .hot_deal_box {
         position: relative;
         background: #000000;
-        cursor: pointer;
+        cursor: pointer;       
         @include transition;
         &:hover {
             background: $baseColor;
@@ -17,10 +17,11 @@
             margin-bottom: 20px;
         }
         .hot_deal_box1 {
-            background: url(../img/product/hot_deals/deal1.jpg);
+           
+           // background: url(../img/product/hot_deals/deal1.jpg);
         }
-        .hot_deal_box2 {
-            background: url(../img/product/hot_deals/deal1.jpg);
+        .hot_deal_box2 {           
+            //background: url(../img/product/hot_deals/deal1.jpg);
         }
         img {
             opacity: .5;
@@ -452,7 +453,7 @@
                 }
             }
             &:hover,
-            &.active {
+                &.active {
                 a {
                     background: $baseColor;
                     color: #fff;

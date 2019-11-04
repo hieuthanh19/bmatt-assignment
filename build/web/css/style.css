@@ -2869,10 +2869,6 @@ h6 {
   @media (max-width: 992px) {
     .hot_deals_area .hot_deal_box {
       margin-bottom: 20px; } }
-  .hot_deals_area .hot_deal_box .hot_deal_box1 {
-    background: url(../img/product/hot_deals/deal1.jpg); }
-  .hot_deals_area .hot_deal_box .hot_deal_box2 {
-    background: url(../img/product/hot_deals/deal1.jpg); }
   .hot_deals_area .hot_deal_box img {
     opacity: .5; }
   .hot_deals_area .hot_deal_box .content {
