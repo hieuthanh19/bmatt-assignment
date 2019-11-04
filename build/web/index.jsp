@@ -13,7 +13,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="icon" href="img/favicon.png" type="image/png">
-        <title>Fashiop</title>
+        <title>BMatt Shop</title>
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="vendors/linericon/style.css">
@@ -34,9 +34,7 @@
         <header class="header_area">
             <div class="top_menu row m0">
                 <div class="container-fluid">
-                    <div class="float-left">
-                        <p>Call Us: 012 44 5698 7456 896</p>
-                    </div>
+                    
                     <div class="float-right">
                         <ul class="right_side">
                             <li>
@@ -62,7 +60,7 @@
                 <nav class="navbar navbar-expand-lg navbar-light">
                     <div class="container-fluid">
                         <!-- Brand and toggle get grouped for better mobile display -->
-                        <a class="navbar-brand logo_h" href="index.html">
+                        <a class="navbar-brand logo_h" href="index.jsp">
                             <img src="img/logo.png" alt="">
                         </a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -77,14 +75,17 @@
                                 <div class="col-lg-7 pr-0">
                                     <ul class="nav navbar-nav center_nav pull-right">
                                         <li class="nav-item active">
-                                            <a class="nav-link" href="index.html">Home</a>
-                                        </li>
+                                            <a class="nav-link" href="index.jsp">Home</a>
+                                        </li>                                      
                                         <li class="nav-item ">
-                                            <a class="nav-link" href="index.html">About</a>
-                                        </li>
+                                            <a class="nav-link" href="index.jsp">Women's Fragrance</a>
+                                        </li>                                      
+                                        <li class="nav-item ">
+                                            <a class="nav-link" href="index.jsp">Men's Fragrance</a>
+                                        </li>                                      
                                       
                                         
-                                        <li class="nav-item submenu dropdown">
+                                      <!--  <li class="nav-item submenu dropdown">
                                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Product</a>
                                             <ul class="dropdown-menu">
                                                 <li class="nav-item">
@@ -100,10 +101,7 @@
                                                     <a class="nav-link" href="confirmation.html">Confirmation</a>
                                                 </li>
                                             </ul>
-                                        </li>    
-                                        <li class="nav-item ">
-                                            <a class="nav-link" href="index.html">Home</a>
-                                        </li>
+                                        </li>                                            -->
                                         
                                         <li class="nav-item">
                                             <a class="nav-link" href="contact.html">Contact</a>
@@ -139,7 +137,7 @@
                                         <hr>
 
                                         <li class="nav-item">
-                                            <a href="#" class="icons">
+                                            <a href="cart.jsp" class="icons">
                                                 <i class="lnr lnr lnr-cart"></i>
                                             </a>
                                         </li>
@@ -162,11 +160,10 @@
                 <div class="container">
                     <div class="banner_content row">
                         <div class="offset-lg-2 col-lg-8">
-                            <h3>Fashion for
-                                <br />Upcoming Winter</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                                aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
-                            <a class="white_bg_btn" href="#">View Collection</a>
+                            <h3>Premium Fragrances from
+                                <br />Prestige Brands</h3>
+                            <p>We are certificated partners of prestige fragrance brands from all over the world. </p>
+                            <a class="white_bg_btn" href="#feature-product">View Our Collection</a>
                         </div>
                     </div>
                 </div>
@@ -209,19 +206,19 @@
             <div class="container-fluid">
                 <div class="clients_slider owl-carousel">
                     <div class="item">
-                        <img src="img/clients-logo/c-logo-1.png" alt="">
+                        <img src="img/clients-logo/chanel.png" alt="Brand Logo">
                     </div>
                     <div class="item">
-                        <img src="img/clients-logo/c-logo-2.png" alt="">
+                        <img src="img/clients-logo/dior.png" alt="Brand Logo">
                     </div>
                     <div class="item">
-                        <img src="img/clients-logo/c-logo-3.png" alt="">
+                        <img src="img/clients-logo/lolita-lempicka.png" alt="Brand Logo">
                     </div>
                     <div class="item">
-                        <img src="img/clients-logo/c-logo-4.png" alt="">
+                        <img src="img/clients-logo/versace.png" alt="Brand Logo">
                     </div>
                     <div class="item">
-                        <img src="img/clients-logo/c-logo-5.png" alt="">
+                        <img src="img/clients-logo/victoria-secret.png" alt="Brand Logo">
                     </div>
                 </div>
             </div>
@@ -229,7 +226,7 @@
         <!--================End Clients Logo Area =================-->
 
         <!--================Feature Product Area =================-->
-        <section class="feature_product_area section_gap">
+        <section class="feature_product_area section_gap" id="feature-product">
             <div class="main_box">
                 <div class="container-fluid">
                     <div class="row">
@@ -469,37 +466,7 @@
             </div>
         </section>
         <!--================End Feature Product Area =================-->
-
-        <!--================ Subscription Area ================-->
-        <section class="subscription-area section_gap">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="section-title text-center">
-                            <h2>Subscribe for Our Newsletter</h2>
-                            <span>We won’t send any kind of spam</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-lg-6">
-                        <div id="mc_embed_signup">
-                            <form target="_blank" novalidate action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&id=92a4423d01"
-                                  method="get" class="subscription relative">
-                                <input type="email" name="EMAIL" placeholder="Email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'"
-                                       required="">
-                                <!-- <div style="position: absolute; left: -5000px;">
-                                        <input type="text" name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="">
-                                </div> -->
-                                <button type="submit" class="newsl-btn">Get Started</button>
-                                <div class="info"></div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!--================ End Subscription Area ================-->
+      
 
         <!--================ start footer Area  =================-->
         <footer class="footer-area section_gap">
@@ -508,7 +475,7 @@
                     <div class="col-lg-3  col-md-6 col-sm-6">
                         <div class="single-footer-widget">
                             <h6 class="footer_title">About Us</h6>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore dolore magna aliqua.</p>
+                            <p>BMatt is a small team lead by ThanhKH</p>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-6">
@@ -583,9 +550,9 @@
                     </div>
                 </div>
                 <div class="row footer-bottom d-flex justify-content-between align-items-center">
-                    <p class="col-lg-12 footer-text text-center"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    <p class="col-lg-12 footer-text text-center">
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved 
+                       
                     </p>
                 </div>
             </div>
