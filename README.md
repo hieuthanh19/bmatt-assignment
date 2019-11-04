@@ -14,7 +14,7 @@ Rồi dùng các lệnh sau:
 ```
 //thêm tất cả các file hiện tại trong local directory 
 git add .
-//Tạo 1 commit mới với tên là "ten_commit"
+//Tạo 1 commit mới với tên là "ten_nguoi_commit ten_commit"
 git commit -m "ten_commit"
 //Đẩy code lên Github
 git push
