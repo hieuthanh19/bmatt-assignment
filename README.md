@@ -28,5 +28,8 @@ git pull
 ```
 **Nhớ pull thường xuyên với đừng đụng vào phần người khác để tránh bị xung đột code**
 ### Để tạo nhánh (branch) mới để test code riêng
-Đọc bài viết này để biết cách làm: 
+Đọc bài viết này để biết cách làm: \
 https://github.com/Kunena/Kunena-Forum/wiki/Create-a-new-branch-with-git-and-manage-branches
+## Sửa Conflict
+Đọc bài viết này để biết cách giải quyết:\
+https://backlog.com/git-tutorial/vn/stepup/stepup2_7.html
