@@ -4,7 +4,15 @@
     Author     : ThanhKH
 --%>
 
+<%@page import="perfumestore.Product"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="perfumestore.Product_Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    Product_Model pM = new Product_Model();
+    ArrayList<Product>productList = pM.loadProduct();
+    
+%>
 <!doctype html>
 <html lang="en">
 
@@ -177,7 +185,7 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="hot_deal_box">
-                            <img class="img-fluid" src="img/product/hot_deals/deal-of-the-week.jpg" alt="">
+                            <img class="img-fluid" src="img/product/hot_deals/deal-of-the-week.jpg" alt="Hot Deal">
                             <div class="content">
                                 <h2>Hot Deals of the Week</h2>
                                 <p>shop now</p>
@@ -188,7 +196,7 @@
 
                     <div class="col-lg-6">
                         <div class="hot_deal_box">
-                            <img class="img-fluid" src="img/product/hot_deals/deal-of-the-month.jpg" alt="">
+                            <img class="img-fluid" src="img/product/hot_deals/deal-of-the-month.jpg" alt="Hot Deal">
                             <div class="content">
                                 <h2>Hot Deals of the Month</h2>
                                 <p>shop now</p>
@@ -231,8 +239,8 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="main_title">
-                            <h2>Featured Products</h2>
-                            <p>Who are in extremely love with eco friendly system.</p>
+                            <h2>Featured Fragrances</h2>
+                            <p>Perfumes that loved by our customers.</p>
                         </div>
                     </div>
                     <div class="row">

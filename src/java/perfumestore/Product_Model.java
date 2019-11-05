@@ -16,6 +16,8 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -25,7 +27,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Product_Model {
 
-    //attributes and arraylist
+    //attributes and arrayproduct
     private ArrayList<Product> product = new ArrayList<Product>();
     private Connection con;
     private static GetConnection getCon;
@@ -38,6 +40,7 @@ public class Product_Model {
 
     /**
      * Create new Product Model
+     *
      * @throws SQLException
      */
     public Product_Model() throws SQLException {
@@ -56,6 +59,7 @@ public class Product_Model {
 
     /**
      * Load product from database
+     *
      * @return
      * @throws SQLException
      */
@@ -88,24 +92,23 @@ public class Product_Model {
         }
         return product;
     }
-    
-    /**
-     * load date to table
-     * @param table
-     * @param frame
-     * @param arr 
-     */
-    public void loadProductToTable(JTable table, Frame frame, ArrayList<Product> arr) {
-        DefaultTableModel dtm = (DefaultTableModel) table.getModel();
-        dtm.setRowCount(0);
-        //loop to scan data all table
-        for (int i = 0; i < arr.size(); i++) {
-            Object[] row = {arr.get(i).getProduct_id(), arr.get(i).getName(), arr.get(i).getVolume(), arr.get(i).getCategoty_id(), arr.get(i).getBrand_id(),
-                arr.get(i).getOriginal_price(), arr.get(i).getCurrent_price(), arr.get(i).getDescription(), arr.get(i).getDescription()};
-            dtm.addRow(row);
-        }
-    }
 
+//    /**
+//     * load date to table
+//     * @param table
+//     * @param frame
+//     * @param arr 
+//     */
+//    public void loadProductToTable(JTable table, Frame frame, ArrayList<Product> arr) {
+//        DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+//        dtm.setRowCount(0);
+//        //loop to scan data all table
+//        for (int i = 0; i < arr.size(); i++) {
+//            Object[] row = {arr.get(i).getProduct_id(), arr.get(i).getName(), arr.get(i).getVolume(), arr.get(i).getCategoty_id(), arr.get(i).getBrand_id(),
+//                arr.get(i).getOriginal_price(), arr.get(i).getCurrent_price(), arr.get(i).getDescription(), arr.get(i).getDescription()};
+//            dtm.addRow(row);
+//        }
+//    }
     /**
      * Check whether product ID exist or not
      *
@@ -134,6 +137,7 @@ public class Product_Model {
 
     /**
      * insert new product
+     *
      * @param product_id
      * @param name
      * @param volume
@@ -144,7 +148,7 @@ public class Product_Model {
      * @param description
      * @param product_status
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public int insertProduct(int product_id, String name, double volume, int category_id, int brand_id, double original_price, double current_price, String description, int product_status) throws SQLException {
         try {
@@ -174,6 +178,7 @@ public class Product_Model {
 
     /**
      * Get product from product_id
+     *
      * @param product_id
      * @return Category if success. Otherwise, null
      */
@@ -188,6 +193,7 @@ public class Product_Model {
 
     /**
      * update information of Product
+     *
      * @param product_id
      * @param name
      * @param volume
@@ -199,7 +205,7 @@ public class Product_Model {
      * @param product_status
      * @return
      * @throws SQLException
-     * @throws Product_Exception 
+     * @throws Product_Exception
      */
     public boolean updateAccount(int product_id, String name, double volume, int category_id, int brand_id, double original_price, double current_price, String description, int product_status) throws SQLException, Product_Exception {
         try {
@@ -226,16 +232,94 @@ public class Product_Model {
         }
         return false;
     }
-    
+
     /**
      * calcalate discount of product
+     *
      * @param ogirinal_price
      * @param current_price
      * @return percent (0.01,,,,)
      */
-    public double Calculate_Discount(double ogirinal_price, double current_price){
-        double discount = 1 - (current_price/ogirinal_price);        
-        return discount;        
+    public double Calculate_Discount(double ogirinal_price, double current_price) {
+        double discount = 1 - (current_price / ogirinal_price);
+        return discount;
+    }
+
+    /**
+     * Get product base on page
+     * @param page
+     * @param search
+     * @param sortColumn
+     * @param productsPerPage
+     * @return 
+     */
+    public ArrayList<Product> getPaging(int page, String search, String sortColumn, int productsPerPage) {
+        try {
+            String sqlStr = "";
+            sqlStr += " SELECT * ";
+            sqlStr += " FROM `products`";
+            //sqlStr += " WHERE a.l_ma = b.l_ma ";
+            sqlStr += " ORDER BY product_id";
+
+            if (search != "") {
+                //sqlStr += " AND (a.sp_ten like '%" + search + "%' OR b.l_ten like '%" + search + "%') ";
+            }
+
+            if (sortColumn != "") {
+                //thuc hien sap xep
+            }
+
+            //phan trang
+            int totalProduct = getNumberOfProduct(search, sortColumn);
+            int totalPages = (int) Math.ceil(totalProduct / (float) productsPerPage);
+            int index = (page - 1) * productsPerPage;
+
+            sqlStr += " LIMIT " + index + ", " + productsPerPage;
+
+            this.st = this.con.createStatement();
+            this.rs = this.st.executeQuery(sqlStr);
+            product = new ArrayList<Product>();
+            while (rs.next()) {
+                int product_id = rs.getInt("product_id");
+                String name = rs.getString("name");
+                Double volume = rs.getDouble("volume");
+                int category_id = rs.getInt("category_id");
+                int brand_id = rs.getInt("brand_id");
+                Double original_price = rs.getDouble("original_price");
+                Double current_price = rs.getDouble("current_price");
+                String description = rs.getString("description");
+                int product_status = rs.getInt("product_status");
+                Date created_at = rs.getDate("created_at");               
+
+                product.add(new Product(product_id, name, volume, category_id, brand_id, original_price, current_price, description, product_status));
+                product.get(product.size() - 1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Product_Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return this.product;
+    }
+
+    /**
+     * Get total number of products
+     *
+     * @param search
+     * @param sortColumn
+     * @return
+     * @throws SQLException
+     */
+    public int getNumberOfProduct(String search, String sortColumn) throws SQLException {
+        String sqlStr = "";
+        sqlStr += " SELECT count(*) as soLuong ";
+        sqlStr += " FROM `products`";
+        //sqlStr += " WHERE a.l_ma = b.l_ma ";
+        if (!search.isEmpty()) {
+            //  sqlStr += " AND (a.sp_ten like '%" + search + "%' OR b.l_ten like '%" + search + "%') ";
+        }
+        this.st = this.con.createStatement();
+        this.rs = this.st.executeQuery(sqlStr);
+        rs.next();
+        return rs.getInt("soLuong");
     }
 
 }
