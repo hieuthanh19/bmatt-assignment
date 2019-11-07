@@ -11,6 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -32,7 +35,7 @@ public class BrandModel {
     /**
      * Create new BrandModel
      */
-    BrandModel() {
+    public BrandModel() {
         getCon = new GetConnection();
         countryM = new CountriesModel();
     }
@@ -123,39 +126,46 @@ public class BrandModel {
      * @throws SQLException
      * @throws BrandException
      */
-    public void update(int brand_id, String brand_name, int country_code, String created_at, int brand_status) throws SQLException, BrandException {
+    public void update(int brand_id, String brand_name, int country_code, int brand_status) throws SQLException, BrandException {
         if (!isIdExist(country_code)) {
             throw new BrandException("Brand ID is not exist!");
         } else {
             //connect to DB
             con = getCon.getConnection();
             //create sql string
-            String sqlStr = "UPDATE FROM " + tblName + " SET " + tblCols[0] + " =?,"
-                    + tblCols[1] + " =? " + tblCols[2] + " =? " + tblCols[3] + " =? "
+            String sqlStr = "UPDATE " + tblName + " SET " + tblCols[0] + " =?,"
+                    + tblCols[1] + " = ?, "+ tblCols[3] + " = ? "
                     + " WHERE brand_id = ?";
             //create query
             pst = con.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);
             //set values
-            pst.setInt(1, brand_id);
-            pst.setString(2, brand_name);
-            pst.setInt(3, country_code);
-            pst.setString(4, created_at);
-            pst.setInt(5, brand_status);
+            
+            pst.setString(1, brand_name);
+            pst.setInt(2, country_code);            
+            pst.setInt(3, brand_status);
+            pst.setInt(4, brand_id);
             //execute query
             pst.executeUpdate();
             pst.close();
         }
     }
 
-    public Brand getBrand(String brandName) throws SQLException, BrandException {
+    /**
+     * Get brand base on brand ID
+     * @param brandId
+     * @return
+     * @throws SQLException
+     * @throws BrandException 
+     */
+    public Brand getBrand(int brandId) throws SQLException, BrandException {
         //connect to DB
         con = getCon.getConnection();
         //create sql string
-        String sqlStr = "SELECT * FROM " + tblName + " WHERE " + tblCols[0] + "= ?";
+        String sqlStr = "SELECT b.*, c.name  ";
+        sqlStr += " FROM " + tblName + " as b, `countries` as c";
+        sqlStr += " WHERE b.country_code = c.country_code AND b.brand_id= " + brandId;
         //create query
-        pst = con.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);
-        //set values
-        pst.setString(1, brandName);
+        pst = con.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);        
         //excute query
         rs = pst.executeQuery();
         //get data
@@ -165,10 +175,47 @@ public class BrandModel {
             int country_code = rs.getInt("country_code");
             String created_at = rs.getString("created at");
             int brand_status = rs.getInt("brand_status");
-            Brand result = new Brand(brand_id, brand_name, country_code, created_at, brand_status);
+            String country_name = rs.getString("name");
+            Brand result = new Brand(brand_id, brand_name, country_code, created_at, brand_status, country_name);
             pst.close();
             return result;
         }
         return null;
+    }
+
+    /**
+     * Get all brand
+     *
+     * @return
+     */
+    public ArrayList<Brand> getAllBrand() {
+        try {
+            ArrayList<Brand> resultList = new ArrayList<>();
+            //connect to DB
+            con = getCon.getConnection();
+            //create sql string
+            String sqlStr = "SELECT b.*, c.name ";
+            sqlStr += " FROM " + tblName + " as b, `countries` as c ";
+            sqlStr += " WHERE b." + tblCols[1] + "= c.country_code ";
+            //create query
+            pst = con.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);
+            //excute query
+            rs = pst.executeQuery();
+            //get data
+            while (rs.next()) {
+                int brand_id = rs.getInt("brand_id");
+                String brand_name = rs.getString("brand_name");
+                int country_code = rs.getInt("country_code");
+                String created_at = rs.getString("created at");
+                int brand_status = rs.getInt("brand_status");
+                String country_name = rs.getString("name");
+                resultList.add(new Brand(brand_id, brand_name, country_code, created_at, brand_status, country_name));                               
+            }
+            pst.close();
+            return resultList;
+        } catch (SQLException ex) {
+            Logger.getLogger(BrandModel.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 }

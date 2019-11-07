@@ -4,7 +4,20 @@
     Author     : ThanhKH
 --%>
 
+<%@page import="perfumestore.Product"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="perfumestore.Product_Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    Product_Model pM = new Product_Model();
+    int pageNumber = 1;
+    String search = "";
+    String sortColumn = "";
+    final int Product_Per_Page = 10;
+    ArrayList<Product> productList = pM.getPaging(pageNumber, search, sortColumn, Product_Per_Page);
+
+
+%>
 <!doctype html>
 <html lang="en">
 
@@ -34,7 +47,7 @@
         <header class="header_area">
             <div class="top_menu row m0">
                 <div class="container-fluid">
-                    
+
                     <div class="float-right">
                         <ul class="right_side">
                             <li>
@@ -83,26 +96,26 @@
                                         <li class="nav-item ">
                                             <a class="nav-link" href="index.jsp">Men's Fragrance</a>
                                         </li>                                      
-                                      
-                                        
-                                      <!--  <li class="nav-item submenu dropdown">
-                                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Product</a>
-                                            <ul class="dropdown-menu">
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="category.html">Shop Category</a>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="single-product.html">Product Details</a>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="checkout.html">Product Checkout</a>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="cart.html">Shopping Cart</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="confirmation.html">Confirmation</a>
-                                                </li>
-                                            </ul>
-                                        </li>                                            -->
-                                        
+
+
+                                        <!--  <li class="nav-item submenu dropdown">
+                                              <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Product</a>
+                                              <ul class="dropdown-menu">
+                                                  <li class="nav-item">
+                                                      <a class="nav-link" href="category.html">Shop Category</a>
+                                                  <li class="nav-item">
+                                                      <a class="nav-link" href="single-product.html">Product Details</a>
+                                                  <li class="nav-item">
+                                                      <a class="nav-link" href="checkout.html">Product Checkout</a>
+                                                  <li class="nav-item">
+                                                      <a class="nav-link" href="cart.html">Shopping Cart</a>
+                                                  </li>
+                                                  <li class="nav-item">
+                                                      <a class="nav-link" href="confirmation.html">Confirmation</a>
+                                                  </li>
+                                              </ul>
+                                          </li>                                            -->
+
                                         <li class="nav-item">
                                             <a class="nav-link" href="contact.html">Contact</a>
                                         </li>
@@ -177,10 +190,10 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="hot_deal_box">
-                            <img class="img-fluid" src="img/product/hot_deals/deal-of-the-week.jpg" alt="">
+                            <img class="img-fluid" src="img/product/hot_deals/chanel-deal.jpg" alt="Hot Deal">
                             <div class="content">
-                                <h2>Hot Deals of the Week</h2>
-                                <p>shop now</p>
+                                <h2>Chanel's Collections</h2>
+                                <p>Explore</p>
                             </div>
                             <a class="hot_deal_link" href="#"></a>
                         </div>
@@ -188,10 +201,10 @@
 
                     <div class="col-lg-6">
                         <div class="hot_deal_box">
-                            <img class="img-fluid" src="img/product/hot_deals/deal-of-the-month.jpg" alt="">
+                            <img class="img-fluid" src="img/product/hot_deals/versace-deal.jpg" alt="Hot Deal">
                             <div class="content">
-                                <h2>Hot Deals of the Month</h2>
-                                <p>shop now</p>
+                                <h2>The Charming of Versace</h2>
+                                <p>Explore</p>
                             </div>
                             <a class="hot_deal_link" href="#"></a>
                         </div>
@@ -231,15 +244,17 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="main_title">
-                            <h2>Featured Products</h2>
-                            <p>Who are in extremely love with eco friendly system.</p>
+                            <h2>Featured Fragrances</h2>
+                            <p>Perfumes that loved by our customers.</p>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col col1">
+                        <% for (int i = 0; i < Product_Per_Page; i++) {
+                        %>
+                        <div class="col col<%=i + 1%>">
                             <div class="f_p_item">
                                 <div class="f_p_img">
-                                    <img class="img-fluid" src="img/product/feature-product/f-p-1.jpg" alt="">
+                                    <img class="img-fluid" src="img/product/single-product/<%=i + 1%>.jpg" alt="Product Image">
                                     <div class="p_icon">
                                         <a href="#">
                                             <i class="lnr lnr-heart"></i>
@@ -249,224 +264,112 @@
                                         </a>
                                     </div>
                                 </div>
-                                <a href="#">
-                                    <h4>Long Sleeve TShirt</h4>
+                                <a href="product-detail.jsp?id=<%=10%>">
+                                    <h4><%=productList.get(i).getName()%></h4>
                                 </a>
-                                <h5>$150.00</h5>
+                                <h5>$ <%=productList.get(i).getCurrent_price()%></h5>
                             </div>
                         </div>
-                        <div class="col col2">
-                            <div class="f_p_item">
-                                <div class="f_p_img">
-                                    <img class="img-fluid" src="img/product/feature-product/f-p-2.jpg" alt="">
-                                    <div class="p_icon">
-                                        <a href="#">
-                                            <i class="lnr lnr-heart"></i>
-                                        </a>
-                                        <a href="#">
-                                            <i class="lnr lnr-cart"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <a href="#">
-                                    <h4>Long Sleeve TShirt</h4>
-                                </a>
-                                <h5>$150.00</h5>
-                            </div>
-                        </div>
-                        <div class="col col3">
-                            <div class="f_p_item">
-                                <div class="f_p_img">
-                                    <img class="img-fluid" src="img/product/feature-product/f-p-3.jpg" alt="">
-                                    <div class="p_icon">
-                                        <a href="#">
-                                            <i class="lnr lnr-heart"></i>
-                                        </a>
-                                        <a href="#">
-                                            <i class="lnr lnr-cart"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <a href="#">
-                                    <h4>Long Sleeve TShirt</h4>
-                                </a>
-                                <h5>$150.00</h5>
-                            </div>
-                        </div>
-                        <div class="col col4">
-                            <div class="f_p_item">
-                                <div class="f_p_img">
-                                    <img class="img-fluid" src="img/product/feature-product/f-p-4.jpg" alt="">
-                                    <div class="p_icon">
-                                        <a href="#">
-                                            <i class="lnr lnr-heart"></i>
-                                        </a>
-                                        <a href="#">
-                                            <i class="lnr lnr-cart"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <a href="#">
-                                    <h4>Long Sleeve TShirt</h4>
-                                </a>
-                                <h5>$150.00</h5>
-                            </div>
-                        </div>
-                        <div class="col col5">
-                            <div class="f_p_item">
-                                <div class="f_p_img">
-                                    <img class="img-fluid" src="img/product/feature-product/f-p-5.jpg" alt="">
-                                    <div class="p_icon">
-                                        <a href="#">
-                                            <i class="lnr lnr-heart"></i>
-                                        </a>
-                                        <a href="#">
-                                            <i class="lnr lnr-cart"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <a href="#">
-                                    <h4>Long Sleeve TShirt</h4>
-                                </a>
-                                <h5>$150.00</h5>
-                            </div>
-                        </div>
-
-                        <div class="col col6">
-                            <div class="f_p_item">
-                                <div class="f_p_img">
-                                    <img class="img-fluid" src="img/product/feature-product/f-p-5.jpg" alt="">
-                                    <div class="p_icon">
-                                        <a href="#">
-                                            <i class="lnr lnr-heart"></i>
-                                        </a>
-                                        <a href="#">
-                                            <i class="lnr lnr-cart"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <a href="#">
-                                    <h4>Long Sleeve TShirt</h4>
-                                </a>
-                                <h5>$150.00</h5>
-                            </div>
-                        </div>
-
-                        <div class="col col7">
-                            <div class="f_p_item">
-                                <div class="f_p_img">
-                                    <img class="img-fluid" src="img/product/feature-product/f-p-4.jpg" alt="">
-                                    <div class="p_icon">
-                                        <a href="#">
-                                            <i class="lnr lnr-heart"></i>
-                                        </a>
-                                        <a href="#">
-                                            <i class="lnr lnr-cart"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <a href="#">
-                                    <h4>Long Sleeve TShirt</h4>
-                                </a>
-                                <h5>$150.00</h5>
-                            </div>
-                        </div>
-
-                        <div class="col col8">
-                            <div class="f_p_item">
-                                <div class="f_p_img">
-                                    <img class="img-fluid" src="img/product/feature-product/f-p-5.jpg" alt="">
-                                    <div class="p_icon">
-                                        <a href="#">
-                                            <i class="lnr lnr-heart"></i>
-                                        </a>
-                                        <a href="#">
-                                            <i class="lnr lnr-cart"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <a href="#">
-                                    <h4>Long Sleeve TShirt</h4>
-                                </a>
-                                <h5>$150.00</h5>
-                            </div>
-                        </div>
-                        <div class="col col9">
-                            <div class="f_p_item">
-                                <div class="f_p_img">
-                                    <img class="img-fluid" src="img/product/feature-product/f-p-1.jpg" alt="">
-                                    <div class="p_icon">
-                                        <a href="#">
-                                            <i class="lnr lnr-heart"></i>
-                                        </a>
-                                        <a href="#">
-                                            <i class="lnr lnr-cart"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <a href="#">
-                                    <h4>Long Sleeve TShirt</h4>
-                                </a>
-                                <h5>$150.00</h5>
-                            </div>
-                        </div>
-                        <div class="col col10">
-                            <div class="f_p_item">
-                                <div class="f_p_img">
-                                    <img class="img-fluid" src="img/product/feature-product/f-p-4.jpg" alt="">
-                                    <div class="p_icon">
-                                        <a href="#">
-                                            <i class="lnr lnr-heart"></i>
-                                        </a>
-                                        <a href="#">
-                                            <i class="lnr lnr-cart"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <a href="#">
-                                    <h4>Long Sleeve TShirt</h4>
-                                </a>
-                                <h5>$150.00</h5>
-                            </div>
-                        </div>
+                        <%
+                            }
+                        %>                        
                     </div>
-
                     <div class="row">
-                        <nav class="cat_page mx-auto" aria-label="Page navigation example">
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="#">
-                                        <i class="fa fa-chevron-left" aria-hidden="true"></i>
-                                    </a>
-                                </li>
-                                <li class="page-item active">
-                                    <a class="page-link" href="#">01</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">02</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">03</a>
-                                </li>
-                                <li class="page-item blank">
-                                    <a class="page-link" href="#">...</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">09</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">
-                                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
+                        <a class="green_btn mx-auto" href="#feature-product">See more</a>
                     </div>
                 </div>
             </div>
         </section>
         <!--================End Feature Product Area =================-->
-      
+        
+        <!--================Start Women Fragrance Area =================-->
+        <section class="feature_product_area section_gap" id="feature-product">
+            <div class="main_box">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="main_title">
+                            <h2>Fragrances for Ladies</h2>
+                            <p>Fragrances that made for ladies.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <% for (int i = 0; i < 5; i++) {
+                        %>
+                        <div class="col col<%=i + 1%>">
+                            <div class="f_p_item">
+                                <div class="f_p_img">
+                                    <img class="img-fluid" src="img/product/single-product/<%=i + 1%>.jpg" alt="Product Image">
+                                    <div class="p_icon">
+                                        <a href="#">
+                                            <i class="lnr lnr-heart"></i>
+                                        </a>
+                                        <a href="#">
+                                            <i class="lnr lnr-cart"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <a href="product-detail.jsp?id=<%=10%>">
+                                    <h4><%=productList.get(i).getName()%></h4>
+                                </a>
+                                <h5>$ <%=productList.get(i).getCurrent_price()%></h5>
+                            </div>
+                        </div>
+                        <%
+                            }
+                        %>                        
+                    </div>
+                    <div class="row">
+                        <a class="green_btn mx-auto" href="#feature-product">See more</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--================End Women Fragrance  Area =================-->
+        
+        <!--================Men Fragrance  Area =================-->
+        <section class="feature_product_area section_gap" id="feature-product">
+            <div class="main_box">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="main_title">
+                            <h2>Fragrances for Gentlemen</h2>
+                            <p>Fragrances that made for gentlemen.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <% for (int i = 0; i < 5; i++) {
+                        %>
+                        <div class="col col<%=i + 1%>">
+                            <div class="f_p_item">
+                                <div class="f_p_img">
+                                    <img class="img-fluid" src="img/product/single-product/<%=i + 1%>.jpg" alt="Product Image">
+                                    <div class="p_icon">
+                                        <a href="#">
+                                            <i class="lnr lnr-heart"></i>
+                                        </a>
+                                        <a href="#">
+                                            <i class="lnr lnr-cart"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <a href="product-detail.jsp?id=<%=10%>">
+                                    <h4><%=productList.get(i).getName()%></h4>
+                                </a>
+                                <h5>$ <%=productList.get(i).getCurrent_price()%></h5>
+                            </div>
+                        </div>
+                        <%
+                            }
+                        %>                        
+                    </div>
+                    <div class="row">
+                        <a class="green_btn mx-auto" href="#feature-product">See more</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--================End Men Fragrance  Area =================-->
+
 
         <!--================ start footer Area  =================-->
         <footer class="footer-area section_gap">
@@ -552,7 +455,7 @@
                 <div class="row footer-bottom d-flex justify-content-between align-items-center">
                     <p class="col-lg-12 footer-text text-center">
                         Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved 
-                       
+
                     </p>
                 </div>
             </div>

@@ -16,26 +16,22 @@ public class Brand {
     private int country_code;
     private String created_at;
     private int brand_status;
+    private String country_name;
 
     public Brand() {
         
     }
-    
-    /**
-     * 
-     * @param brand_id
-     * @param brand_name
-     * @param country_code
-     * @param created_at
-     * @param brand_status 
-     */
-    public Brand(int brand_id, String brand_name, int country_code, String created_at, int brand_status) {
+
+    public Brand(int brand_id, String brand_name, int country_code, String created_at, int brand_status, String country_name) {
         this.brand_id = brand_id;
         this.brand_name = brand_name;
         this.country_code = country_code;
         this.created_at = created_at;
         this.brand_status = brand_status;
+        this.country_name = country_name;
     }
+    
+   
 
     /**
      * 
@@ -118,6 +114,16 @@ public class Brand {
         }
         this.brand_status = brand_status;
     }
+
+    public String getCountry_name() {
+        return country_name;
+    }
+
+    public void setCountry_name(String country_name) {
+        this.country_name = country_name;
+    }
+    
+    
     
     
 }

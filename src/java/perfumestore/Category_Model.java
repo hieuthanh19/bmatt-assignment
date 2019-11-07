@@ -9,11 +9,14 @@ package perfumestore;
 import connection.GetConnection;
 import java.awt.Frame;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -78,22 +81,23 @@ public class Category_Model {
         return category;
     }
     
+    
     /**
      * load date to table
      * @param table
      * @param frame
      * @param arr 
      */
-    public void loadCategoryToTable(JTable table, Frame frame, ArrayList<Category> arr){       
-        DefaultTableModel dtm = (DefaultTableModel) table.getModel();
-        dtm.setRowCount(0);
-        //loop to scan data all table
-        for (int i = 0; i < arr.size(); i++) {
-            Object[] row ={arr.get(i).getCategory_id(),arr.get(i).getCategory_name(),arr.get(i).getCategory_status()};
-            dtm.addRow(row);
-        }
-    }
-
+    //public void loadCategoryToTable(JTable table, Frame frame, ArrayList<Category> arr){       
+    //   DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+    //    dtm.setRowCount(0);
+    //   //loop to scan data all table
+    //    for (int i = 0; i < arr.size(); i++) {
+    //        Object[] row ={arr.get(i).getCategory_id(),arr.get(i).getCategory_name(),arr.get(i).getCategory_status()};
+    //        dtm.addRow(row);
+    //    }
+    //}
+    
     /**
      * insert new category
      * @param category_id
@@ -170,5 +174,31 @@ public class Category_Model {
             e.printStackTrace();
         }        
         return false;
+    }
+    
+    /**
+     * get All Category
+     * @return category list
+     */
+    public ArrayList<Category> getAll_Category() {
+        try {
+            String sqlStr = "";
+            sqlStr += " SELECT * ";
+            sqlStr += " FROM `category`";
+            //sqlStr += " WHERE a.l_ma = b.l_ma ";
+            sqlStr += " ORDER BY category_id";
+            this.st = this.con.createStatement();
+            this.rs = this.st.executeQuery(sqlStr);
+            category = new ArrayList<Category>();
+            while (rs.next()) {
+                int category_id = rs.getInt("category_id");
+                String category_name = rs.getString("category_name");
+                int category_status = rs.getInt("category_status");
+                category.add(new Category(category_id, category_name, category_status));                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Category_Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return this.category;
     }
 }
