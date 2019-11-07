@@ -4,7 +4,7 @@ Java Web Assignment của nhóm BMatt
 ### Lần đầu kết nối, để lấy code về
 Dùng lệnh sau để copy project của nhóm về
 ```
-git clone https://github.com/hieuthanh19/admin-page.git
+git clone https://github.com/hieuthanh19/bmatt-assignment.git
 ```
 
 
