@@ -29,6 +29,20 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Products | BMatt Admin</title>
         <jsp:include page="include.jsp"/>
+        <style type="text/css">
+
+            .table .active{
+                color: green;        
+            }          
+            .table .locked{                
+                color: red;                                    
+            }
+            a:disabled {
+                pointer-events: none;
+                cursor: default;
+            }
+
+        </style>
     </head>
     <body class="vertical-layout vertical-menu-modern 2-columns  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
 
@@ -67,7 +81,7 @@
                                         Actions
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="#">Delete</a>
+                                        <a class="dropdown-item" href="product-delete.jsp?type=products&id=<%%>">Delete</a>
                                         <a class="dropdown-item" href="#">Archive</a>
                                         <a class="dropdown-item" href="#">Export</a>
                                         <a class="dropdown-item" href="#">Others</a>
@@ -95,8 +109,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                        <% for (Product p : productList) {
-                                        %>
+                                    <% for (Product p : productList) {
+                                            // String productStatus = p.getProduct_status() == 1 ? "<i class='ficon feather icon-check-circle'>" : "<i class='ficon feather icon-x-circle'>";
+%>
                                     <tr>
                                         <td></td>
                                         <td><%=p.getProduct_id()%>
@@ -108,16 +123,22 @@
                                         <td class="product-name"><%=p.getCategory_name()%></td>
                                         <td class="product-name"><%=p.getBrandName()%></td>
                                         <td class="product-name">$<%=p.getOriginal_price()%></td>
-                                        <td class="product-name">$<%=p. getCurrent_price()%></td>
+                                        <td class="product-name">$<%=p.getCurrent_price()%></td>
                                         <td class="product-name"><%=p.getDescription()%></td>
-                                        <td class="product-name"><%=p.getProduct_status()%></td>
+                                        <td class="product-name <%=p.getProduct_status() == 1 ? "active" : "locked"%>">
+                                            <%=p.getProduct_status() == 1 ? "<i class='ficon feather icon-check-circle'>" : "<i class='ficon feather icon-x-circle'>"%>
+                                        </td>
                                         <td style="align:center;">
-                                            <a href="#"><i class="ficon feather icon-edit"></i></a>
-                                            <a href="#"><i class="ficon feather icon-trash"></i></a>
+                                            <a href="#">
+                                                <i class="ficon feather icon-edit"></i>
+                                            </a>
+                                            <a href="handle-delete.jsp?type=product&id=<%=p.getProduct_id()%>" <%=p.getProduct_status() == 0 ? "disabled" : ""%>>
+                                                <i class="ficon feather icon-trash"></i>
+                                            </a>
                                         </td>
                                     </tr>
-                                        <%                                            }
-                                        %>
+                                    <%                                            }
+                                    %>
                                 </tbody>
                             </table>
                         </div>

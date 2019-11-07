@@ -249,7 +249,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <%                            for (int i = 0; i < Product_Per_Page; i++) {
+                        <% for (int i = 0; i < Product_Per_Page; i++) {
                         %>
                         <div class="col col<%=i + 1%>">
                             <div class="f_p_item">
@@ -274,42 +274,101 @@
                             }
                         %>                        
                     </div>
-
                     <div class="row">
-                        <nav class="cat_page mx-auto" aria-label="Page navigation example">
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="#">
-                                        <i class="fa fa-chevron-left" aria-hidden="true"></i>
-                                    </a>
-                                </li>
-                                <li class="page-item active">
-                                    <a class="page-link" href="#">01</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">02</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">03</a>
-                                </li>
-                                <li class="page-item blank">
-                                    <a class="page-link" href="#">...</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">09</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">
-                                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
+                        <a class="green_btn mx-auto" href="#feature-product">See more</a>
                     </div>
                 </div>
             </div>
         </section>
         <!--================End Feature Product Area =================-->
+        
+        <!--================Start Women Fragrance Area =================-->
+        <section class="feature_product_area section_gap" id="feature-product">
+            <div class="main_box">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="main_title">
+                            <h2>Fragrances for Ladies</h2>
+                            <p>Fragrances that made for ladies.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <% for (int i = 0; i < 5; i++) {
+                        %>
+                        <div class="col col<%=i + 1%>">
+                            <div class="f_p_item">
+                                <div class="f_p_img">
+                                    <img class="img-fluid" src="img/product/single-product/<%=i + 1%>.jpg" alt="Product Image">
+                                    <div class="p_icon">
+                                        <a href="#">
+                                            <i class="lnr lnr-heart"></i>
+                                        </a>
+                                        <a href="#">
+                                            <i class="lnr lnr-cart"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <a href="product-detail.jsp?id=<%=10%>">
+                                    <h4><%=productList.get(i).getName()%></h4>
+                                </a>
+                                <h5>$ <%=productList.get(i).getCurrent_price()%></h5>
+                            </div>
+                        </div>
+                        <%
+                            }
+                        %>                        
+                    </div>
+                    <div class="row">
+                        <a class="green_btn mx-auto" href="#feature-product">See more</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--================End Women Fragrance  Area =================-->
+        
+        <!--================Men Fragrance  Area =================-->
+        <section class="feature_product_area section_gap" id="feature-product">
+            <div class="main_box">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="main_title">
+                            <h2>Fragrances for Gentlemen</h2>
+                            <p>Fragrances that made for gentlemen.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <% for (int i = 0; i < 5; i++) {
+                        %>
+                        <div class="col col<%=i + 1%>">
+                            <div class="f_p_item">
+                                <div class="f_p_img">
+                                    <img class="img-fluid" src="img/product/single-product/<%=i + 1%>.jpg" alt="Product Image">
+                                    <div class="p_icon">
+                                        <a href="#">
+                                            <i class="lnr lnr-heart"></i>
+                                        </a>
+                                        <a href="#">
+                                            <i class="lnr lnr-cart"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <a href="product-detail.jsp?id=<%=10%>">
+                                    <h4><%=productList.get(i).getName()%></h4>
+                                </a>
+                                <h5>$ <%=productList.get(i).getCurrent_price()%></h5>
+                            </div>
+                        </div>
+                        <%
+                            }
+                        %>                        
+                    </div>
+                    <div class="row">
+                        <a class="green_btn mx-auto" href="#feature-product">See more</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--================End Men Fragrance  Area =================-->
 
 
         <!--================ start footer Area  =================-->

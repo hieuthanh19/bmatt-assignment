@@ -5,8 +5,6 @@
  */
 package perfumestore;
 
-import java.util.Date;
-
 /**
  *
  * @author Nhat Thanh

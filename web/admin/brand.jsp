@@ -4,33 +4,42 @@
     Author     : ThanhKH
 --%>
 
+<%@page import="perfumestore.Brand"%>
+<%@page import="perfumestore.BrandModel"%>
 <%@page import="perfumestore.Product"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="perfumestore.Product_Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    int pageNumber = 1;
+
     String search = "";
     String sortColumn = "";
-    int productsPerPage = 4;
-    if (request.getParameter("pageNumber") != null) {
-        pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-    }
-    Product_Model productM = new Product_Model();
-    ArrayList<Product> productList = productM.getPaging(pageNumber, search, sortColumn, productsPerPage);
+
+    BrandModel brandM = new BrandModel();
+    ArrayList<Brand> brandList = brandM.getAllBrand();
 
 %>
 <!DOCTYPE html>
 <html>
-     <head>
+    <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Brands | BMatt Dashboard</title>
-         <jsp:include page="include.jsp"/>
+        <jsp:include page="include.jsp"/>
+        <style type="text/css">
+
+            .table .active{
+                color: green;        
+            }          
+            .table .locked{                
+                color: red;                                    
+            }
+
+        </style>
     </head>
     <body class="vertical-layout vertical-menu-modern 2-columns  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
         <jsp:include page="header.jsp"/>
         <div class="app-content content">
-             <div class="content-overlay"></div>
+            <div class="content-overlay"></div>
             <div class="header-navbar-shadow"></div>
             <div class="content-wrapper">
                 <div class="content-header row">
@@ -52,10 +61,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        
-        <div class="content-body">
+                <div class="content-body">
                     <!-- Data list view starts -->
                     <section id="data-thumb-view" class="data-thumb-view-header">
                         <div class="action-btns d-none">
@@ -81,41 +87,34 @@
                                         <th></th>
                                         <th>ID</th>
                                         <th>Name</th>
-                                        <th>Image</th>
-                                        <th>Volumne</th>
-                                        <th>Category</th>
-                                        <th>Brand</th>
-                                        <th>Original Price</th>
-                                        <th>Current Price</th>
-                                        <th>Description</th>
+                                        <th>Country</th>                                         
                                         <th>Status</th>
                                         <th>Management</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                        <% for (Product p : productList) {
-                                        %>
+                                    <% for (Brand b : brandList) {
+                                    %>
                                     <tr>
                                         <td></td>
-                                        <td><%=p.getProduct_id()%>
+                                        <td><%=b.getBrand_id()%>
                                         </td>
-                                        <td class="product-name"><%=p.getName()%></td>
-                                        <td class="product-img">
+                                        <td class="product-name"><%=b.getBrand_name()%></td>                                                                                
+                                        <td class="product-name"><%=b.getCountry_name()%></td>
+                                        <td class="product-name <%=b.getBrand_status() == 1 ? "active" : "locked"%>">
+                                            <%=b.getBrand_status() == 1 ? "<i class='ficon feather icon-check-circle'>" : "<i class='ficon feather icon-x-circle'>"%>
                                         </td>
-                                        <td class="product-name"><%=p.getVolume()%></td>
-                                        <td class="product-name"><%=p.getCategory_name()%></td>
-                                        <td class="product-name"><%=p.getBrandName()%></td>
-                                        <td class="product-name">$<%=p.getOriginal_price()%></td>
-                                        <td class="product-name">$<%=p. getCurrent_price()%></td>
-                                        <td class="product-name"><%=p.getDescription()%></td>
-                                        <td class="product-name"><%=p.getProduct_status()%></td>
                                         <td style="align:center;">
-                                            <a href="#"><i class="ficon feather icon-edit"></i></a>
-                                            <a href="#"><i class="ficon feather icon-trash"></i></a>
+                                            <a href="#">
+                                                <i class="ficon feather icon-edit"></i>
+                                            </a>
+                                            <a href="handle-delete.jsp?type=brand&id=<%=b.getBrand_id()%>" <%=b.getBrand_status()== 0 ? "disabled" : ""%>>
+                                                <i class="ficon feather icon-trash"></i>
+                                            </a>
                                         </td>
                                     </tr>
-                                        <%                                            }
-                                        %>
+                                    <%                                            }
+                                    %>
                                 </tbody>
                             </table>
                         </div>
@@ -173,7 +172,10 @@
                     <!-- Data list view end -->
 
                 </div>
-        
-         <jsp:include page="footer.jsp"/>
+            </div>
+        </div>
+
+
+        <jsp:include page="footer.jsp"/>
     </body>
 </html>
