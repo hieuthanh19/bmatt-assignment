@@ -190,10 +190,10 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="hot_deal_box">
-                            <img class="img-fluid" src="img/product/hot_deals/deal-of-the-week.jpg" alt="Hot Deal">
+                            <img class="img-fluid" src="img/product/hot_deals/chanel-deal.jpg" alt="Hot Deal">
                             <div class="content">
-                                <h2>Hot Deals of the Week</h2>
-                                <p>shop now</p>
+                                <h2>Chanel's Collections</h2>
+                                <p>Explore</p>
                             </div>
                             <a class="hot_deal_link" href="#"></a>
                         </div>
@@ -201,10 +201,10 @@
 
                     <div class="col-lg-6">
                         <div class="hot_deal_box">
-                            <img class="img-fluid" src="img/product/hot_deals/deal-of-the-month.jpg" alt="Hot Deal">
+                            <img class="img-fluid" src="img/product/hot_deals/versace-deal.jpg" alt="Hot Deal">
                             <div class="content">
-                                <h2>Hot Deals of the Month</h2>
-                                <p>shop now</p>
+                                <h2>The Charming of Versace</h2>
+                                <p>Explore</p>
                             </div>
                             <a class="hot_deal_link" href="#"></a>
                         </div>
@@ -249,13 +249,12 @@
                         </div>
                     </div>
                     <div class="row">
-                        <%                            
-                            for (int i = 0; i < Product_Per_Page; i++) {
+                        <%                            for (int i = 0; i < Product_Per_Page; i++) {
                         %>
                         <div class="col col<%=i + 1%>">
                             <div class="f_p_item">
                                 <div class="f_p_img">
-                                    <img class="img-fluid" src="img/product/single-product/<%=i+1%>.jpg" alt="Product Image">
+                                    <img class="img-fluid" src="img/product/single-product/<%=i + 1%>.jpg" alt="Product Image">
                                     <div class="p_icon">
                                         <a href="#">
                                             <i class="lnr lnr-heart"></i>

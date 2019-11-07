@@ -22,25 +22,10 @@ public class Product {
     private Double current_price;
     private String description;
     private int product_status;
+    private String brandName;
+    private String category_name;
 
-    private Product() {
-    }
-
-    /**
-     * Create new Product
-     *
-     * @param product_id
-     * @param name
-     * @param volume
-     * @param categoty_id
-     * @param brand_id
-     * @param original_price
-     * @param current_price
-     * @param description
-     * @param product_status
-     * @param created_at
-     */
-    public Product(int product_id, String name, Double volume, int categoty_id, int brand_id, Double original_price, Double current_price, String description, int product_status) {
+    public Product(int product_id, String name, Double volume, int categoty_id, int brand_id, Double original_price, Double current_price, String description, int product_status, String brandName, String category_name) {
         this.product_id = product_id;
         this.name = name;
         this.volume = volume;
@@ -50,6 +35,8 @@ public class Product {
         this.current_price = current_price;
         this.description = description;
         this.product_status = product_status;
+        this.brandName = brandName;
+        this.category_name = category_name;
     }
 
     public int getProduct_id() {
@@ -124,4 +111,19 @@ public class Product {
         this.product_status = product_status;
     }
 
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
+
+    public String getCategory_name() {
+        return category_name;
+    }
+
+    public void setCategory_name(String category_name) {
+        this.category_name = category_name;
+    }
 }

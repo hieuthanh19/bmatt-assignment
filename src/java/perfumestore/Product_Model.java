@@ -6,20 +6,14 @@
 package perfumestore;
 
 import connection.GetConnection;
-import java.awt.Frame;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -33,10 +27,9 @@ public class Product_Model {
     private static GetConnection getCon;
     private PreparedStatement pst;
     private Statement st;
-    private ResultSet rs;
-    private String str;
+    private ResultSet rs;    
     private String tblName = "products";
-    private String[] tblCols = {"product_id"};
+   // private String[] tblCols = {"product_id"};
 
     /**
      * Create new Product Model
@@ -51,7 +44,7 @@ public class Product_Model {
             st = con.createStatement();
             pst = null;
             rs = null;
-            str = "";
+            
         } catch (Exception e) {
             throw new SQLException("PLEASE CONNECT TO DATABASE BEFORE START");
         }
@@ -68,10 +61,14 @@ public class Product_Model {
         try {
             con = getCon.getConnection();
             st = con.createStatement();
+            String sqlStr = "";
             //Create sql select all
-            str = "SELECT * FROM `products`";
+            sqlStr += "SELECT a.*, b.brand_name, c.category_name "
+                    + "FROM `products` as a, brand as b, category as c "
+                    + "WHERE a.category_id = c.category_id AND a.brand_id = b.brand_id "
+                    + "ORDER BY a.product_id";
             //execute query
-            rs = st.executeQuery(str);
+            rs = st.executeQuery(sqlStr);
             if (rs.isBeforeFirst()) {
                 while (rs.next()) {
                     //set value to select
@@ -84,8 +81,10 @@ public class Product_Model {
                     double current_price = rs.getDouble("current_price");
                     String description = rs.getString("description");
                     int product_status = rs.getInt("product_status");
+                    String brandName = rs.getString("brand_name");
+                    String category_name = rs.getString("category_name");
                     //output attribute of product
-                    product.add(new Product(product_id, name, volume, category_id, brand_id, original_price, current_price, description, product_status));
+                    product.add(new Product(product_id, name, volume, category_id, brand_id, original_price, current_price, description, product_status, brandName, category_name));
                 }
             }
         } catch (Exception e) {
@@ -119,8 +118,9 @@ public class Product_Model {
     public boolean isIdExist(int product_id) throws SQLException {
         //connect to DB
         con = getCon.getConnection();
+        
         //create sql string
-        String sqlStr = "select * from " + tblName + " where " + tblCols[0] + "= ? limit 1";
+        String sqlStr = "select * from " + tblName + " where product_id = ? limit 1";
         //creaste query
         pst = con.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);
         pst.setInt(1, product_id);
@@ -152,10 +152,11 @@ public class Product_Model {
      */
     public int insertProduct(int product_id, String name, double volume, int category_id, int brand_id, double original_price, double current_price, String description, int product_status) throws SQLException {
         try {
+            String sqlStr = "";
             //link load from Motel database in SQL Server
-            str = "INSERT INTO `products`(`name`, `volumne`, `category_id`, `brand_id`, `original_price`, `current_price`, `description`, `product_status`, `product_id`) VALUES (?,?,?,?,?,?,?,?,?)";
+            sqlStr = "INSERT INTO `products`(`name`, `volumne`, `category_id`, `brand_id`, `original_price`, `current_price`, `description`, `product_status`, `product_id`) VALUES (?,?,?,?,?,?,?,?,?)";
             //create query
-            pst = con.prepareStatement(str, Statement.RETURN_GENERATED_KEYS);
+            pst = con.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);
             //set values
             pst.setInt(9, product_id);
             pst.setString(1, name);
@@ -209,11 +210,12 @@ public class Product_Model {
      */
     public boolean updateAccount(int product_id, String name, double volume, int category_id, int brand_id, double original_price, double current_price, String description, int product_status) throws SQLException, Product_Exception {
         try {
+            String sqlStr = "";
             //link load from Product database in SQL Server
-            str = "UPDATE `products` SET `name`=?,`volumne`=?,`category_id`=?,`brand_id`=?,`original_price`=?,"
+            sqlStr = "UPDATE `products` SET `name`=?,`volumne`=?,`category_id`=?,`brand_id`=?,`original_price`=?,"
                     + "`current_price`=?,`description`=?,`product_status`=?,`created_at`=? WHERE `product_id`=?";
             //create query
-            pst = con.prepareStatement(str);
+            pst = con.prepareStatement(sqlStr);
             //set values
             pst.setInt(9, product_id);
             pst.setString(1, name);
@@ -247,19 +249,20 @@ public class Product_Model {
 
     /**
      * Get product base on page
+     *
      * @param page
      * @param search
      * @param sortColumn
      * @param productsPerPage
-     * @return 
+     * @return
      */
     public ArrayList<Product> getPaging(int page, String search, String sortColumn, int productsPerPage) {
         try {
             String sqlStr = "";
-            sqlStr += " SELECT * ";
-            sqlStr += " FROM `products`";
-            //sqlStr += " WHERE a.l_ma = b.l_ma ";
-            sqlStr += " ORDER BY product_id";
+            sqlStr += " SELECT a.*, b.brand_name, c.category_name ";
+            sqlStr+= " FROM `products` as a, `brand` as b, `category` as c ";
+            sqlStr += " WHERE a.category_id = c.category_id AND a.brand_id = b.brand_id ";
+            sqlStr += " ORDER BY a.product_id ";
 
             if (search != "") {
                 //sqlStr += " AND (a.sp_ten like '%" + search + "%' OR b.l_ten like '%" + search + "%') ";
@@ -289,9 +292,10 @@ public class Product_Model {
                 Double current_price = rs.getDouble("current_price");
                 String description = rs.getString("description");
                 int product_status = rs.getInt("product_status");
-                Date created_at = rs.getDate("created_at");               
+                String brandName = rs.getString("brand_name");
+                String category_name = rs.getString("category_name");
 
-                product.add(new Product(product_id, name, volume, category_id, brand_id, original_price, current_price, description, product_status));
+                product.add(new Product(product_id, name, volume, category_id, brand_id, original_price, current_price, description, product_status, brandName, category_name));
                 product.get(product.size() - 1);
             }
         } catch (SQLException ex) {
