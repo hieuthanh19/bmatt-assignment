@@ -15,7 +15,7 @@
 <link rel="stylesheet" type="text/css" href="../admin/app-assets/css/themes/semi-dark-layout.css">
 
 <!-- BEGIN: Page CSS-->
-<link rel="stylesheet" type="text/css" href="../admin/app-assets/css/core/menu/menu-types/vertical-menu.css">
+<link rel="stylesheet" type="text/css" href="../admin/app-assets/css/core/menu/menu-types/horizontal-menu.css">
 <link rel="stylesheet" type="text/css" href="../admin/app-assets/css/core/colors/palette-gradient.css">
 <link rel="stylesheet" type="text/css" href="../admin/app-assets/css/plugins/file-uploaders/dropzone.css">
 <link rel="stylesheet" type="text/css" href="../admin/app-assets/css/pages/data-list-view.css">

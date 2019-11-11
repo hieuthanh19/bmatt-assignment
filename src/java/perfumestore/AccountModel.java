@@ -14,6 +14,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -248,7 +251,7 @@ public class AccountModel {
      * @throws SQLException
      * @throws AccountException
      */
-    public Account getAccount(String username, String password) throws SQLException, AccountException {
+    public Account verifyAccount(String username, String password) throws SQLException, AccountException {
         //connect to DB
         con = getCon.getConnection();
         //Create sql string
@@ -272,5 +275,74 @@ public class AccountModel {
             }
         }
         return null;
+    }
+
+    /**
+     * Get account from account ID
+     * @param accId
+     * @return 
+     */
+    public Account getAccount(int accId) {
+        try {
+            //connect to DB
+            con = getCon.getConnection();
+            //Create sql string
+            String sqlStr = "select * from " + tblName + " where " + tblCols[0] + "= ?";
+            //crete query
+            pst = con.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);
+            pst.setInt(1, accId);
+            //execute query
+            rs = pst.executeQuery();
+            //if result found
+            if (rs.next() != false) {
+                int acc_id = rs.getInt(tblCols[0]);
+                String acc_username = rs.getString(tblCols[1]);
+                String acc_password = rs.getString(tblCols[2]);
+                int acc_status = rs.getInt(tblCols[3]);
+                int role_id = rs.getInt(tblCols[4]);
+                //check if password is correct
+                Account a = new Account(acc_id, acc_username, acc_password, acc_status, role_id);
+                return a;
+            }
+            return null;
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountModel.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    /**
+     * Get all account
+     *
+     * @return
+     */
+    public ArrayList<Account> getAllAccount() {
+        try {
+            //connect to DB
+            con = getCon.getConnection();
+            //Create sql string
+            String sqlStr = "select * from " + tblName;
+            //crete query
+            pst = con.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);
+
+            //execute query
+            rs = pst.executeQuery();
+
+            ArrayList<Account> resultList = new ArrayList<>();
+            //if result found
+            while (rs.next()) {
+                int acc_id = rs.getInt(tblCols[0]);
+                String acc_username = rs.getString(tblCols[1]);
+                String acc_password = rs.getString(tblCols[2]);
+                int acc_status = rs.getInt(tblCols[3]);
+                int role_id = rs.getInt(tblCols[4]);
+                //check if password is correct
+                resultList.add(new Account(acc_id, acc_username, acc_password, acc_status, role_id));
+            }
+            return resultList;
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountModel.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 }

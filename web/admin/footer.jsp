@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <div class="sidenav-overlay"></div>
 <div class="drag-target"></div>
 
@@ -22,6 +23,7 @@
 <!-- BEGIN Vendor JS-->
 
 <!-- BEGIN: Page Vendor JS-->
+<script src="../admin/app-assets/vendors/js/ui/jquery.sticky.js"></script>
 <script src="../admin/app-assets/vendors/js/extensions/dropzone.min.js"></script>
 <script src="../admin/app-assets/vendors/js/tables/datatable/datatables.min.js"></script>
 <script src="../admin/app-assets/vendors/js/tables/datatable/datatables.buttons.min.js"></script>

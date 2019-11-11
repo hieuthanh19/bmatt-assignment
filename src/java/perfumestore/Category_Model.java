@@ -5,7 +5,6 @@
  */
 package perfumestore;
 
-
 import connection.GetConnection;
 import java.awt.Frame;
 import java.sql.Connection;
@@ -25,7 +24,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Nhat Thanh
  */
 public class Category_Model {
-    
+
     //attributes and arraylist
     private ArrayList<Category> category = new ArrayList<Category>();
     private Connection con;
@@ -37,7 +36,8 @@ public class Category_Model {
 
     /**
      * Create new Category Model
-     * @throws SQLException 
+     *
+     * @throws SQLException
      */
     public Category_Model() throws SQLException {
         try {
@@ -55,8 +55,9 @@ public class Category_Model {
 
     /**
      * Load Category from database
+     *
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public ArrayList<Category> loadCategory() throws SQLException {
         ArrayList<Category> category = new ArrayList<Category>();
@@ -80,13 +81,13 @@ public class Category_Model {
         }
         return category;
     }
-    
-    
+
     /**
      * load date to table
+     *
      * @param table
      * @param frame
-     * @param arr 
+     * @param arr
      */
     //public void loadCategoryToTable(JTable table, Frame frame, ArrayList<Category> arr){       
     //   DefaultTableModel dtm = (DefaultTableModel) table.getModel();
@@ -97,14 +98,14 @@ public class Category_Model {
     //        dtm.addRow(row);
     //    }
     //}
-    
     /**
      * insert new category
+     *
      * @param category_id
      * @param category_name
      * @param category_status
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public int insertCategory(int category_id, String category_name, int category_status) throws SQLException {
         try {
@@ -125,35 +126,37 @@ public class Category_Model {
         }
         return 0;
     }
-    
-    public static void main (String []args) throws SQLException, Category_Exception{
+
+    public static void main(String[] args) throws SQLException, Category_Exception {
         Category_Model a = new Category_Model();
         //a.update(1, "VNient", 1);
         System.out.println(a.insertCategory(5, "lesbian", 1));
     }
-    
+
     /**
      * Get category from category_id
+     *
      * @param category_id
      * @return Category if success. Otherwise, null
      */
     public Category getCategory(int category_id) {
         for (int i = 0; i < category.size(); i++) {
-            if (category.get(i).getCategory_id()== category_id) {
+            if (category.get(i).getCategory_id() == category_id) {
                 return category.get(i);
             }
         }
         return null;
     }
-    
+
     /**
      * update information of Category
+     *
      * @param category_id
      * @param category_name
      * @param category_status
      * @return
      * @throws SQLException
-     * @throws Category_Exception 
+     * @throws Category_Exception
      */
     public boolean updateCategory(int category_id, String category_name, int category_status) throws SQLException, Category_Exception {
         try {
@@ -164,20 +167,22 @@ public class Category_Model {
             //create query
             pst = con.prepareStatement(str);
             //set values
-            pst.setInt(3, category_id);
+
             pst.setString(1, category_name);
             pst.setInt(2, category_status);
+            pst.setInt(3, category_id);
             //excute query
             pst.executeUpdate();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
-        }        
+        }
         return false;
     }
-    
+
     /**
      * get All Category
+     *
      * @return category list
      */
     public ArrayList<Category> getAll_Category() {
@@ -194,7 +199,7 @@ public class Category_Model {
                 int category_id = rs.getInt("category_id");
                 String category_name = rs.getString("category_name");
                 int category_status = rs.getInt("category_status");
-                category.add(new Category(category_id, category_name, category_status));                
+                category.add(new Category(category_id, category_name, category_status));
             }
         } catch (SQLException ex) {
             Logger.getLogger(Category_Model.class.getName()).log(Level.SEVERE, null, ex);

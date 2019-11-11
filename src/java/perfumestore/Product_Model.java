@@ -51,6 +51,56 @@ public class Product_Model {
     }
 
     /**
+     * Remove all redundant white space
+     *
+     * @param description
+     * @return
+     */
+    public String formatDescription(String description) {
+        String trimmed = description.trim();
+        return trimmed.replaceAll("\\s+", "");
+
+    }
+
+    /**
+     * Format string for displaying
+     * @param string
+     * @param maxLength
+     * @return 
+     */
+    public String formatStringForDisplaying(String string, int maxLength) {
+        if (string == null) {
+            return "Empty Description!";
+        }
+
+        String[] stringArr = string.split(" ");
+        String result = "";
+
+        //loop
+        for (int i = 0; i < stringArr.length; i++) {
+            //
+            if (i == 0) {
+                result += stringArr[0];
+                if (result.length() > maxLength) {
+                    result += "...";
+                    break;
+
+                }
+            } else {
+                
+                if (result.length() + stringArr[i].length() <= maxLength) {
+                    result += " " + stringArr[i];
+                }
+                result += "...";
+                break;
+
+            }
+
+        }
+        return result;
+    }
+
+    /**
      * Load product from database
      *
      * @return
@@ -195,7 +245,7 @@ public class Product_Model {
             //create query
             pst = con.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);
             //set values
-           // pst.setInt(1, product_id);
+            // pst.setInt(1, product_id);
             //excute query
             rs = pst.executeQuery();
             //get data

@@ -33,6 +33,12 @@
             .table .locked{                
                 color: red;                                    
             }
+            .product-edit{
+                color: #FFA11E;;
+            }
+            .product-delete{
+                color: red;
+            }
 
         </style>
     </head>
@@ -46,7 +52,7 @@
                     <div class="content-header-left col-md-12 col-12 mb-2">
                         <div class="row breadcrumbs-top">
                             <div class="col-12">
-                                <h2 class="content-header-title float-left mb-0">Brands</h2>
+                                <h2 class="content-header-title float-left mb-0">Brands (<%=brandList.size()%>)</h2>
                                 <div class="breadcrumb-wrapper col-12">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="#">Dashboard</a>
@@ -105,10 +111,10 @@
                                             <%=b.getBrand_status() == 1 ? "<i class='ficon feather icon-check-circle'>" : "<i class='ficon feather icon-x-circle'>"%>
                                         </td>
                                         <td style="align:center;">
-                                            <a href="#">
+                                            <a href="#" class="product-edit">
                                                 <i class="ficon feather icon-edit"></i>
                                             </a>
-                                            <a href="handle-delete.jsp?type=brand&id=<%=b.getBrand_id()%>" <%=b.getBrand_status()== 0 ? "disabled" : ""%>>
+                                            <a href="handle-delete.jsp?type=brand&id=<%=b.getBrand_id()%>" <%=b.getBrand_status() == 0 ? "disabled" : ""%> class="product-delete">
                                                 <i class="ficon feather icon-trash"></i>
                                             </a>
                                         </td>

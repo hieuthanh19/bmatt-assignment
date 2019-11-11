@@ -5,7 +5,6 @@
  */
 package perfumestore;
 
-
 import connection.GetConnection;
 import java.awt.Frame;
 import java.sql.Connection;
@@ -14,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -22,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Nhat Thanh
  */
 public class Product_Image_Model {
+
     //attributes and arraylist
     private ArrayList<Product_Image> product_image = new ArrayList<Product_Image>();
     private Connection con;
@@ -31,8 +33,9 @@ public class Product_Image_Model {
     private ResultSet rs;
     private String str;
 
-   /**
+    /**
      * Create new Category Model
+     *
      * @throws SQLException
      */
     public Product_Image_Model() throws SQLException {
@@ -52,8 +55,9 @@ public class Product_Image_Model {
 
     /**
      * Load product image from database
+     *
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public ArrayList<Product_Image> loadProduct_Image() throws SQLException {
         ArrayList<Product_Image> product_image = new ArrayList<Product_Image>();
@@ -76,32 +80,17 @@ public class Product_Image_Model {
         } catch (Exception e) {
         }
         return product_image;
-    }  
-    
-    /**
-     * load date to table
-     * @param table
-     * @param frame
-     * @param arr 
-     */
-    public void loadProductImageToTable(JTable table, Frame frame, ArrayList<Product_Image> arr){       
-        DefaultTableModel dtm = (DefaultTableModel) table.getModel();
-        dtm.setRowCount(0);
-        //loop to scan data all table
-        for (int i = 0; i < arr.size(); i++) {
-            Object[] row ={arr.get(i).getImg_id(),arr.get(i).getProduct_id(),arr.get(i).getUrl(), arr.get(i).getProduct_img_status()};
-            dtm.addRow(row);
-        }
-    }   
+    }
 
     /**
      * insert new product image
+     *
      * @param img_id
      * @param product_id
      * @param url
      * @param product_image_status
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public int insertProductImg(int img_id, int product_id, String url, int product_image_status) throws SQLException {
         try {
@@ -125,30 +114,47 @@ public class Product_Image_Model {
         }
         return 0;
     }
-    
+
     /**
-     * Get product image from product_image_id
-     * @param product_img_id
-     * @return product image if success. Otherwise, null
+     * Get product images 
+     * @param productId
+     * @return 
      */
-    public Product_Image getProduct_Image(int product_img_id) {
-        for (int i = 0; i < product_image.size(); i++) {
-            if (product_image.get(i).getImg_id()== product_img_id) {
-                return product_image.get(i);
+    public ArrayList<Product_Image> getProduct_Image(int productId) {
+        try {
+            con = getCon.getConnection();
+            str = "";
+            //Create sql select all
+            str += "SELECT * FROM `product_img` where product_id = ?";
+            pst = con.prepareStatement(str, PreparedStatement.RETURN_GENERATED_KEYS);
+            pst.setInt(1, productId);
+            ArrayList<Product_Image> resultList = new ArrayList<>();
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                //set value to select
+                int img_id = rs.getInt("img_id");
+                int product_id = rs.getInt("product_id");
+                String url = rs.getString("url");
+                int product_img_status = rs.getInt("product_img_status");
+                resultList.add(new Product_Image(img_id, product_id, url, product_img_status));
             }
+            return resultList;
+        } catch (SQLException ex) {
+            Logger.getLogger(Product_Image_Model.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
-        return null;
     }
-    
+
     /**
      * update information of Product Image
+     *
      * @param img_id
      * @param product_id
      * @param url
      * @param product_img_status
      * @return
      * @throws SQLException
-     * @throws Category_Exception 
+     * @throws Category_Exception
      */
     public boolean updateAccount(int img_id, int product_id, String url, int product_img_status) throws SQLException, Category_Exception {
         try {
@@ -166,7 +172,7 @@ public class Product_Image_Model {
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
-        }        
+        }
         return false;
-    } 
+    }
 }

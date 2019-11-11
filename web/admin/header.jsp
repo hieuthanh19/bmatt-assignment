@@ -41,7 +41,7 @@
         <ul class="nav navbar-nav flex-row">
             <li class="nav-item mr-auto"><a class="navbar-brand" href="../admin/html/ltr/vertical-menu-template/index.html">
                     <div class="brand-logo"></div>
-                    <h2 class="brand-text mb-0">BMatt Store</h2>
+                    <h2 class="brand-text mb-0">BMatt</h2>
                 </a></li>
             <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="feather icon-x d-block d-xl-none font-medium-4 primary toggle-icon"></i><i class="toggle-icon feather icon-disc font-medium-4 d-none d-xl-block collapse-toggle-icon primary" data-ticon="icon-disc"></i></a></li>
         </ul>
@@ -80,7 +80,7 @@
 
             <li class=" nav-item"><a href="../admin/comment.jsp"><i class="feather icon-message-square"></i><span class="menu-title">Bình luận</span></a>
             </li>
-            <li class=" nav-item"><a href="#"><i class="feather icon-list"></i><span class="menu-title">Store Management</span></a>
+            <li class=" nav-item"><a href="#"><i class="feather icon-list"></i><span class="menu-title">Store</span></a>
                 <ul class="menu-content">
                     <li><a class="dd-menu" href="../admin/products"><i class="feather icon-package"></i><span class="menu-item">Products</span></a>
                     </li>
@@ -110,12 +110,12 @@
                 </ul>
             </li>
 
-            <li class=" nav-item"><a href="../admin/users.jsp"><i class="feather icon-users"></i><span class="menu-title">Users</span></a>
+            <li class=" nav-item"><a href="../admin/accounts.jsp"><i class="feather icon-users"></i><span class="menu-title">Accounts</span></a>
                 <ul class="menu-content">
-                    <li><a href="../admin/users.jsp"><i class="feather icon-users"></i><span class="menu-item">All Users</span></a>
+                    <li><a href="../admin/accounts.jsp"><i class="feather icon-users"></i><span class="menu-item">All Accounts</span></a>
                     </li>
-                    <li><a href="../admin/add-user.jsp"><i class="feather icon-user-plus"></i><span class="menu-item">Add User</span></a>
-                    </li>
+<!--                    <li><a href="../admin/add-user.jsp"><i class="feather icon-user-plus"></i><span class="menu-item">Add User</span></a>
+                    </li>-->
                 </ul>
             </li>
 
