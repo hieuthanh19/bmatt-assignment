@@ -50,6 +50,34 @@ public class Product_Model {
         }
     }
 
+    public Product loadMyProduct(int id) throws SQLException {
+        
+        Product ob = new Product();
+        try {
+            String str;
+            con = getCon.getConnection();
+            st = con.createStatement();
+            str = "SELECT * FROM `products` WHERE `product_id` = " + id;
+            rs = st.executeQuery(str);
+             while (rs.next()){
+            String name = rs.getString("Name");
+            double volume = rs.getDouble("Volume");
+            int category_id = rs.getInt("Category_Id");
+            int brand_id = rs.getInt("Brand_Id");
+            double original_price = rs.getDouble("Original_Price");
+            double current_price = rs.getDouble("Current_Price");
+            String description = rs.getString("Description");
+            int product_status = rs.getInt("Product_Status");
+            //Date created_at = rs.getDate("Created_At");
+            ob = new Product(id, name, volume, category_id, brand_id, original_price, current_price, description, product_status);
+            //product.add(new Product(product_id, name, volume, category_id, brand_id, original_price, current_price, description, product_status, created_at));
+            //return ob;
+             }
+        } catch (Exception e) {
+        }
+        return ob;
+    }
+
     /**
      * Remove all redundant white space
      *
@@ -64,9 +92,10 @@ public class Product_Model {
 
     /**
      * Format string for displaying
+     *
      * @param string
      * @param maxLength
-     * @return 
+     * @return
      */
     public String formatStringForDisplaying(String string, int maxLength) {
         if (string == null) {
@@ -87,7 +116,7 @@ public class Product_Model {
 
                 }
             } else {
-                
+
                 if (result.length() + stringArr[i].length() <= maxLength) {
                     result += " " + stringArr[i];
                 }

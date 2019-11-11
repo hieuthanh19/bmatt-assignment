@@ -36,6 +36,22 @@ public class Product {
         this.brandName = brandName;
         this.category_name = category_name;
     }
+    
+    public Product(int product_id, String name, Double volume, int categoty_id, int brand_id, Double original_price, Double current_price, String description, int product_status) {
+        this.product_id = product_id;
+        this.name = name;
+        this.volume = volume;
+        this.categoty_id = categoty_id;
+        this.brand_id = brand_id;
+        this.original_price = original_price;
+        this.current_price = current_price;
+        this.description = description;
+        this.product_status = product_status;
+        
+    }
+    public Product() {
+       
+    }
 
     public int getProduct_id() {
         return product_id;
