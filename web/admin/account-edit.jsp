@@ -4,14 +4,12 @@
     Author     : Nhat Thanh
 --%>
 
-<%@page import="perfumestore.Brand"%>
-<%@page import="perfumestore.BrandModel"%>
-<%@page import="perfumestore.Category"%>
-<%@page import="perfumestore.Category_Model"%>
-<%@page import="perfumestore.Product_Image"%>
-<%@page import="perfumestore.Product"%>
-<%@page import="perfumestore.Product_Image_Model"%>
-<%@page import="perfumestore.Product_Model"%>
+<%@page import="perfumestore.UserRole"%>
+<%@page import="perfumestore.UserRoleModel"%>
+<%@page import="perfumestore.User"%>
+<%@page import="perfumestore.Account"%>
+<%@page import="perfumestore.UserModel"%>
+<%@page import="perfumestore.AccountModel"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.Connection"%>
 
@@ -19,8 +17,9 @@
 <!DOCTYPE html>
 <%
     //connection to database
-    Product_Model productM = new Product_Model();
-    Product_Image_Model productImgM = new Product_Image_Model();
+    AccountModel accM = new AccountModel();
+    UserRoleModel userRoleM = new UserRoleModel();
+    UserModel userM = new UserModel();
 
     String searchContent = ""; //search 
     String sortColumn = ""; //sort column
@@ -35,20 +34,16 @@
         id = Integer.parseInt(request.getParameter("id"));
     }
 
-    Product p = productM.getProduct(id);
-    ArrayList<Product_Image> productImg = productImgM.getProduct_Image(id);
-    Category_Model cateM = new Category_Model();
-    ArrayList<Category> cateList = cateM.getAll_Category();
-
-    BrandModel brandM = new BrandModel();
-    ArrayList<Brand> brandList = brandM.getAllBrand();      
+   Account acc = accM.getAccount(id);
+   User user = userM.getUser(id);    
+    ArrayList<UserRole> roleList = userRoleM.getAllUserRole();
 
 %>
 <html>
     <head>
         <!-- Title Section START -->
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Product Edit | BMatt Admin</title>
+        <title>Account Edit | BMatt Admin</title>
         <!-- Title Section END -->
 
         <!-- Latest compiled and minified CSS -->
@@ -93,7 +88,7 @@
                             <div class="row ">
                                 <button class="btn btn-outline-primary col-md-2 return-button" onclick="location.href = 'products?search=<%=searchContent%>'">Back
                                 </button>
-                                <h2 class="form-title text-center col-md-8">Edit Product</h2>
+                                <h2 class="form-title text-center col-md-8">Edit Account & User</h2>
                             </div>
                             <!-- Edit Information of Product: Start-->
                             <div class="card-body">
@@ -104,45 +99,45 @@
                                     <!-- Input ID Start-->
                                     <!-- Edit Name: Start-->
                                     <div class="form-group row">
-                                        <label for="ten" class="col-md-4 col-form-label text-md-right">Name</label>
+                                        <label for="ten" class="col-md-4 col-form-label text-md-right">Username</label>
                                         <div class="col-md-6">
-                                            <input type="text" id="productName" class="form-control" name="productName" value="<%=p.getName()%>">
+                                            <input type="text" id="productName" class="form-control" name="productName" value="<%=acc.getUsername()%>" disabled>
                                         </div>
                                     </div>
                                     <!-- Edit Name: End-->
                                     <!-- Edit Volume Start-->
                                     <div class="form-group row">
-                                        <label for="ten" class="col-md-4 col-form-label text-md-right">Volume</label>
+                                        <label for="ten" class="col-md-4 col-form-label text-md-right">Full name</label>
                                         <div class="col-md-6">
-                                            <input type="text" id="productName" class="form-control" name="productVolume" value="<%=p.getVolume()%>">
+                                            <input type="text" id="productName" class="form-control" name="productVolume" value="<%=user.getFull_name()%>">
                                         </div>
                                     </div>
                                     <!-- Edit Volume End-->
                                     <!-- Edit Price: Start-->
                                     <div class="form-group row">
-                                        <label for="giaban" class="col-md-4 col-form-label text-md-right">Original Price</label>
+                                        <label for="giaban" class="col-md-4 col-form-label text-md-right">Phone</label>
                                         <div class="col-md-6">
-                                            <input type="number" id="productOriginalPrice" class="form-control" name="productOriginalPrice" value="<%=p.getOriginal_price()%>">
+                                            <input type="number" id="userPhone" class="form-control" name="userPhone" value="<%=user.getPhone()%>">
                                         </div>
                                     </div>
                                     <!-- Edit Price: End-->
                                     <!-- Edit Original_Price: Start-->
                                     <div class="form-group row">
-                                        <label for="giagoc" class="col-md-4 col-form-label text-md-right">Sell Price</label>
+                                        <label for="giagoc" class="col-md-4 col-form-label text-md-right">Email</label>
                                         <div class="col-md-6">
-                                            <input type="number" id="productCurrentPrice" class="form-control" name="productCurrentPrice" value="<%=p.getCurrent_price()%>">
+                                            <input type="number" id="userEmail" class="form-control" name="userEmail" value="<%=user.getEmail()%>">
                                         </div>
                                     </div>
                                     <!-- Edit Original_Price: End-->
                                     <!-- Edit Type: Start-->
                                     <div class="form-group row">
-                                        <label for="loai" class="col-md-4 col-form-label text-md-right">Category</label>
+                                        <label for="loai" class="col-md-4 col-form-label text-md-right">Role</label>
                                         <div class="col-md-6">
                                             <!--All atttributes of type -->
-                                            <select class="form-group" name="productCategory">
-                                                <% for (Category c : cateList) {
+                                            <select class="form-group" name="userRole">
+                                                <% for (UserRole us : roleList) {
                                                 %>
-                                                <option value="<%=c.getCategory_id()%>" name="category" <%=p.getCategoty_id() == c.getCategory_id() ? "selected" : ""%> ><%=c.getCategory_name()%></option>
+                                                <option value="<%=us.getRole_id()%>" name="role" <%=acc.getRole_id() == us.getRole_id()? "selected" : ""%> ><%=us.getRole_name()%></option>
                                                 <% }%>
                                             </select>
                                         </div>
@@ -181,14 +176,14 @@
                                     <div class="form-group row">
                                         <label for="data-name" class="col-md-4 col-form-label text-md-right">Status: </label>
                                         <div class="col-md-6">
-                                             <div class="custom-control custom-radio custom-control-inline">
-                                            <input name="productStatus" id="status-locked" type="radio" class="custom-control-input productStatus" value="0" <%=p.getProduct_status()==0? "checked" : ""%>> 
-                                            <label for="status-locked" class="custom-control-label">Locked</label>
-                                        </div>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input name="productStatus" id="status-unlock" type="radio" class="custom-control-input productStatus" value="1" <%=p.getProduct_status()==1? "checked" : ""%>> 
-                                            <label for="status-unlock" class="custom-control-label">Active</label>
-                                        </div>
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input name="productStatus" id="status-locked" type="radio" class="custom-control-input productStatus" value="0" <%=p.getProduct_status() == 0 ? "checked" : ""%>> 
+                                                <label for="status-locked" class="custom-control-label">Locked</label>
+                                            </div>
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input name="productStatus" id="status-unlock" type="radio" class="custom-control-input productStatus" value="1" <%=p.getProduct_status() == 1 ? "checked" : ""%>> 
+                                                <label for="status-unlock" class="custom-control-label">Active</label>
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- Edit Image: End-->
