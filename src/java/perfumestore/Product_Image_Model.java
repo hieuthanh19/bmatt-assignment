@@ -82,6 +82,28 @@ public class Product_Image_Model {
         return product_image;
     }
 
+    public Product_Image myProductImage(int id) throws SQLException {
+        Product_Image pdi = new Product_Image();
+        try {
+            con = getCon.getConnection();
+            st = con.createStatement();
+            //Create sql select all
+            str = "SELECT * FROM `product_img` where `product_id` = " + id;
+            rs = st.executeQuery(str);
+            while (rs.next()) {
+                //set value to select
+
+                String url = rs.getString("url");
+                int product_img_status = rs.getInt("product_img_status");
+                //product_image.add(new Product_Image(img_id, product_id, url, product_img_status));
+                pdi = new Product_Image(id, id, url, product_img_status);
+            }
+
+        } catch (Exception e) {
+        }
+        return pdi;
+    }
+
     /**
      * insert new product image
      *
@@ -115,9 +137,10 @@ public class Product_Image_Model {
     }
 
     /**
-     * Get product images 
+     * Get product images
+     *
      * @param productId
-     * @return 
+     * @return
      */
     public ArrayList<Product_Image> getProduct_Image(int productId) {
         try {
