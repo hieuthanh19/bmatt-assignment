@@ -6,9 +6,7 @@
 package perfumestore;
 
 import connection.GetConnection;
-import java.awt.Frame;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,8 +14,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -127,25 +123,40 @@ public class Category_Model {
         return 0;
     }
 
-    public static void main(String[] args) throws SQLException, Category_Exception {
-        Category_Model a = new Category_Model();
-        //a.update(1, "VNient", 1);
-        System.out.println(a.insertCategory(5, "lesbian", 1));
-    }
+//    
+    
 
     /**
      * Get category from category_id
      *
-     * @param category_id
+     * @param categoryId
      * @return Category if success. Otherwise, null
      */
-    public Category getCategory(int category_id) {
-        for (int i = 0; i < category.size(); i++) {
-            if (category.get(i).getCategory_id() == category_id) {
-                return category.get(i);
+    public Category getCategory(int categoryId) {
+        try {
+            con = getCon.getConnection();
+            String sqlStr = "";
+            sqlStr += " SELECT * ";
+            sqlStr += " FROM `category`";
+            //sqlStr += " WHERE a.l_ma = b.l_ma ";
+            sqlStr += " WHERE category_id= " + categoryId;
+
+            pst = con.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);
+
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                int category_id = rs.getInt("category_id");
+                String category_name = rs.getString("category_name");
+                int category_status = rs.getInt("category_status");
+                Category category = new Category(category_id, category_name, category_status);
+                return category;
             }
+            return null;
+        } catch (SQLException ex) {
+            Logger.getLogger(Category_Model.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
-        return null;
     }
 
     /**
@@ -167,7 +178,6 @@ public class Category_Model {
             //create query
             pst = con.prepareStatement(str);
             //set values
-
             pst.setString(1, category_name);
             pst.setInt(2, category_status);
             pst.setInt(3, category_id);

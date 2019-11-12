@@ -114,7 +114,8 @@
                                             <a href="#" class="product-edit">
                                                 <i class="ficon feather icon-edit"></i>
                                             </a>
-                                            <a href="handle-delete.jsp?type=brand&id=<%=b.getBrand_id()%>" <%=b.getBrand_status() == 0 ? "disabled" : ""%> class="product-delete">
+                                            <a href="#" <%=b.getBrand_status() == 0 ? "disabled" : ""%> onclick =" if (confirm('Are you sure you want to lock <%=b.getBrand_name()%>?')) location.href = 'handle-delete.jsp?type=brand&id=<%=b.getBrand_id()%>'"
+                                               class="product-delete">
                                                 <i class="ficon feather icon-trash"></i>
                                             </a>
                                         </td>

@@ -34,7 +34,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Categories | BMatt Dashboard</title>
+        <title>Accounts | BMatt Dashboard</title>
         <jsp:include page="include.jsp"/>
         <style type="text/css">
 
@@ -135,7 +135,9 @@
                                         </td>
                                         <td style="align:center;">
                                             <a href="#" class="product-edit"><i class="ficon feather icon-edit"></i></a>
-                                            <a href="#" class="product-delete"><i class="ficon feather icon-trash"></i></a>
+                                            <a href="#" class="product-delete" onclick="if (confirm('Are you sure you want to lock <%=a.getUsername()%>?')) location.href = 'handle-delete.jsp?type=account&id=<%=a.getAccount_id()%>'">
+                                                <i class="ficon feather icon-trash"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                     <%                                            }

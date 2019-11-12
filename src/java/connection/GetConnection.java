@@ -22,8 +22,8 @@ public class GetConnection {
     private static String UID = "root";
     private static String PWD = "";
     private static Connection con;
-    private static PreparedStatement ps;
-    private static ResultSet rs;
+//    private static PreparedStatement ps;
+//    private static ResultSet rs;
 
    
 

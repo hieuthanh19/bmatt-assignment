@@ -200,15 +200,14 @@ public class Product_Model {
      * @return
      * @throws SQLException
      */
-    public int insertProduct(int product_id, String name, double volume, int category_id, int brand_id, double original_price, double current_price, String description, int product_status) throws SQLException {
+    public int insertProduct(String name, double volume, int category_id, int brand_id, double original_price, double current_price, String description, int product_status) throws SQLException {
         try {
             String sqlStr = "";
             //link load from Motel database in SQL Server
-            sqlStr = "INSERT INTO `products`(`name`, `volume`, `category_id`, `brand_id`, `original_price`, `current_price`, `description`, `product_status`, `product_id`) VALUES (?,?,?,?,?,?,?,?,?)";
+            sqlStr = "INSERT INTO `products`(`name`, `volume`, `category_id`, `brand_id`, `original_price`, `current_price`, `description`, `product_status`) VALUES (?,?,?,?,?,?,?,?)";
             //create query
             pst = con.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);
-            //set values
-            pst.setInt(9, product_id);
+            //set values            
             pst.setString(1, name);
             pst.setDouble(2, volume);
             pst.setInt(3, category_id);
@@ -221,10 +220,11 @@ public class Product_Model {
             pst.executeUpdate();
             rs = pst.getGeneratedKeys();
             rs.next();
+            return rs.getInt(1);
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-        return 0;
+            return -1;
+        }        
     }
 
     /**
@@ -239,13 +239,13 @@ public class Product_Model {
             con = getCon.getConnection();
             //create sql string
             String sqlStr = "SELECT a.*, b.brand_name, c.category_name "
-                    + "FROM `products` as a, brand as b, category as c "
-                    + "WHERE a.category_id = c.category_id AND a.brand_id = b.brand_id "
-                    + "ORDER BY a.product_id";
+                    + " FROM `products` as a, brand as b, category as c "
+                    + " WHERE a.category_id = c.category_id AND a.brand_id = b.brand_id AND a.product_id = ? "
+                    + " ORDER BY a.product_id";
             //create query
             pst = con.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);
             //set values
-            // pst.setInt(1, product_id);
+             pst.setInt(1, product_id);
             //excute query
             rs = pst.executeQuery();
             //get data

@@ -122,7 +122,9 @@
                                         </td>
                                         <td style="align:center;">
                                             <a href="#" class="product-edit"><i class="ficon feather icon-edit"></i></a>
-                                            <a href="#" class="product-delete"><i class="ficon feather icon-trash"></i></a>
+                                            <a href="#" class="product-delete" onclick="if (confirm('Are you sure you want to lock <%=c.getCategory_name()%>?')) location.href = 'handle-delete.jsp?type=category&id=<%=c.getCategory_id()%>'">
+                                                <i class="ficon feather icon-trash"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                     <%                                            }

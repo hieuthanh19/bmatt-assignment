@@ -92,16 +92,15 @@ public class Product_Image_Model {
      * @return
      * @throws SQLException
      */
-    public int insertProductImg(int img_id, int product_id, String url, int product_image_status) throws SQLException {
+    public int insertProductImg(int product_id, String url, int product_image_status) throws SQLException {
         try {
             //link load from Product Image database in SQL Server
-            str = "INSERT INTO `product_img`(`product_id`, `url`, `product_img_status`, `img_id`) VALUES (?,?,?,?)";
+            str = "INSERT INTO `product_img`(`product_id`, `url`, `product_img_status`) VALUES (?,?,?)";
             con = GetConnection.getConnection();
             st = con.createStatement();
             //create query
             pst = con.prepareStatement(str, Statement.RETURN_GENERATED_KEYS);
-            //set value
-            pst.setInt(4, img_id);
+            //set value            
             pst.setInt(1, product_id);
             pst.setString(2, url);
             pst.setInt(3, product_image_status);
@@ -156,7 +155,7 @@ public class Product_Image_Model {
      * @throws SQLException
      * @throws Category_Exception
      */
-    public boolean updateAccount(int img_id, int product_id, String url, int product_img_status) throws SQLException, Category_Exception {
+    public boolean updateImage(int img_id, int product_id, String url, int product_img_status) throws SQLException, Category_Exception {
         try {
             //link load from Product Image database in SQL Server
             str = "UPDATE `product_img` SET `product_id`=?,`url`=?,`product_img_status`=? WHERE `img_id`=?";
