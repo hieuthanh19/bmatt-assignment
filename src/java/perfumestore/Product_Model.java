@@ -417,7 +417,7 @@ public class Product_Model {
             }
 
             //phan trang
-            int totalProduct = getNumberOfProduct(search);
+            int totalProduct = getNumberOfProduct(page, search, sort, productsPerPage, categoryId, brandId, volume_start, volume_end, priceStart, priceEnd);
             int totalPages = (int) Math.ceil(totalProduct / (float) productsPerPage);
             int index = (page - 1) * productsPerPage;
 
@@ -457,19 +457,48 @@ public class Product_Model {
      * @return
      * @throws SQLException
      */
-    public int getNumberOfProduct(String search) throws SQLException {
+    public int getNumberOfProduct(int page, String search, int sort, int productsPerPage, int categoryId, int brandId, double volume_start, double volume_end, double priceStart, double priceEnd) throws SQLException {
+        con = GetConnection.getConnection();
+
         String sqlStr = "";
-        sqlStr += " SELECT count(*) as soLuong ";
-        sqlStr += " FROM `products`";
-        //sqlStr += " WHERE a.l_ma = b.l_ma ";
+        sqlStr += " SELECT COUNT(*) as number_of_products";
+        sqlStr += " FROM `products` as a, `brand` as b, `category` as c ";
+        sqlStr += " WHERE a.category_id = c.category_id AND a.brand_id = b.brand_id AND a.product_status AND a.`product_status` != 0 ";
+
+        if (categoryId != 0) {
+            sqlStr += " AND a.category_id = " + categoryId + " ";
+        }
+        if (brandId != 0) {
+            sqlStr += " AND a.brand_id = " + brandId + " ";
+        }
+        //get volume range
+        sqlStr += " AND (a.volume > " + volume_start + " ";
+        sqlStr += " AND a.volume <= " + volume_end + ") ";
+        //get price range
+        sqlStr += "  AND (a.current_price > " + priceStart + " ";
+        sqlStr += "  AND a.current_price < " + priceEnd + ") ";
+
         if (!search.isEmpty()) {
-            //  sqlStr += " AND (a.sp_ten like '%" + search + "%' OR b.l_ten like '%" + search + "%') ";
+            sqlStr += " AND (a.name like '%" + search + "%' OR c.category_name like '%" + search + "%' OR b.brand_name like '%" + search + "%') ";
+        }
+
+        if (sort != 0) {
+            sqlStr += " ORDER BY a.current_price ";
+            if (sort == 1) {
+                sqlStr += " ASC ";
+            }
+            if (sort == 2) {
+
+                sqlStr += " DESC ";
+            }
+        } else {
+            sqlStr += " ORDER BY a.product_id ";
         }
         this.st = this.con.createStatement();
         this.rs = this.st.executeQuery(sqlStr);
         rs.next();
 
-        return rs.getInt("soLuong");
+        return rs.getInt("number_of_products");
     }
 
     /**

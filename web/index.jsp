@@ -48,7 +48,7 @@
 
     <body>
 
-         <jsp:include page="navbar.jsp"/>
+        <jsp:include page="navbar.jsp"/>
 
         <!--================Home Banner Area =================-->
         <section class="home_banner_area">
@@ -73,25 +73,27 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-6">
-                        <div class="hot_deal_box">
-                            <img class="img-fluid" src="img/product/hot_deals/chanel-deal.jpg" alt="Hot Deal">
-                            <div class="content">
-                                <h2>Chanel's Collections</h2>
-                                <p>Explore</p>
+                        <a class="hot_deal_link" href="category.jsp?brandId=1">
+                            <div class="hot_deal_box">
+                                <img class="img-fluid" src="img/product/hot_deals/chanel-deal.jpg" alt="Hot Deal">
+                                <div class="content">
+                                    <h2>Chanel's Collections</h2>
+                                    <p>Explore</p>
+                                </div>
                             </div>
-                            <a class="hot_deal_link" href="#"></a>
-                        </div>
+                        </a>
                     </div>
 
                     <div class="col-lg-6">
-                        <div class="hot_deal_box">
-                            <img class="img-fluid" src="img/product/hot_deals/versace-deal.jpg" alt="Hot Deal">
-                            <div class="content">
-                                <h2>The Charming of Versace</h2>
-                                <p>Explore</p>
+                        <a class="hot_deal_link" href="category.jsp?brandId=4">
+                            <div class="hot_deal_box">
+                                <img class="img-fluid" src="img/product/hot_deals/versace-deal.jpg" alt="Hot Deal">
+                                <div class="content">
+                                    <h2>The Charming of Versace</h2>
+                                    <p>Explore</p>
+                                </div>
                             </div>
-                            <a class="hot_deal_link" href="#"></a>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -176,7 +178,7 @@
 
                     </div>
                     <div class="row">
-                        <a class="green_btn mx-auto" href="#feature-product">See more</a>
+                        <a class="green_btn mx-auto" href="category.jsp">See more</a>
                     </div>
                 </div>
             </div>
@@ -199,7 +201,7 @@
                             for (Product p : productList) {
                                 ArrayList<Product_Image> productImgList = productImgM.getProduct_Image(p.getProduct_id());
                                 if (i < Product_Per_Page) {
-                                    if (p.getProduct_status() == 1 && p.getCategory_name().equals("female")) {
+                                    if (p.getProduct_status() == 1 && p.getCategoty_id()==1) {
                         %>
                         <div class="col col<%=i + 1%>">
                             <div class="f_p_item">
@@ -230,7 +232,7 @@
                         %>                        
                     </div>
                     <div class="row">
-                        <a class="green_btn mx-auto" href="#feature-product">See more</a>
+                        <a class="green_btn mx-auto" href="category.jsp?categoryId=1">See more</a>
                     </div>
                 </div>
             </div>
@@ -253,7 +255,7 @@
                             for (Product p : productList) {
                                 ArrayList<Product_Image> productImgList = productImgM.getProduct_Image(p.getProduct_id());
                                 if (i < 10) {
-                                    if (p.getProduct_status() == 1 && p.getCategory_name().equals("male")) {
+                                    if (p.getProduct_status() == 1 && p.getCategoty_id()==2) {
                         %>
                         <div class="col col<%=i + 1%>">
                             <div class="f_p_item">
@@ -284,7 +286,7 @@
                         %>                        
                     </div>
                     <div class="row">
-                        <a class="green_btn mx-auto" href="#feature-product">See more</a>
+                        <a class="green_btn mx-auto" href="category.jsp?categoryId=2">See more</a>
                     </div>
                 </div>
             </div>
@@ -292,12 +294,12 @@
         <!--================End Men Fragrance  Area =================-->
 
 
-         <jsp:include page="footer.jsp"/>
-        
+        <jsp:include page="footer.jsp"/>
 
 
 
-       
+
+
     </body>
 
 </html>

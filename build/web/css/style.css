@@ -438,7 +438,7 @@ a {
       text-align: center; }
       .home_banner_area .banner_inner .banner_content h3 {
         font-size: 60px;
-        font-family: "Roboto", sans-serif;
+        font-family: 'Roboto';
         font-weight: 500;
         line-height: 66px;
         margin-bottom: 20px;
@@ -446,7 +446,7 @@ a {
       .home_banner_area .banner_inner .banner_content p {
         font-size: 14px;
         line-height: 24px;
-        font-family: "Roboto", sans-serif;
+        font-family: 'Roboto';
         font-weight: normal;
         color: #ffffff; }
       .home_banner_area .banner_inner .banner_content .white_bg_btn {
@@ -474,7 +474,7 @@ a {
     min-height: 780px;
     z-index: 1; }
     .blog_banner .banner_inner .overlay {
-      background: url(../img/banner/banner-2.jpg) no-repeat scroll center center;
+      background: url(../img/banner/home-hero.jpg) no-repeat scroll center center;
       opacity: .5;
       height: 125%;
       position: absolute;
@@ -490,7 +490,7 @@ a {
       .blog_banner .banner_inner .blog_b_text h2 {
         font-size: 60px;
         font-weight: 500;
-        font-family: "Roboto", sans-serif;
+        font-family: 'Roboto';
         line-height: 66px;
         margin-bottom: 15px; }
       .blog_banner .banner_inner .blog_b_text p {
@@ -513,7 +513,7 @@ a {
     overflow: hidden;
     width: 100%;
     min-height: 395px;
-    background: url(../img/breadcrumb/checkout-bg.jpg) no-repeat center bottom;
+    background: url(../img/banner/home-hero.jpg) no-repeat center bottom;
     background-size: contain;
     z-index: 1; }
     .banner_area .banner_inner .overlay {
@@ -529,14 +529,14 @@ a {
       .banner_area .banner_inner .banner_content h2 {
         color: #ffffff;
         font-size: 48px;
-        font-family: "Roboto", sans-serif;
+        font-family: 'Roboto';
         margin-bottom: 12px;
         font-weight: 500;
         margin-top: 120px; }
       .banner_area .banner_inner .banner_content .page_link a {
         font-size: 14px;
         color: #ffffff;
-        font-family: "Roboto", sans-serif;
+        font-family: 'Roboto';
         margin-right: 32px;
         position: relative; }
         .banner_area .banner_inner .banner_content .page_link a:before {

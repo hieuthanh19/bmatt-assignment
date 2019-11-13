@@ -114,3 +114,22 @@
 <script src="vendors/counter-up/jquery.counterup.js"></script>
 <script src="js/mail-script.js"></script>
 <script src="js/theme.js"></script>
+
+
+<script>
+                    $(document).ready(function () {
+                        var currentURL = window.location.href;
+                        var listHref = $('li a');
+                        for (var i = 0; i < listHref.length; i++) {
+                            var href = listHref[i].href;
+                            if (currentURL == href) {
+                                var parent = listHref[i].parentElement;
+                                parent.className = "nav-item active";
+                            }
+                            else{
+                                 var parent = listHref[i].parentElement;
+                                parent.className = "nav-item";
+                            }
+                        }
+                    });
+</script>

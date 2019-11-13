@@ -14,7 +14,7 @@
             <div class="float-right">
                 <ul class="right_side">
                     <li>
-                        <a href="login.html">
+                        <a href="login.jsp">
                             Login/Register
                         </a>
                     </li>
@@ -24,7 +24,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="contact.html">
+                        <a href="contact.jsp">
                             Contact Us
                         </a>
                     </li>
@@ -54,10 +54,10 @@
                                     <a class="nav-link" href="index.jsp">Home</a>
                                 </li>                                      
                                 <li class="nav-item ">
-                                    <a class="nav-link" href="index.jsp">Women's Fragrance</a>
+                                    <a class="nav-link" href="category.jsp?categoryId=1">Women's Fragrance</a>
                                 </li>                                      
                                 <li class="nav-item ">
-                                    <a class="nav-link" href="index.jsp">Men's Fragrance</a>
+                                    <a class="nav-link" href="category.jsp?categoryId=2">Men's Fragrance</a>
                                 </li>                                      
 
 
@@ -80,7 +80,7 @@
                                   </li>                                            -->
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="contact.html">Contact</a>
+                                    <a class="nav-link" href="contact.jsp">Contact</a>
                                 </li>
                             </ul>
                         </div>
