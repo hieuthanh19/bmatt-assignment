@@ -33,7 +33,7 @@
     if (request.getParameter("brandId") != null) {
         brandId = Integer.parseInt(request.getParameter("brandId"));
     }
-    double volumeStart = 1;
+    double volumeStart = 0.0;
     if (request.getParameter("volumeStart") != null) {
         volumeStart = Double.parseDouble(request.getParameter("volumeStart"));
     }
@@ -71,7 +71,9 @@
     Product_Image_Model productImgM = new Product_Image_Model();
     //get product list base on filter
     ArrayList<Product> productList = productM.getPaging(pageNumber, search, sort, productPerPage, categoryId, brandId, volumeStart, volumeEnd, priceStart, priceEnd);
+
     int totalPages = (int) Math.ceil(productM.getNumberOfProduct(pageNumber, search, sort, productPerPage, categoryId, brandId, volumeStart, volumeEnd, priceStart, priceEnd) / (float) productPerPage);
+
 
 %>
 <!doctype html>
@@ -150,10 +152,11 @@
                                 <nav class="cat_page" aria-label="Page navigation example">
                                     <ul class="pagination">
                                         <li class="page-item">
-                                            <a class="page-link" href="category.jsp?pageNumber=<%=pageNumber > 1 ? pageNumber - 1 : pageNumber%>&<%=categoryId != 0 ? "categoryId=" + categoryId + "&" : ""%><%=brandId != 0 ? "brandId=" + brandId + "&" : ""%><%=volumeStart != 0 ? "volumeStart=" + volumeStart + "&" : ""%><%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd + "&" : ""%><%=priceStart != 0 ? "priceStart=" + priceStart + "&" : ""%><%=priceEnd != 0 ? "priceEnd=" + priceEnd + "&" : ""%><%=sort != 0 ? "sort=" + sort + "&" : ""%><%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
+                                            <a class="page-link" href="#">
                                                 <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
                                             </a>
                                         </li>
+
                                         <!-- Start Paging-->
                                         <%
                                             if (totalPages <= 5) {
@@ -164,22 +167,16 @@
                                                 <%=i + 1%>
                                             </a>
                                         </li>
-                                        <%
-                                                }
-                                            }
-                                        %>
-                                        <!-- End Paging-->
                                         <li class="page-item">
                                             <a class="page-link" href="category.jsp?pageNumber=<%=pageNumber < totalPages ? pageNumber + 1 : pageNumber%>&<%=categoryId != 0 ? "categoryId=" + categoryId + "&" : ""%><%=brandId != 0 ? "brandId=" + brandId + "&" : ""%><%=volumeStart != 0 ? "volumeStart=" + volumeStart + "&" : ""%><%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd + "&" : ""%><%=priceStart != 0 ? "priceStart=" + priceStart + "&" : ""%><%=priceEnd != 0 ? "priceEnd=" + priceEnd + "&" : ""%><%=sort != 0 ? "sort=" + sort + "&" : ""%><%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
                                                 <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
                                             </a>
                                         </li>
-
                                     </ul>
                                 </nav>
                             </div>
                         </div>
-                        <div class="latest_product_inner row pb-5">
+                        <div class="latest_product_inner row pb-3">
                             <%
                                 if (productList.size() == 0) {
                                     out.println("<div class='col-lg-3 col-md-3 col-sm-6'>"
@@ -227,14 +224,14 @@
                                 <div class="widgets_inner">
                                     <ul class="list">
                                         <li class="category <%=categoryId == 0 ? "active" : ""%>">
-                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber + "&" : ""%><%=brandId != 0 ? "brandId=" + brandId + "&" : ""%><%=volumeStart != 0 ? "volumeStart=" + volumeStart + "&" : ""%><%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd + "&" : ""%><%=priceStart != 0 ? "priceStart=" + priceStart + "&" : ""%><%=priceEnd != 0 ? "priceEnd=" + priceEnd + "&" : ""%><%=sort != 0 ? "sort=" + sort + "&" : ""%><%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">All Categories</a>
+                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber : ""%>&categoryId=0&<%=brandId != 0 ? "brandId=" + brandId : ""%>&<%=volumeStart != 0 ? "volumeStart=" + volumeStart : ""%>&<%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd : ""%>&<%=priceStart != 0 ? "priceStart=" + priceStart : ""%>&<%=priceEnd != 0 ? "priceEnd=" + priceEnd : ""%>&<%=sort != 0 ? "sort=" + sort : ""%>&<%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">All Categories</a>
                                         </li> 
                                         <%
                                             for (Category c : categoryList) {
                                                 if (c.getCategory_status() != 0) {
                                         %>
                                         <li class="category <%=categoryId == c.getCategory_id() ? "active" : ""%>">
-                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber + "&" : ""%>categoryId=<%=c.getCategory_id()%>&<%=brandId != 0 ? "brandId=" + brandId + "&" : ""%><%=volumeStart != 0 ? "volumeStart=" + volumeStart + "&" : ""%><%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd + "&" : ""%><%=priceStart != 0 ? "priceStart=" + priceStart + "&" : ""%><%=priceEnd != 0 ? "priceEnd=" + priceEnd + "&" : ""%><%=sort != 0 ? "sor=" + sort + "&" : ""%><%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>"><%=c.getCategory_name()%></a>
+                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber : ""%>&categoryId=<%=c.getCategory_id()%>&<%=brandId != 0 ? "brandId=" + brandId : ""%>&<%=volumeStart != 0 ? "volumeStart=" + volumeStart : ""%>&<%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd : ""%>&<%=priceStart != 0 ? "priceStart=" + priceStart : ""%>&<%=priceEnd != 0 ? "priceEnd=" + priceEnd : ""%>&<%=sort != 0 ? "sort=" + sort : ""%>&<%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>"><%= c.getCategory_name()%></a>
                                         </li>   
                                         <% }
                                             }
@@ -250,17 +247,17 @@
                                     <h4>Price</h4>
                                     <ul class="list">
                                         <li class="<%=sort == 0 ? "active" : ""%>">
-                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber + "&" : ""%><%=categoryId != 0 ? "categoryId=" + categoryId + "&" : ""%><%=brandId != 0 ? "brandId=" + brandId + "&" : ""%><%=volumeStart != 0 ? "volumeStart=" + volumeStart + "&" : ""%><%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd + "&" : ""%><%=priceStart != 0 ? "priceStart=" + priceStart + "&" : ""%><%=priceEnd != 0 ? "priceEnd=" + priceEnd + "&" : ""%><%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
+                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber : ""%>&<%=categoryId != 0 ? "categoryId=" + categoryId : ""%>&<%=brandId != 0 ? "brandId=" + brandId : ""%>&<%=volumeStart != 0 ? "volumeStart=" + volumeStart : ""%>&<%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd : ""%>&<%=priceStart != 0 ? "priceStart=" + priceStart : ""%>&<%=priceEnd != 0 ? "priceEnd=" + priceEnd : ""%>&sort=0&<%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
                                                 No sort
                                             </a>
                                         </li>
                                         <li class="<%=sort == 1 ? "active" : ""%>">
-                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber + "&" : ""%><%=categoryId != 0 ? "categoryId=" + categoryId + "&" : ""%><%=brandId != 0 ? "brandId=" + brandId + "&" : ""%><%=volumeStart != 0 ? "volumeStart=" + volumeStart + "&" : ""%><%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd + "&" : ""%><%=priceStart != 0 ? "priceStart=" + priceStart + "&" : ""%><%=priceEnd != 0 ? "priceEnd=" + priceEnd + "&" : ""%>sort=1&<%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
+                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber : ""%>&<%=categoryId != 0 ? "categoryId=" + categoryId : ""%>&<%=brandId != 0 ? "brandId=" + brandId : ""%>&<%=volumeStart != 0 ? "volumeStart=" + volumeStart : ""%>&<%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd : ""%>&<%=priceStart != 0 ? "priceStart=" + priceStart : ""%>&<%=priceEnd != 0 ? "priceEnd=" + priceEnd : ""%>&sort=1&<%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
                                                 Price: Low to High
                                             </a>
                                         </li>
                                         <li class="<%=sort == 2 ? "active" : ""%>">
-                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber + "&" : ""%><%=categoryId != 0 ? "categoryId=" + categoryId + "&" : ""%><%=brandId != 0 ? "brandId=" + brandId + "&" : ""%><%=volumeStart != 0 ? "volumeStart=" + volumeStart + "&" : ""%><%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd + "&" : ""%><%=priceStart != 0 ? "priceStart=" + priceStart + "&" : ""%><%=priceEnd != 0 ? "priceEnd=" + priceEnd + "&" : ""%>sort=2&<%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
+                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber : ""%>&<%=categoryId != 0 ? "categoryId=" + categoryId : ""%>&<%=brandId != 0 ? "brandId=" + brandId : ""%>&<%=volumeStart != 0 ? "volumeStart=" + volumeStart : ""%>&<%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd : ""%>&<%=priceStart != 0 ? "priceStart=" + priceStart : ""%>&<%=priceEnd != 0 ? "priceEnd=" + priceEnd : ""%>&sort=2&<%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
                                                 Price: High to Low
                                             </a>
                                         </li>
@@ -272,16 +269,13 @@
                                     <h4>Brand</h4>
                                     <ul class="list">
                                         <li class="<%=brandId == 0 ? "active" : ""%>">
-                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber + "&" : ""%><%=categoryId != 0 ? "categoryId=" + categoryId + "&" : ""%><%=volumeStart != 0 ? "volumeStart=" + volumeStart + "&" : ""%><%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd + "&" : ""%><%=priceStart != 0 ? "priceStart=" + priceStart + "&" : ""%><%=priceEnd != 0 ? "priceEnd=" + priceEnd + "&" : ""%><%=sort != 0 ? "sort=" + sort + "&" : ""%><%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
-                                                All Brands
-                                            </a>
+                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber : ""%>&<%=categoryId != 0 ? "categoryId=" + categoryId : ""%>&brandId=0&<%=volumeStart != 0 ? "volumeStart=" + volumeStart : ""%>&<%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd : ""%>&<%=priceStart != 0 ? "priceStart=" + priceStart : ""%>&<%=priceEnd != 0 ? "priceEnd=" + priceEnd : ""%>&<%=sort != 0 ? "sort=" + sort : ""%>&<%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">All Brands</a>
                                         </li>
-                                        <%                          for (Brand b : brandList) {
+                                        <%
+                                            for (Brand b : brandList) {
                                         %>
                                         <li class="<%=brandId == b.getBrand_id() ? "active" : ""%>">
-                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber + "&" : ""%><%=categoryId != 0 ? "categoryId=" + categoryId + "&" : ""%>brandId=<%=b.getBrand_id()%>&<%=volumeStart != 0 ? "volumeStart=" + volumeStart + "&" : ""%><%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd + "&" : ""%><%=priceStart != 0 ? "priceStart=" + priceStart + "&" : ""%><%=priceEnd != 0 ? "priceEnd=" + priceEnd + "&" : ""%><%=sort != 0 ? "sort=" + sort + "&" : ""%><%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
-                                                <%=b.getBrand_name()%>
-                                            </a>
+                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber : ""%>&<%=categoryId != 0 ? "categoryId=" + categoryId : ""%>&brandId=<%=b.getBrand_id()%>&<%=volumeStart != 0 ? "volumeStart=" + volumeStart : ""%>&<%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd : ""%>&<%=priceStart != 0 ? "priceStart=" + priceStart : ""%>&<%=priceEnd != 0 ? "priceEnd=" + priceEnd : ""%>&<%=sort != 0 ? "sort=" + sort : ""%>&<%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>"><%=b.getBrand_name()%></a>
                                         </li>
                                         <%
                                             }
@@ -292,23 +286,23 @@
                                 <div class="widgets_inner">
                                     <h4>Volume</h4>
                                     <ul class="list">
-                                        <li class="<%=(volumeStart == 1 && volumeEnd == 1000) ? "active" : ""%>">
-                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber + "&" : ""%><%=categoryId != 0 ? "categoryId=" + categoryId + "&" : ""%><%=brandId != 0 ? "brandId=" + brandId + "&" : ""%><%=priceStart != 0 ? "priceStart=" + priceStart + "&" : ""%><%=priceEnd != 0 ? "priceEnd=" + priceEnd + "&" : ""%><%=sort != 0 ? "sort=" + sort + "&" : ""%><%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
+                                        <li class="<%=(volumeStart == 0 && volumeEnd == 1000) ? "active" : ""%>">
+                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber : ""%>&<%=categoryId != 0 ? "categoryId=" + categoryId : ""%>&<%=brandId != 0 ? "brandId=" + brandId : ""%>&volumeStart=0&volumeEnd=1000&<%=priceStart != 0 ? "priceStart=" + priceStart : ""%>&<%=priceEnd != 0 ? "priceEnd=" + priceEnd : ""%>&<%=sort != 0 ? "sort=" + sort : ""%>&<%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
                                                 All Volume
                                             </a>
                                         </li>
-                                        <li class="<%=(volumeStart == 1 && volumeEnd == 50) ? "active" : ""%>">
-                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber + "&" : ""%><%=categoryId != 0 ? "categoryId=" + categoryId + "&" : ""%><%=brandId != 0 ? "brandId=" + brandId + "&" : ""%>volumeStart=1&volumeEnd=50&<%=priceStart != 0 ? "priceStart=" + priceStart + "&" : ""%><%=priceEnd != 0 ? "priceEnd=" + priceEnd + "&" : ""%><%=sort != 0 ? "sort=" + sort + "&" : ""%><%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
-                                                1 - 50ml
+                                        <li class="<%=(volumeStart == 0 && volumeEnd == 50) ? "active" : ""%>">
+                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber : ""%>&<%=categoryId != 0 ? "categoryId=" + categoryId : ""%>&<%=brandId != 0 ? "brandId=" + brandId : ""%>&volumeStart=0&volumeEnd=50&<%=priceStart != 0 ? "priceStart=" + priceStart : ""%>&<%=priceEnd != 0 ? "priceEnd=" + priceEnd : ""%>&<%=sort != 0 ? "sort=" + sort : ""%>&<%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
+                                                0 - 50ml
                                             </a>
                                         </li>
                                         <li class="<%=(volumeStart == 51 && volumeEnd == 100) ? "active" : ""%>">
-                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber + "&" : ""%><%=categoryId != 0 ? "categoryId=" + categoryId + "&" : ""%><%=brandId != 0 ? "brandId=" + brandId + "&" : ""%>volumeStart=51&volumeEnd=100&<%=priceStart != 0 ? "priceStart=" + priceStart + "&" : ""%><%=priceEnd != 0 ? "priceEnd=" + priceEnd + "&" : ""%><%=sort != 0 ? "sort=" + sort + "&" : ""%><%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
+                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber : ""%>&<%=categoryId != 0 ? "categoryId=" + categoryId : ""%>&<%=brandId != 0 ? "brandId=" + brandId : ""%>&volumeStart=51&volumeEnd=100&<%=priceStart != 0 ? "priceStart=" + priceStart : ""%>&<%=priceEnd != 0 ? "priceEnd=" + priceEnd : ""%>&<%=sort != 0 ? "sort=" + sort : ""%>&<%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
                                                 51 - 100ml
                                             </a>
                                         </li>
                                         <li class="<%=(volumeStart == 101 && volumeEnd == 150) ? "active" : ""%>">
-                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber + "&" : ""%><%=categoryId != 0 ? "categoryId=" + categoryId + "&" : ""%><%=brandId != 0 ? "brandId=" + brandId + "&" : ""%>volumeStart=101&volumeEnd=150&<%=priceStart != 0 ? "priceStart=" + priceStart + "&" : ""%><%=priceEnd != 0 ? "priceEnd=" + priceEnd + "&" : ""%><%=sort != 0 ? "sort=" + sort + "&" : ""%><%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
+                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber : ""%>&<%=categoryId != 0 ? "categoryId=" + categoryId : ""%>&<%=brandId != 0 ? "brandId=" + brandId : ""%>&volumeStart=101&volumeEnd=150&<%=priceStart != 0 ? "priceStart=" + priceStart : ""%>&<%=priceEnd != 0 ? "priceEnd=" + priceEnd : ""%>&<%=sort != 0 ? "sort=" + sort : ""%>&<%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
                                                 101 - 150ml
                                             </a>
                                         </li>                                        
@@ -333,10 +327,11 @@
                     <nav class="cat_page mx-auto" aria-label="Page navigation example">
                         <ul class="pagination">
                             <li class="page-item">
-                                <a class="page-link" href="category.jsp?pageNumber=<%=pageNumber > 1 ? pageNumber - 1 : pageNumber%>&<%=categoryId != 0 ? "categoryId=" + categoryId + "&" : ""%><%=brandId != 0 ? "brandId=" + brandId + "&" : ""%><%=volumeStart != 0 ? "volumeStart=" + volumeStart + "&" : ""%><%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd + "&" : ""%><%=priceStart != 0 ? "priceStart=" + priceStart + "&" : ""%><%=priceEnd != 0 ? "priceEnd=" + priceEnd + "&" : ""%><%=sort != 0 ? "sort=" + sort + "&" : ""%><%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
-                                    <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+                                <a class="page-link" href="#">
+                                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
                                 </a>
                             </li>
+
                             <!-- Start Paging-->
                             <%
                                 if (totalPages <= 5) {
@@ -346,18 +341,15 @@
                                 <a class="page-link" href="category.jsp?pageNumber=<%=i + 1%>&<%=categoryId != 0 ? "categoryId=" + categoryId + "&" : ""%><%=brandId != 0 ? "brandId=" + brandId + "&" : ""%><%=volumeStart != 0 ? "volumeStart=" + volumeStart + "&" : ""%><%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd + "&" : ""%><%=priceStart != 0 ? "priceStart=" + priceStart + "&" : ""%><%=priceEnd != 0 ? "priceEnd=" + priceEnd + "&" : ""%><%=sort != 0 ? "sort=" + sort + "&" : ""%><%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
                                     <%=i + 1%>
                                 </a>
+
                             </li>
-                            <%
-                                    }
-                                }
-                            %>
-                            <!-- End Paging-->
                             <li class="page-item">
+
                                 <a class="page-link" href="category.jsp?pageNumber=<%=pageNumber < totalPages ? pageNumber + 1 : pageNumber%>&<%=categoryId != 0 ? "categoryId=" + categoryId + "&" : ""%><%=brandId != 0 ? "brandId=" + brandId + "&" : ""%><%=volumeStart != 0 ? "volumeStart=" + volumeStart + "&" : ""%><%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd + "&" : ""%><%=priceStart != 0 ? "priceStart=" + priceStart + "&" : ""%><%=priceEnd != 0 ? "priceEnd=" + priceEnd + "&" : ""%><%=sort != 0 ? "sort=" + sort + "&" : ""%><%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
                                     <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+
                                 </a>
                             </li>
-
                         </ul>
                     </nav>
                 </div>
