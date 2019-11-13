@@ -10,8 +10,11 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="perfumestore.Product_Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%    if (session.getAttribute("username") == null) {
+        response.sendRedirect("");
+    }
+%>
 <%
-
     String search = "";
     String sortColumn = "";
 
@@ -23,7 +26,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Brands | BMatt Dashboard</title>
+        <title>Brands | BMatt Admin</title>
         <jsp:include page="include.jsp"/>
         <style type="text/css">
 
@@ -114,7 +117,8 @@
                                             <a href="#" class="product-edit">
                                                 <i class="ficon feather icon-edit"></i>
                                             </a>
-                                            <a href="#" <%=b.getBrand_status() == 0 ? "disabled" : ""%> onclick =" if (confirm('Are you sure you want to lock <%=b.getBrand_name()%>?')) location.href = 'handle-delete.jsp?type=brand&id=<%=b.getBrand_id()%>'"
+                                            <a href="#" <%=b.getBrand_status() == 0 ? "disabled" : ""%> onclick =" if (confirm('Are you sure you want to lock <%=b.getBrand_name()%>?'))
+                                                        location.href = 'handle-delete.jsp?type=brand&id=<%=b.getBrand_id()%>'"
                                                class="product-delete">
                                                 <i class="ficon feather icon-trash"></i>
                                             </a>

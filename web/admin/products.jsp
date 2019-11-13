@@ -14,6 +14,12 @@
 <%@page import="perfumestore.Product_Model"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.Connection"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%    if (session.getAttribute("username") == null) {
+        response.sendRedirect("");
+    }
+%>
 <%
     String search = "";
     String imgDir = "img/product/single-product/";
@@ -29,14 +35,12 @@
 
     BrandModel brandM = new BrandModel();
     ArrayList<Brand> brandList = brandM.getAllBrand();
-
 %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Products | BMatt Admin</title>
+        <title>Products | BMatt Dashboard</title>
         <jsp:include page="include.jsp"/>
         <style type="text/css">
 
@@ -133,7 +137,7 @@
                                 <tbody>
                                     <% for (Product p : productList) {
                                             // String productStatus = p.getProduct_status() == 1 ? "<i class='ficon feather icon-check-circle'>" : "<i class='ficon feather icon-x-circle'>";
-                                    %>
+%>
                                     <tr>
                                         <td></td>
                                         <td><%=p.getProduct_id()%>
@@ -147,7 +151,7 @@
                                         <td class="product-name"><%=p.getBrandName()%></td>
                                         <td class="product-name">$<%=p.getOriginal_price()%></td>
                                         <td class="product-name">$<%=p.getCurrent_price()%></td>
-                                        <td class="product-name"><%=productM.formatStringForDisplaying(p.getDescription(), 100)%></td>
+                                        <td class="product-name"><%=productM.formatStringForDisplaying(p.getDescription(), 50)%></td>
                                         <td class="product-name <%=p.getProduct_status() == 1 ? "active" : "locked"%>">
                                             <%=p.getProduct_status() == 1 ? "<i class='ficon feather icon-check-circle'>" : "<i class='ficon feather icon-x-circle'>"%>
                                         </td>
@@ -155,7 +159,8 @@
                                             <a href="#" class="product-edit" onclick="location.href = 'product-edit.jsp?type=product&id=<%=p.getProduct_id()%>'">
                                                 <i class="ficon feather icon-edit"></i>
                                             </a>
-                                            <a href="#" class="product-delete"  onclick="if (confirm('Are you sure you want to lock <%=p.getName()%>?')) location.href = 'handle-delete.jsp?type=product&id=<%=p.getProduct_id()%>'" <%=p.getProduct_status() == 0 ? "disabled" : ""%>>
+                                            <a href="#" class="product-delete"  onclick="if (confirm('Are you sure you want to lock <%=p.getName()%>?'))
+                                                        location.href = 'handle-delete.jsp?type=product&id=<%=p.getProduct_id()%>'" <%=p.getProduct_status() == 0 ? "disabled" : ""%>>
                                                 <i class="ficon feather icon-trash"></i>
                                             </a>
                                         </td>
@@ -186,7 +191,7 @@
                                             <div class="row">
                                                 <div class="col-sm-12 data-field-col">
                                                     <label for="data-name">Name</label>
-                                                    <input type="text" class="form-control productName" id="data-name" name="productName" required>
+                                                    <input type="text" class="form-control productName" id="data-name" name="productName" required  >
                                                 </div>
                                                 <div class="col-sm-12 data-field-col">
                                                     <label for="data-name">Volume (ml)</label>

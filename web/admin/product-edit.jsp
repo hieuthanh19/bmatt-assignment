@@ -17,6 +17,10 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%    if (session.getAttribute("username") == null) {
+        response.sendRedirect("");
+    }
+%>
 <%
     //connection to database
     Product_Model productM = new Product_Model();
@@ -41,14 +45,14 @@
     ArrayList<Category> cateList = cateM.getAll_Category();
 
     BrandModel brandM = new BrandModel();
-    ArrayList<Brand> brandList = brandM.getAllBrand();      
+    ArrayList<Brand> brandList = brandM.getAllBrand();
 
 %>
 <html>
     <head>
         <!-- Title Section START -->
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Product Edit | BMatt Admin</title>
+        <title>Product Edit | BMatt Dashboard</title>
         <!-- Title Section END -->
 
         <!-- Latest compiled and minified CSS -->
@@ -99,7 +103,7 @@
                             <div class="card-body">
                                 <form action="../handle-edit"  method="post" enctype="multipart/form-data">
                                     <!-- Input Search Content Start-->
-                                    <input type="hidden" id="s" class="form-control" name="searchContent" value="<%=searchContent%>">
+                                    <input type="hidden" id="type" class="form-control" name="type" value="product">
                                     <input type="hidden" id="id" class="form-control" name="id" value="<%=id%>">                                   
                                     <!-- Input ID Start-->
                                     <!-- Edit Name: Start-->
@@ -181,14 +185,14 @@
                                     <div class="form-group row">
                                         <label for="data-name" class="col-md-4 col-form-label text-md-right">Status: </label>
                                         <div class="col-md-6">
-                                             <div class="custom-control custom-radio custom-control-inline">
-                                            <input name="productStatus" id="status-locked" type="radio" class="custom-control-input productStatus" value="0" <%=p.getProduct_status()==0? "checked" : ""%>> 
-                                            <label for="status-locked" class="custom-control-label">Locked</label>
-                                        </div>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input name="productStatus" id="status-unlock" type="radio" class="custom-control-input productStatus" value="1" <%=p.getProduct_status()==1? "checked" : ""%>> 
-                                            <label for="status-unlock" class="custom-control-label">Active</label>
-                                        </div>
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input name="productStatus" id="status-locked" type="radio" class="custom-control-input productStatus" value="0" <%=p.getProduct_status() == 0 ? "checked" : ""%>> 
+                                                <label for="status-locked" class="custom-control-label">Locked</label>
+                                            </div>
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input name="productStatus" id="status-unlock" type="radio" class="custom-control-input productStatus" value="1" <%=p.getProduct_status() == 1 ? "checked" : ""%>> 
+                                                <label for="status-unlock" class="custom-control-label">Active</label>
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- Edit Image: End-->

@@ -10,6 +10,10 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="perfumestore.Product_Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%    if (session.getAttribute("username") == null) {
+        response.sendRedirect("");
+    }
+%>
 <%
     int pageNumber = 1;
     String search = "";

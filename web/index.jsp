@@ -311,7 +311,7 @@
                             i = 0;
                             for (Product p : productList) {
                                 ArrayList<Product_Image> productImgList = productImgM.getProduct_Image(p.getProduct_id());
-                                if (i < 10) {
+                                if (i < Product_Per_Page) {
                                     if (p.getProduct_status() == 1 && p.getCategory_name().equals("female")) {
                         %>
                         <div class="col col<%=i + 1%>">

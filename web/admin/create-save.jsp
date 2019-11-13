@@ -7,6 +7,10 @@
 <%@page import="perfumestore.Product_Image_Model"%>
 <%@page import="perfumestore.Product_Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%    if (session.getAttribute("username") == null) {
+        response.sendRedirect("");
+    }
+%>
 <%
     Product_Model productM = new Product_Model();
     Product_Image_Model proImgM = new Product_Image_Model();

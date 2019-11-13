@@ -120,8 +120,11 @@ public class Product_Model {
                 if (result.length() + stringArr[i].length() <= maxLength) {
                     result += " " + stringArr[i];
                 }
-                result += "...";
-                break;
+                else{
+                    
+                    result += "...";
+                    break;
+                }
 
             }
 

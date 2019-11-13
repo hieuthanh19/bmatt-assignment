@@ -15,6 +15,10 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%    if (session.getAttribute("username") == null) {
+        response.sendRedirect("");
+    }
+%>
 <%
     //connection to database
     AccountModel accM = new AccountModel();
@@ -34,8 +38,8 @@
         id = Integer.parseInt(request.getParameter("id"));
     }
 
-   Account acc = accM.getAccount(id);
-   User user = userM.getUser(id);    
+    Account acc = accM.getAccount(id);
+    User user = userM.getUser(id);
     ArrayList<UserRole> roleList = userRoleM.getAllUserRole();
 
 %>
@@ -86,7 +90,7 @@
 
                         <div class="card">
                             <div class="row ">
-                                <button class="btn btn-outline-primary col-md-2 return-button" onclick="location.href = 'products?search=<%=searchContent%>'">Back
+                                <button class="btn btn-outline-primary col-md-2 return-button" onclick="location.href = 'accounts.jsp?search=<%=searchContent%>'">Back
                                 </button>
                                 <h2 class="form-title text-center col-md-8">Edit Account & User</h2>
                             </div>
@@ -94,14 +98,14 @@
                             <div class="card-body">
                                 <form action="../handle-edit"  method="post" enctype="multipart/form-data">
                                     <!-- Input Search Content Start-->
-                                    <input type="hidden" id="s" class="form-control" name="searchContent" value="<%=searchContent%>">
+                                    <input type="hidden" id="s" class="form-control" name="type" value="account">
                                     <input type="hidden" id="id" class="form-control" name="id" value="<%=id%>">                                   
                                     <!-- Input ID Start-->
                                     <!-- Edit Name: Start-->
                                     <div class="form-group row">
                                         <label for="ten" class="col-md-4 col-form-label text-md-right">Username</label>
                                         <div class="col-md-6">
-                                            <input type="text" id="productName" class="form-control" name="productName" value="<%=acc.getUsername()%>" disabled>
+                                            <input type="text" id="productName" class="form-control" name="accUsername" value="<%=acc.getUsername()%>" disabled>
                                         </div>
                                     </div>
                                     <!-- Edit Name: End-->
@@ -109,7 +113,7 @@
                                     <div class="form-group row">
                                         <label for="ten" class="col-md-4 col-form-label text-md-right">Full name</label>
                                         <div class="col-md-6">
-                                            <input type="text" id="productName" class="form-control" name="productVolume" value="<%=user.getFull_name()%>">
+                                            <input type="text" id="productName" class="form-control" name="userFullname" value="<%=user.getFull_name()%>">
                                         </div>
                                     </div>
                                     <!-- Edit Volume End-->
@@ -117,7 +121,7 @@
                                     <div class="form-group row">
                                         <label for="giaban" class="col-md-4 col-form-label text-md-right">Phone</label>
                                         <div class="col-md-6">
-                                            <input type="number" id="userPhone" class="form-control" name="userPhone" value="<%=user.getPhone()%>">
+                                            <input type="tel" id="userPhone" class="form-control" name="userPhone" value="<%=user.getPhone()%>">
                                         </div>
                                     </div>
                                     <!-- Edit Price: End-->
@@ -125,7 +129,15 @@
                                     <div class="form-group row">
                                         <label for="giagoc" class="col-md-4 col-form-label text-md-right">Email</label>
                                         <div class="col-md-6">
-                                            <input type="number" id="userEmail" class="form-control" name="userEmail" value="<%=user.getEmail()%>">
+                                            <input type="email" id="userEmail" class="form-control" name="userEmail" value="<%=user.getEmail()%>">
+                                        </div>
+                                    </div>
+                                    <!-- Edit Original_Price: End-->
+                                    <!-- Edit Original_Price: Start-->
+                                    <div class="form-group row">
+                                        <label for="giagoc" class="col-md-4 col-form-label text-md-right">Address</label>
+                                        <div class="col-md-6">
+                                            <input type="text" id="userAddress" class="form-control" name="userAddress" value="<%=user.getAddress()%>">
                                         </div>
                                     </div>
                                     <!-- Edit Original_Price: End-->
@@ -137,51 +149,21 @@
                                             <select class="form-group" name="userRole">
                                                 <% for (UserRole us : roleList) {
                                                 %>
-                                                <option value="<%=us.getRole_id()%>" name="role" <%=acc.getRole_id() == us.getRole_id()? "selected" : ""%> ><%=us.getRole_name()%></option>
+                                                <option value="<%=us.getRole_id()%>" name="role" <%=acc.getRole_id() == us.getRole_id() ? "selected" : ""%> ><%=us.getRole_name()%></option>
                                                 <% }%>
                                             </select>
                                         </div>
-                                    </div>
-                                    <!-- Edit Type: Start-->
-                                    <div class="form-group row">
-                                        <label for="loai" class="col-md-4 col-form-label text-md-right">Brand</label>
-                                        <div class="col-md-6">
-                                            <!--All atttributes of type -->
-                                            <select class="form-group" name="productBrand">
-                                                <% for (Brand b : brandList) {
-                                                %>
-                                                <option value="<%=b.getBrand_id()%>" name="brand" <%=p.getBrand_id() == b.getBrand_id() ? "selected" : ""%> ><%=b.getBrand_name()%></option>
-                                                <% }%>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <!-- Edit Type: End-->
-                                    <!-- Edit Information: Start-->
-                                    <div class="form-group row">
-                                        <label for="thongtin" class="col-md-4 col-form-label text-md-right">Description</label>
-                                        <div class="col-md-6">
-                                            <textarea name="productDescription" cols="41" rows="10"><%=p.getDescription()%></textarea>
-                                        </div>
-                                    </div>
-                                    <!-- Edit Information: End-->
-                                    <!-- Edit Image: Start-->
-                                    <div class="form-group row">
-                                        <label for="hinh" class="col-md-4 col-form-label text-md-right">Product Image </label>
-                                        <div class="col-md-6">
-                                            <input type = "file" name = "productImage" size = "50" />
-                                        </div>
-                                    </div>
-                                    <!-- Edit Image: End-->
+                                    </div>                                                                                                                                      
                                     <!-- Edit Image: Start-->
                                     <div class="form-group row">
                                         <label for="data-name" class="col-md-4 col-form-label text-md-right">Status: </label>
                                         <div class="col-md-6">
                                             <div class="custom-control custom-radio custom-control-inline">
-                                                <input name="productStatus" id="status-locked" type="radio" class="custom-control-input productStatus" value="0" <%=p.getProduct_status() == 0 ? "checked" : ""%>> 
+                                                <input name="accountStatus" id="status-locked" type="radio" class="custom-control-input productStatus" value="0" <%=acc.getAccount_status() == 0 ? "checked" : ""%>> 
                                                 <label for="status-locked" class="custom-control-label">Locked</label>
                                             </div>
                                             <div class="custom-control custom-radio custom-control-inline">
-                                                <input name="productStatus" id="status-unlock" type="radio" class="custom-control-input productStatus" value="1" <%=p.getProduct_status() == 1 ? "checked" : ""%>> 
+                                                <input name="accountStatus" id="status-unlock" type="radio" class="custom-control-input productStatus" value="1" <%=acc.getAccount_status() == 1 ? "checked" : ""%>> 
                                                 <label for="status-unlock" class="custom-control-label">Active</label>
                                             </div>
                                         </div>

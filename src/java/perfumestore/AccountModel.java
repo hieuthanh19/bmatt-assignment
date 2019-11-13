@@ -345,4 +345,15 @@ public class AccountModel {
             return null;
         }
     }
+    
+//    public static void main(String[] args){
+//        try {
+//            AccountModel accM = new AccountModel();
+//            accM.insert("admin", "admin", 1, 4);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(AccountModel.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (AccountException ex) {
+//            Logger.getLogger(AccountModel.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 }

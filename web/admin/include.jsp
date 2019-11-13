@@ -1,3 +1,6 @@
+<%@page import="perfumestore.Account"%>
+<%@page import="perfumestore.AccountModel"%>
+
 <link rel="shortcut icon" type="image/x-icon" href="../admin/app-assets/images/ico/favicon.ico">
 <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet">
 <!-- BEGIN: Vendor CSS-->
