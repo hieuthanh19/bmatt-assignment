@@ -4,6 +4,7 @@
     Author     : ThanhKH
 --%>
 
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Enumeration"%>
 <%@page import="perfumestore.Product_Image_Model"%>
 <%@page import="perfumestore.Product_Image"%>
@@ -142,11 +143,11 @@
                                 </li>
                                 <li>
                                     <a class="active" href="#">
-                                        <span>Volumn</span> : <%=pd.getVolume()%> ml</a>
+                                        <span>Volume</span> : <%=pd.getVolume()%> ml</a>
                                 </li>
                                 <li>
                                     <a href="#" class="active">
-                                        <span>Availibility</span>  :  <%=trangThai%></a>
+                                        <span>Availability</span>  :  <%=trangThai%></a>
                                 </li>
                             </ul>
                             <p><%=pd.getDescription()%></p>
@@ -175,6 +176,68 @@
                 </div>
             </div>
         </div>
+        <!--================End Single Product Area =================-->        
+
+        <!--================Start Women Fragrance Area =================-->
+
+        <%
+                                            
+                            Product_Model prmd = new Product_Model();
+
+                            int brand_ID = 5;
+                            String brandName="Dior";
+                            ArrayList<Product> lst = new ArrayList<Product>();
+                            lst = prmd.loadProductList(brand_ID);
+                            int n=5;
+        %>
+        <section class="feature_product_area section_gap" id="feature-product">
+            <div class="main_box">
+                <div class="container-fluid">
+                    <div class="row">
+
+                        <h2><%=brandName%></h2><br>
+
+                        <p><a href="#feature-product" ></a></p>
+
+
+                    </div>
+                    <div class="row">
+                        <%
+
+                            for (int i = 0; i< n; i++) {
+                            Product_Image_Model primd = new Product_Image_Model();
+                            
+                            Product_Image pri = new Product_Image();
+                            pri = primd.myProductImage(lst.get(i).getProduct_id());
+                            
+                                
+                        %>
+                        <div class="col col<%=i + 1%>">
+                            <div class="f_p_item">
+                                <div class="f_p_img">
+                                    <img class="img-fluid" src="img/product/single-product/<%=brand_ID%>/<%=pri.getUrl()%>"  alt="product image">
+                                    <div class="p_icon">
+                                        <a href="#">
+                                            <i class="lnr lnr-heart"></i>
+                                        </a>
+                                        <a href="#">
+                                            <i class="lnr lnr-cart"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <a href="product-detail.jsp?id=<%=lst.get(i).getProduct_id()%>">
+                                    <h4><%=lst.get(i).getName()%></h4>
+                                </a>
+                                <h5>$ <%=lst.get(i).getCurrent_price()%></h5>
+                            </div>
+
+  
+                        </div>
+                        <%
+                                    
+                            }
+                        %>                        
+                    </div>
         <!--================End Single Product Area =================-->        
 
        <!--================ Subscription Area ================
