@@ -247,6 +247,28 @@
                                     <h3>Product Filters</h3>
                                 </div>
                                 <div class="widgets_inner">
+                                    <h4>Price</h4>
+                                    <ul class="list">
+                                         <li class="<%=sort == 0 ? "active" : ""%>">
+                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber : ""%>&<%=categoryId != 0 ? "categoryId=" + categoryId : ""%>&<%=brandId != 0 ? "brandId=" + brandId : ""%>&<%=volumeStart != 0 ? "volumeStart=" + volumeStart : ""%>&<%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd : ""%>&<%=priceStart != 0 ? "priceStart=" + priceStart : ""%>&<%=priceEnd != 0 ? "priceEnd=" + priceEnd : ""%>&sort=0&<%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
+                                                No sort
+                                            </a>
+                                        </li>
+                                         <li class="<%=sort == 1 ? "active" : ""%>">
+                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber : ""%>&<%=categoryId != 0 ? "categoryId=" + categoryId : ""%>&<%=brandId != 0 ? "brandId=" + brandId : ""%>&<%=volumeStart != 0 ? "volumeStart=" + volumeStart : ""%>&<%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd : ""%>&<%=priceStart != 0 ? "priceStart=" + priceStart : ""%>&<%=priceEnd != 0 ? "priceEnd=" + priceEnd : ""%>&sort=1&<%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
+                                                Price: Low to High
+                                            </a>
+                                        </li>
+                                         <li class="<%=sort == 2 ? "active" : ""%>">
+                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber : ""%>&<%=categoryId != 0 ? "categoryId=" + categoryId : ""%>&<%=brandId != 0 ? "brandId=" + brandId : ""%>&<%=volumeStart != 0 ? "volumeStart=" + volumeStart : ""%>&<%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd : ""%>&<%=priceStart != 0 ? "priceStart=" + priceStart : ""%>&<%=priceEnd != 0 ? "priceEnd=" + priceEnd : ""%>&sort=2&<%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
+                                                Price: High to Low
+                                            </a>
+                                        </li>
+                                      
+
+                                    </ul>
+                                </div>
+                                <div class="widgets_inner">
                                     <h4>Brand</h4>
                                     <ul class="list">
                                          <li class="<%=brandId == 0 ? "active" : ""%>">
