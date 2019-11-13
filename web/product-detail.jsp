@@ -10,8 +10,7 @@
 <%@page import="perfumestore.Product"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    int id = 5;
-          //Integer.parseInt(request.getParameter("id"));
+    int id = Integer.parseInt(request.getParameter("id"));
     /*      
     int brand = "";
     if((request.getParameter("brand") != null)
@@ -241,14 +240,14 @@
                         <div class="s_product_img">
                             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                                 <ol class="carousel-indicators">
-                                    
-                                    
+
+
                                 </ol>
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
                                         <img class="d-block w-100" src="img/product/single-product/<%=pd.getBrand_id()%>/<%=pdi.getUrl()%>" alt="First slide">
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -302,40 +301,15 @@
             </div>
         </div>
         <!--================End Single Product Area =================-->
+        
+        <!--===--!>
+        
+        
+        <!--== ==--!>
 
 
-
-        <!--================ Subscription Area ================-->
-        <section class="subscription-area section_gap">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="section-title text-center">
-                            <h2>Subscribe for Our Newsletter</h2>
-                            <span>We won’t send any kind of spam</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-lg-6">
-                        <div id="mc_embed_signup">
-                            <form target="_blank" novalidate action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&id=92a4423d01"
-                                  method="get" class="subscription relative">
-                                <input type="email" name="EMAIL" placeholder="Email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'"
-                                       required="">
-                                <!-- <div style="position: absolute; left: -5000px;">
-                                                <input type="text" name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="">
-                                        </div> -->
-                                <button type="submit" class="newsl-btn">Get Started</button>
-                                <div class="info"></div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!--================ End Subscription Area ================-->
-
+        
+        
         <!--================ start footer Area  =================-->
         <footer class="footer-area section_gap">
             <div class="container">

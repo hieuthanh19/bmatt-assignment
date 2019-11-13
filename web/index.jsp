@@ -254,12 +254,14 @@
                         </div>
                     </div>
                     <div class="row">
+
                         <%                            int i = 0;
                             for (Product p : productList) {
                                 ArrayList<Product_Image> productImgList = productImgM.getProduct_Image(p.getProduct_id());
                                 if (i < 10) {
                                     if (p.getProduct_status() == 1) {
                         %>
+
                         <div class="col col<%=i + 1%>">
                             <div class="f_p_item">
                                 <div class="f_p_img">
@@ -273,11 +275,15 @@
                                         </a>
                                     </div>
                                 </div>
+
+
                                 <a href="product-detail.jsp?id=<%=p.getProduct_id()%>">
                                     <h4><%=p.getName()%></h4>
                                 </a>
+
                                 <h5>$ <%=p.getCurrent_price()%></h5>
                             </div>
+
                         </div>
                         <%
                                         ++i;
@@ -286,7 +292,9 @@
                                     break;
                                 }
                             }
-                        %>                        
+                        %>      
+
+
                     </div>
                     <div class="row">
                         <a class="green_btn mx-auto" href="#feature-product">See more</a>
