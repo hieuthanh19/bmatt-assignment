@@ -123,7 +123,7 @@ public class UserModel {
     }
 
     /**
-     * Update info of a User
+     * Update info of a User using user ID
      *
      * @param user_id user ID
      * @param full_name full name
@@ -160,6 +160,50 @@ public class UserModel {
             pst.setInt(6, account_id);
             pst.setInt(7, user_status);
             pst.setInt(8, user_id);
+            //excute query
+            pst.executeUpdate();
+            pst.close();
+        } else {
+            throw new UserException("User ID or Account ID is not exist!");
+        }
+    }
+    
+    /**
+     * Update User using account ID
+     * @param full_name
+     * @param address
+     * @param phone
+     * @param email
+     * @param profile_picture
+     * @param account_id
+     * @param user_status
+     * @throws SQLException
+     * @throws UserException 
+     */
+     public void update(String full_name, String address, String phone, String email, String profile_picture, int account_id, int user_status) throws SQLException, UserException {
+        //valid: acc_id and c_id must exist in DB
+        if (accM.isIdExist(account_id)) {
+            con = getCon.getConnection();
+            //Create sql string
+            String sqlStr = "UPDATE " + tblName + " SET " + tblCols[1];
+            for (int i = 2; i < tblCols.length - 1; i++) {
+                sqlStr += " =?, " + tblCols[i];
+                if (i == tblCols.length - 2) {
+                    sqlStr += " =?";
+                }
+            }
+            sqlStr += " WHERE " + tblCols[6] + " = ?";
+            //create query
+            pst = con.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);
+            //set values
+            pst.setString(1, full_name);
+            pst.setString(2, address);
+            pst.setString(3, phone);
+            pst.setString(4, email);
+            pst.setString(5, profile_picture);
+            pst.setInt(6, account_id);
+            pst.setInt(7, user_status);
+            pst.setInt(8, account_id);
             //excute query
             pst.executeUpdate();
             pst.close();

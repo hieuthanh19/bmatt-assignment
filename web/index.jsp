@@ -4,17 +4,22 @@
     Author     : ThanhKH
 --%>
 
+<%@page import="perfumestore.Product_Image"%>
+<%@page import="perfumestore.Product_Image_Model"%>
 <%@page import="perfumestore.Product"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="perfumestore.Product_Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     Product_Model pM = new Product_Model();
+    Product_Image_Model productImgM = new Product_Image_Model();
     int pageNumber = 1;
     String search = "";
     String sortColumn = "";
     final int Product_Per_Page = 10;
-    ArrayList<Product> productList = pM.getPaging(pageNumber, search, sortColumn, Product_Per_Page);
+    String imgDir = "img/product/single-product/";
+
+    ArrayList<Product> productList = pM.getAllProduct();
 
 
 %>
@@ -249,12 +254,16 @@
                         </div>
                     </div>
                     <div class="row">
-                        <% for (int i = 0; i < Product_Per_Page; i++) {
+                        <%                            int i = 0;
+                            for (Product p : productList) {
+                                ArrayList<Product_Image> productImgList = productImgM.getProduct_Image(p.getProduct_id());
+                                if (i < 10) {
+                                    if (p.getProduct_status() == 1) {
                         %>
                         <div class="col col<%=i + 1%>">
                             <div class="f_p_item">
                                 <div class="f_p_img">
-                                    <img class="img-fluid" src="img/product/single-product/<%=i + 1%>.jpg" alt="Product Image">
+                                    <img class="img-fluid" src="<%=imgDir + p.getBrand_id() + "/" + productImgList.get(0).getUrl()%>"  alt="product image">
                                     <div class="p_icon">
                                         <a href="#">
                                             <i class="lnr lnr-heart"></i>
@@ -264,13 +273,18 @@
                                         </a>
                                     </div>
                                 </div>
-                                <a href="product-detail.jsp?id=<%=10%>">
-                                    <h4><%=productList.get(i).getName()%></h4>
+                                <a href="product-detail.jsp?id=<%=p.getProduct_id()%>">
+                                    <h4><%=p.getName()%></h4>
                                 </a>
-                                <h5>$ <%=productList.get(i).getCurrent_price()%></h5>
+                                <h5>$ <%=p.getCurrent_price()%></h5>
                             </div>
                         </div>
                         <%
+                                        ++i;
+                                    }
+                                } else {
+                                    break;
+                                }
                             }
                         %>                        
                     </div>
@@ -281,7 +295,7 @@
             </div>
         </section>
         <!--================End Feature Product Area =================-->
-        
+
         <!--================Start Women Fragrance Area =================-->
         <section class="feature_product_area section_gap" id="feature-product">
             <div class="main_box">
@@ -293,12 +307,17 @@
                         </div>
                     </div>
                     <div class="row">
-                        <% for (int i = 0; i < 5; i++) {
+                        <%
+                            i = 0;
+                            for (Product p : productList) {
+                                ArrayList<Product_Image> productImgList = productImgM.getProduct_Image(p.getProduct_id());
+                                if (i < Product_Per_Page) {
+                                    if (p.getProduct_status() == 1 && p.getCategory_name().equals("female")) {
                         %>
                         <div class="col col<%=i + 1%>">
                             <div class="f_p_item">
                                 <div class="f_p_img">
-                                    <img class="img-fluid" src="img/product/single-product/<%=i + 1%>.jpg" alt="Product Image">
+                                    <img class="img-fluid" src="<%=imgDir + p.getBrand_id() + "/" + productImgList.get(0).getUrl()%>"  alt="product image">
                                     <div class="p_icon">
                                         <a href="#">
                                             <i class="lnr lnr-heart"></i>
@@ -308,13 +327,18 @@
                                         </a>
                                     </div>
                                 </div>
-                                <a href="product-detail.jsp?id=<%=10%>">
-                                    <h4><%=productList.get(i).getName()%></h4>
+                                <a href="product-detail.jsp?id=<%=p.getProduct_id()%>">
+                                    <h4><%=p.getName()%></h4>
                                 </a>
-                                <h5>$ <%=productList.get(i).getCurrent_price()%></h5>
+                                <h5>$ <%=p.getCurrent_price()%></h5>
                             </div>
                         </div>
                         <%
+                                        ++i;
+                                    }
+                                } else {
+                                    break;
+                                }
                             }
                         %>                        
                     </div>
@@ -325,7 +349,7 @@
             </div>
         </section>
         <!--================End Women Fragrance  Area =================-->
-        
+
         <!--================Men Fragrance  Area =================-->
         <section class="feature_product_area section_gap" id="feature-product">
             <div class="main_box">
@@ -337,12 +361,17 @@
                         </div>
                     </div>
                     <div class="row">
-                        <% for (int i = 0; i < 5; i++) {
+                        <%
+                            i = 0;
+                            for (Product p : productList) {
+                                ArrayList<Product_Image> productImgList = productImgM.getProduct_Image(p.getProduct_id());
+                                if (i < 10) {
+                                    if (p.getProduct_status() == 1 && p.getCategory_name().equals("male")) {
                         %>
                         <div class="col col<%=i + 1%>">
                             <div class="f_p_item">
                                 <div class="f_p_img">
-                                    <img class="img-fluid" src="img/product/single-product/<%=i + 1%>.jpg" alt="Product Image">
+                                    <img class="img-fluid" src="<%=imgDir + p.getBrand_id() + "/" + productImgList.get(0).getUrl()%>"  alt="product image">
                                     <div class="p_icon">
                                         <a href="#">
                                             <i class="lnr lnr-heart"></i>
@@ -359,6 +388,11 @@
                             </div>
                         </div>
                         <%
+                                        ++i;
+                                    }
+                                } else {
+                                    break;
+                                }
                             }
                         %>                        
                     </div>

@@ -10,6 +10,10 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="perfumestore.Product_Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%    if (session.getAttribute("username") == null) {
+        response.sendRedirect("");
+    }
+%>
 <%
     int pageNumber = 1;
     String search = "";
@@ -122,7 +126,9 @@
                                         </td>
                                         <td style="align:center;">
                                             <a href="#" class="product-edit"><i class="ficon feather icon-edit"></i></a>
-                                            <a href="#" class="product-delete"><i class="ficon feather icon-trash"></i></a>
+                                            <a href="#" class="product-delete" onclick="if (confirm('Are you sure you want to lock <%=c.getCategory_name()%>?')) location.href = 'handle-delete.jsp?type=category&id=<%=c.getCategory_id()%>'">
+                                                <i class="ficon feather icon-trash"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                     <%                                            }

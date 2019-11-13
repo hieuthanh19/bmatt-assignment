@@ -15,10 +15,14 @@
 <%@page import="perfumestore.Product"%>
 <%@page import="perfumestore.Product_Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%    if (session.getAttribute("username") == null) {
+        response.sendRedirect("");
+    }
+%>
 <%
     String type = request.getParameter("type");
     String search = request.getParameter("search");
-    
+
     if (type.equals("product")) {
         Product_Model productM = new Product_Model();
         int productId = Integer.parseInt(request.getParameter("id"));
@@ -26,7 +30,7 @@
         productM.updateProduct(productId, p.getName(), p.getVolume(), p.getCategoty_id(), p.getBrand_id(), p.getOriginal_price(), p.getCurrent_price(), p.getDescription(), 0);
         response.sendRedirect("products?search=" + search);
     } else if (type.equals("category")) {
-        Category_Model cateM  = new Category_Model();
+        Category_Model cateM = new Category_Model();
         int cateId = Integer.parseInt(request.getParameter("id"));
         Category c = cateM.getCategory(cateId);
         cateM.updateCategory(cateId, c.getCategory_name(), 0);
@@ -37,17 +41,15 @@
         Brand b = brandM.getBrand(brandId);
         brandM.update(brandId, b.getBrand_name(), b.getCountry_code(), 0);
         response.sendRedirect("brand.jsp?search=" + search);
-    }
-    else if (type.equals("account")){
+    } else if (type.equals("account")) {
         AccountModel accM = new AccountModel();
-        int accountId = Integer.parseInt(request.getParameter("id"));        
+        int accountId = Integer.parseInt(request.getParameter("id"));
         Account a = accM.getAccount(accountId);
         accM.update(accountId, a.getPassword(), 0, a.getRole_id());
         response.sendRedirect("accounts.jsp?search=" + search);
-    }
-    else if (type.equals("user")){
+    } else if (type.equals("user")) {
         UserModel userM = new UserModel();
-        int accId = Integer.parseInt(request.getParameter("id"));        
+        int accId = Integer.parseInt(request.getParameter("id"));
         User u = userM.getUser(accId);
         userM.update(u.getUser_id(), u.getFull_name(), u.getAddress(), u.getPhone(), u.getEmail(), u.getProfile_picture(), u.getAccount_id(), 0);
         response.sendRedirect("user.jsp?search=" + search);

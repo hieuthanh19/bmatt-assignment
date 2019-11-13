@@ -14,6 +14,12 @@
 <%@page import="perfumestore.Product_Model"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.Connection"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%    if (session.getAttribute("username") == null) {
+        response.sendRedirect("");
+    }
+%>
 <%
     String search = "";
     String imgDir = "img/product/single-product/";
@@ -29,14 +35,12 @@
 
     BrandModel brandM = new BrandModel();
     ArrayList<Brand> brandList = brandM.getAllBrand();
-
 %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Products | BMatt Admin</title>
+        <title>Products | BMatt Dashboard</title>
         <jsp:include page="include.jsp"/>
         <style type="text/css">
 
@@ -55,6 +59,9 @@
             }
             .product-delete{
                 color: red;
+            }
+            .upload-section{
+                margin-bottom: 20px; 
             }
             /*            a:disabled {
                             pointer-events: none;
@@ -144,15 +151,16 @@
                                         <td class="product-name"><%=p.getBrandName()%></td>
                                         <td class="product-name">$<%=p.getOriginal_price()%></td>
                                         <td class="product-name">$<%=p.getCurrent_price()%></td>
-                                        <td class="product-name"><%=productM.formatStringForDisplaying(p.getDescription(), 100)%></td>
+                                        <td class="product-name"><%=productM.formatStringForDisplaying(p.getDescription(), 50)%></td>
                                         <td class="product-name <%=p.getProduct_status() == 1 ? "active" : "locked"%>">
                                             <%=p.getProduct_status() == 1 ? "<i class='ficon feather icon-check-circle'>" : "<i class='ficon feather icon-x-circle'>"%>
                                         </td>
                                         <td style="align:center;">
-                                            <a href="#" class="product-edit">
+                                            <a href="#" class="product-edit" onclick="location.href = 'product-edit.jsp?type=product&id=<%=p.getProduct_id()%>'">
                                                 <i class="ficon feather icon-edit"></i>
                                             </a>
-                                            <a href="#" class="product-delete"  onclick="if (confirm('Are you sure you want to delete <%=p.getName()%>?')) location.href = 'handle-delete.jsp?type=product&id=<%=p.getProduct_id()%>" <%=p.getProduct_status() == 0 ? "disabled" : ""%>>
+                                            <a href="#" class="product-delete"  onclick="if (confirm('Are you sure you want to lock <%=p.getName()%>?'))
+                                                        location.href = 'handle-delete.jsp?type=product&id=<%=p.getProduct_id()%>'" <%=p.getProduct_status() == 0 ? "disabled" : ""%>>
                                                 <i class="ficon feather icon-trash"></i>
                                             </a>
                                         </td>
@@ -168,38 +176,39 @@
                         <div class="add-new-data-sidebar">
                             <div class="overlay-bg"></div>
                             <div class="add-new-data">
-                                <form method="post" enctype="multipart/form-data" action="handleCreate.jsp?type=product">
-                                    <div class="div mt-2 px-2 d-flex new-data-title justify-content-between">
-                                        <div>
-                                            <h4>Add New Product</h4>
-                                        </div>
-                                        <div class="hide-data-sidebar">
-                                            <i class="feather icon-x"></i>
-                                        </div>
+
+                                <div class="div mt-2 px-2 d-flex new-data-title justify-content-between">
+                                    <div>
+                                        <h4>Add New Product</h4>
                                     </div>
-                                    <div class="data-items pb-3">
+                                    <div class="hide-data-sidebar">
+                                        <i class="feather icon-x"></i>
+                                    </div>
+                                </div>
+                                <div class="data-items pb-3">
+                                    <form action="../handleCreate" method="post" enctype="multipart/form-data">
                                         <div class="data-fields px-2 mt-3">
                                             <div class="row">
                                                 <div class="col-sm-12 data-field-col">
                                                     <label for="data-name">Name</label>
-                                                    <input type="text" class="form-control" id="data-name" name="name">
+                                                    <input type="text" class="form-control productName" id="data-name" name="productName" required  >
                                                 </div>
                                                 <div class="col-sm-12 data-field-col">
                                                     <label for="data-name">Volume (ml)</label>
-                                                    <input type="number" class="form-control" id="data-name" name="volume" placeholder="Eg: 100">
+                                                    <input type="number" class="form-control productVolume" id="data-name" name="productVolume" placeholder="Eg: 100" min="1">
                                                 </div>
                                                 <div class="col-sm-12 data-field-col">
                                                     <label for="data-name">Base Price ($)</label>
-                                                    <input type="number" class="form-control" id="data-name" name="volume" placeholder="Eg: 100">
+                                                    <input type="number" class="form-control productBasePrice" id="data-name" name="productBasePrice" placeholder="Eg: 100" min="0">
                                                 </div>
                                                 <div class="col-sm-12 data-field-col">
                                                     <label for="data-name">Sell Price ($)</label>
-                                                    <input type="number" class="form-control" id="data-name" name="volume" placeholder="Eg:100">
+                                                    <input type="number" class="form-control productSellPrice" id="data-name" name="productSellPrice" placeholder="Eg:100" min="0">
                                                 </div>
 
                                                 <div class="col-sm-12 data-field-col">
                                                     <label for="data-category"> Category </label>
-                                                    <select class="form-control" id="data-category" name="category">
+                                                    <select class="form-control productCategory" id="data-category" name="productCategory">
                                                         <% for (Category c : cateList) {
 
                                                         %>
@@ -211,11 +220,11 @@
                                                 </div>
                                                 <div class="col-sm-12 data-field-col">
                                                     <label for="data-category"> Brand </label>
-                                                    <select class="form-control" id="data-category">
+                                                    <select class="form-control productBrand" id="data-category" name="productBrand">
                                                         <% for (Brand b : brandList) {
 
                                                         %>
-                                                        <option value="<%=b.getBrand_name()%>"><%=b.getBrand_name()%></option>
+                                                        <option value="<%=b.getBrand_id()%>"><%=b.getBrand_name()%></option>
                                                         <% }
                                                         %>
 
@@ -223,40 +232,39 @@
                                                 </div>
                                                 <div class="col-sm-12 data-field-col">
                                                     <label for="data-name">Description</label>
-                                                    <textarea class="form-control" id="data-name" name="description"></textarea>
+                                                    <textarea class="form-control productDescription" id="data-name" name="productDescription"></textarea>
                                                 </div>
 
                                                 <div class="col-sm-12 data-field-col">
                                                     <label for="data-name">Status: </label>
                                                     <div class="custom-control custom-radio custom-control-inline">
-                                                        <input name="status" id="status-locked" type="radio" class="custom-control-input" value="0"> 
+                                                        <input name="productStatus" id="status-locked" type="radio" class="custom-control-input productStatus" value="0"> 
                                                         <label for="status-locked" class="custom-control-label">Locked</label>
                                                     </div>
                                                     <div class="custom-control custom-radio custom-control-inline">
-                                                        <input name="status" id="status-unlock" type="radio" class="custom-control-input" value="1" checked> 
+                                                        <input name="productStatus" id="status-unlock" type="radio" class="custom-control-input productStatus" value="1" checked> 
                                                         <label for="status-unlock" class="custom-control-label">Active</label>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-12 data-field-col data-list-upload">
-                                                    <form action="#" class="dropzone dropzone-area" id="dataListUpload">
-                                                        <div class="dz-message">Product Picture</div>
-                                                    </form>
-                                                </div>
+                                                <div class="col-sm-12 data-field-col data-list-upload upload-section">
+                                                    <!--                                                <form method="post" enctype="multipart/form-data" action="../handleCreate" class="dropzone dropzone-area productImage" id="dataListUpload" name="productImage">-->
+                                                    <div class="dz-message">Product Picture</div>                                                    
+                                                    <input type="file" class="productImage" name="productImage">
+                                                </div>                                                                                                                                                
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="add-data-footer d-flex justify-content-around px-5">
-                                        <div class="add-data-btn">
-                                            <button class="btn btn-primary" type="submit" name="submit">Create</button>
-                                        </div>
-                                        <div class="cancel-data-btn">
-                                            <button class="btn btn-outline-danger">Cancel</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>                      
-                        </div>
-                        <!-- add new sidebar ends -->
+                                        <div class="add-data-footer d-flex justify-content-around px-5">
+                                            <div class="add-data-btn">
+                                                <button class="btn btn-primary" type="submit" name="submit" id="submit">Create</button>
+                                            </div>
+                                            <div class="cancel-data-btn">
+                                                <button class="btn btn-outline-danger">Cancel</button>
+                                            </div>
+                                        </div>      
+                                    </form>
+                                </div>                      
+                            </div>
+                            <!-- add new sidebar ends -->
                     </section>
                     <!-- Data list view end -->
 
@@ -265,5 +273,52 @@
         </div>
         <!-- END: Content-->
         <jsp:include page="footer.jsp"/>
+        <script>
+            //            $(document).ready(function () {
+            //
+            //                function checkInput() {
+            //                    return true;
+            //                }
+            //                $('#submit').click(function ()
+            //                {
+            //                    console.log("submit")
+            //                    if (checkInput()) {
+            //                        var productName = $('.productName').val();
+            //                        console.log(productName);
+            //                        var productVolume = $('.productVolume').val();
+            //                        var productBasePrice = $('.productBasePrice').val();
+            //                        var productSellPrice = $('.productSellPrice').val();
+            //                        var productCategory = $('.productCategory').val();
+            //                        var productBrand = $('.productBrand').val();
+            //                        var productDescription = $('.productDescription').val();
+            //                        var productStatus = $('.productStatus').val();
+            //                        var productImage = $('.productImage')[0].files[0];
+            //                        $.ajax({
+            //                            type: "POST",
+            //                            url: "../handleCreate",
+            //                            data: {"productName": productName,
+            //                                "productVolume": productVolume,
+            //                                "productBasePrice": productBasePrice,
+            //                                "productSellPrice": productSellPrice,
+            //                                "productCategory": productCategory,
+            //                                "productBrand": productBrand,
+            //                                "productDescription": productDescription,
+            //                                "productStatus": productStatus,
+            //                                "productImage": productImage
+            //                            },
+            //                            enctype: 'multipart/form-data',
+            //                            success: function (data) {
+            //                                if (data == 'True') {
+            //                                    $(location).attr('href', '/');
+            //                                    alert("sucess");
+            //                                } else {
+            //                                    alert('Fail....');
+            //                                }
+            //                            },
+            //                        });
+            //                    }
+            //                });
+            //            });
+        </script>
     </body>
 </html>

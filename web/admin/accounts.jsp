@@ -15,6 +15,10 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="perfumestore.Product_Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%    if (session.getAttribute("username") == null) {
+        response.sendRedirect("");
+    }
+%>
 <%
     int pageNumber = 1;
     String search = "";
@@ -34,7 +38,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Categories | BMatt Dashboard</title>
+        <title>Accounts | BMatt Dashboard</title>
         <jsp:include page="include.jsp"/>
         <style type="text/css">
 
@@ -129,13 +133,15 @@
                                         <td class="product-name"><%=a.getUsername()%></td>
                                         <td class="product-name"><%=userM.getUser(a.getAccount_id()).getFull_name()%></td>
                                         <td class="product-name"><%=userM.getUser(a.getAccount_id()).getEmail()%></td>
-                                        <td class="product-name"><%=userRoleM.getUserRole(a.getAccount_id()).getRole_name()%></td>
+                                        <td class="product-name"><%=userRoleM.getUserRole(a.getRole_id()).getRole_name()%></td>
                                         <td class="product-name <%=a.getAccount_status() == 1 ? "active" : "locked"%>">
                                             <%=a.getAccount_status() == 1 ? "<i class='ficon feather icon-check-circle'>" : "<i class='ficon feather icon-x-circle'>"%>
                                         </td>
                                         <td style="align:center;">
-                                            <a href="#" class="product-edit"><i class="ficon feather icon-edit"></i></a>
-                                            <a href="#" class="product-delete"><i class="ficon feather icon-trash"></i></a>
+                                            <a href="#" class="product-edit" onclick="location.href = 'account-edit.jsp?type=account&id=<%=a.getAccount_id()%>'"><i class="ficon feather icon-edit"></i></a>
+                                            <a href="#" class="product-delete" onclick="if (confirm('Are you sure you want to lock <%=a.getUsername()%>?')) location.href = 'handle-delete.jsp?type=account&id=<%=a.getAccount_id()%>'">
+                                                <i class="ficon feather icon-trash"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                     <%                                            }
@@ -215,9 +221,7 @@
                 </div>
             </div>
         </div>
-
-
-
         <jsp:include page="footer.jsp"/>
     </body>
 </html>
+
