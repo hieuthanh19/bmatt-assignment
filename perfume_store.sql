@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 11, 2019 at 09:16 AM
+-- Generation Time: Nov 13, 2019 at 09:31 AM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.8
 
@@ -21,6 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `perfume_store`
 --
+CREATE DATABASE IF NOT EXISTS `perfume_store` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `perfume_store`;
 
 -- --------------------------------------------------------
 
@@ -41,8 +43,9 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`account_id`, `username`, `password`, `account_status`, `role_id`) VALUES
-(1, 'han123', '74cd6796eabf5b8296b530d7a605d254', 1, 2),
-(2, 'thanh012', '390ba5f6b5f18dd4c63d7cda170a0c74', 1, 3);
+(1, 'han123', 'a0b7532330f1c830e212caf0483fca05', 1, 1),
+(2, 'thanh012', '5bef3742b2ac8ef8e197e244fb9ae8cc', 1, 4),
+(11, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, 4);
 
 -- --------------------------------------------------------
 
@@ -67,7 +70,7 @@ INSERT INTO `brand` (`brand_id`, `brand_name`, `country_code`, `created at`, `br
 (2, 'Victoria Secret', 2, '2019-08-03', 1),
 (3, 'Lolita', 3, '2019-02-07', 1),
 (4, 'Versace', 6, '2019-05-01', 1),
-(5, 'Dior', 3, '2019-10-07', 0);
+(5, 'Dior', 3, '2019-10-07', 1);
 
 -- --------------------------------------------------------
 
@@ -233,7 +236,7 @@ CREATE TABLE `products` (
 
 INSERT INTO `products` (`product_id`, `name`, `volume`, `category_id`, `brand_id`, `original_price`, `current_price`, `description`, `product_status`, `created_at`) VALUES
 (1, 'N°5 L’EAU', 100, 1, 1, 135, 135, 'A modern, fresh, and vibrant embodiment of the now and forever scent. Timeless and audacious, simple and sophisticated. N°5 L’EAU is the N°5 of today.\r\n\r\nThe Classic Bottle features a new continuous-misting spray, while the beveled glass appears crystal clear like pure water—an expression of simplicity and elegance.', 1, '2019-10-01 15:54:29'),
-(2, 'Lolita Lempicka Lolita Lempicka', 100, 1, 3, 89, 99, 'Some Description', 0, '2019-10-01 15:54:29'),
+(2, 'Lolita Lempicka Lolita Lempicka', 100, 1, 3, 89, 99, 'A Product from Lolita Lempicka', 0, '2019-10-01 15:54:29'),
 (3, 'Victoria\'s Secret Bombshell\r\n', 100, 1, 2, 70, 70, 'Some description', 1, '2019-10-01 15:54:43'),
 (4, 'ALLURE HOMME SPORT Eau de Toilette', 100, 2, 1, 95, 95, 'A vivacious, energizing fragrance spiked with heightened notes of freshness and sensuality. For the man who loves the great outdoors and lives his life with style.', 1, '2019-10-01 15:54:43'),
 (5, 'Dior Sauvage EDT', 100, 2, 5, 90, 100, NULL, 1, '2019-10-07 15:29:16'),
@@ -283,7 +286,8 @@ INSERT INTO `products` (`product_id`, `name`, `volume`, `category_id`, `brand_id
 (51, 'Lolita Lempicka Sweet EDP', 50, 1, 3, 1, 1, 'Hãng Lolita vừa cho ra đời hương thơm mới mang tên tên Lolita Lempicka Sweet vào giữa 10/2014.Một hương thơm đầy gợi cảm, cuốn hút dành cho phái nữ. Sweet tượng trung cho sự nữ tính và niềm vui vẻ bên trong tâm hồn của người phụ nữ. Mùi hương này được chuyên gia Anne Flipo sáng tạo dựa trên nền tảng của những quả anh đào chín đỏ mọng nước, chứa đựng thông điệp của một nụ hôn. Thiết kế chai hình trái tim màu đỏ như mang sự ấm áp, tươi vui đến cho người phụ nữ.', 1, '2019-10-08 13:37:11'),
 (52, 'Lolita Lempicka Elle L’aime', 50, 1, 3, 1, 1, 'Lolita Lempicka vừa cho ra đời mùi hương mới mang tên Lolita Lempicka Elle L’aime vào tháng chín năm 2013, một sản phẩm chứa đựng mùi hương đầy gợi cảm và nữ tính. Trái tim của chai nước hoa và mùi hương gợi cảm, ấm áp mang hơi thở phương Đông huyền bí. Vỏ chai lung linh như một viên ngọc sáng với thiết kế và màu sắc giúp người phụ nữ tỏa sáng như đang yêu.', 1, '2019-10-08 13:37:11'),
 (53, 'Lolita Lempicka  Le Premier Parfum EDP 7ml', 50, 1, 3, 570, 570, 'Sản phẩm nước hoa đầu tiên cùng tên của thương hiệu Lolita Lempicka được sáng tạo bởi chuyên gia Annick Menardo vào năm 1997 với hương cam thảo giữ vai trò chủ đạo. Sau đó sản phẩm này được dừng sản xuất và được ra mắt lại với một cái tên mới là Lolita Lempicka Le Premier Parfum vào năm 2010.', 1, '2019-10-08 13:37:11'),
-(54, 'Lolita Lempicka Sweet EDP 7ml', 50, 1, 3, 570, 570, 'Sản phẩm nước hoa đầu tiên cùng tên của thương hiệu Lolita Lempicka được sáng tạo bởi chuyên gia Annick Menardo vào năm 1997 với hương cam thảo giữ vai trò chủ đạo. Sau đó sản phẩm này được dừng sản xuất và được ra mắt lại với một cái tên mới là Lolita Lempicka Le Premier Parfum vào năm 2010.', 1, '2019-10-08 13:37:11');
+(54, 'Lolita Lempicka Sweet EDP 7ml', 50, 1, 3, 570, 570, 'Sản phẩm nước hoa đầu tiên cùng tên của thương hiệu Lolita Lempicka được sáng tạo bởi chuyên gia Annick Menardo vào năm 1997 với hương cam thảo giữ vai trò chủ đạo. Sau đó sản phẩm này được dừng sản xuất và được ra mắt lại với một cái tên mới là Lolita Lempicka Le Premier Parfum vào năm 2010.', 1, '2019-10-08 13:37:11'),
+(59, 'test', 123, 1, 1, 123, 123, '', 1, '2019-11-11 22:56:01');
 
 -- --------------------------------------------------------
 
@@ -354,7 +358,8 @@ INSERT INTO `product_img` (`img_id`, `product_id`, `url`, `product_img_status`) 
 (52, 52, '52_0.jpg', 1),
 (53, 53, '53_0.jpg', 1),
 (54, 54, '54_0.jpg', 1),
-(55, 5, '5_0.jpg', 1);
+(55, 5, '5_0.jpg', 1),
+(56, 59, 'test1.png', 1);
 
 -- --------------------------------------------------------
 
@@ -504,7 +509,7 @@ ALTER TABLE `user_role`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `brand`
@@ -546,13 +551,13 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `product_img`
 --
 ALTER TABLE `product_img`
-  MODIFY `img_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `img_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT for table `users`
