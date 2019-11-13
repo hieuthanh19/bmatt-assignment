@@ -4,18 +4,75 @@
     Author     : Nhat Thanh
 --%>
 
+<%@page import="perfumestore.Brand"%>
+<%@page import="perfumestore.BrandModel"%>
+<%@page import="perfumestore.Product_Image_Model"%>
+<%@page import="perfumestore.Product_Image"%>
+<%@page import="perfumestore.Product_Model"%>
 <%@page import="perfumestore.Product"%>
 <%@page import="perfumestore.Category"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="perfumestore.Category_Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    Category_Model cM = new Category_Model();
     int pageNumber = 1;
+    if (request.getParameter("pageNumber") != null) {
+        pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+    }
     String search = "";
-    String sort_column;
-    final int Category_Per_Page = 10;
-    ArrayList<Category> category_list = cM.getAll_Category();
+    if (request.getParameter("search") != null) {
+        search = request.getParameter("search");
+    }
+
+    int categoryId = 0;
+    if (request.getParameter("categoryId") != null) {
+        categoryId = Integer.parseInt(request.getParameter("categoryId"));
+    }
+
+    int brandId = 0;
+    if (request.getParameter("brandId") != null) {
+        brandId = Integer.parseInt(request.getParameter("brandId"));
+    }
+    double volumeStart = 0.0;
+    if (request.getParameter("volumeStart") != null) {
+        volumeStart = Double.parseDouble(request.getParameter("volumeStart"));
+    }
+    double volumeEnd = 1000;
+    if (request.getParameter("volumeEnd") != null) {
+        volumeEnd = Double.parseDouble(request.getParameter("volumeEnd"));
+    }
+    double priceStart = 0;
+    if (request.getParameter("priceStart") != null) {
+        priceStart = Double.parseDouble(request.getParameter("priceStart"));
+    }
+    double priceEnd = 10000;
+    if (request.getParameter("priceEnd") != null) {
+        priceEnd = Double.parseDouble(request.getParameter("priceEnd"));
+    }
+
+    int sort = 0;
+    if (request.getParameter("sort") != null) {
+        sort = Integer.parseInt(request.getParameter("sort"));
+    }
+    int productPerPage = 12;
+    if (request.getParameter("productPerPage") != null) {
+        productPerPage = Integer.parseInt(request.getParameter("productPerPage"));
+    }
+
+    String imgDir = "img/product/single-product/";
+    //Get category list
+    Category_Model cM = new Category_Model();
+    ArrayList<Category> categoryList = cM.getAll_Category();
+    //get brand list
+    BrandModel brandM = new BrandModel();
+    ArrayList<Brand> brandList = brandM.getAllBrand();
+    //
+    Product_Model productM = new Product_Model();
+    Product_Image_Model productImgM = new Product_Image_Model();
+    //get product list base on filter
+    ArrayList<Product> productList = productM.getPaging(pageNumber, search, sort, productPerPage, categoryId, brandId, volumeStart, volumeEnd, priceStart, priceEnd);
+
+
 %>
 <!doctype html>
 <html lang="en">
@@ -25,7 +82,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="icon" href="img/favicon.png" type="image/png">
-        <title>Fashiop</title>
+        <title>BMatt Shop</title>
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="vendors/linericon/style.css">
@@ -38,147 +95,22 @@
         <!-- main css -->
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/responsive.css">
+        <style>
+            .show{
+                min-width: 150px;
+            }
+            .list .category a{
+                color: #777777;
+            }
+            .list .active a{
+                color: #000;
+            }
+        </style>
     </head>
 
     <body>
 
-        <!--================Header Menu Area =================-->
-        <header class="header_area">
-            <div class="top_menu row m0">
-                <div class="container-fluid">
-                    <div class="float-left">
-                        <p>Call Us: 012 44 5698 7456 896</p>
-                    </div>
-                    <div class="float-right">
-                        <ul class="right_side">
-                            <li>
-                                <a href="login.html">
-                                    Login/Register
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    My Account
-                                </a>
-                            </li>
-                            <li>
-                                <a href="contact.html">
-                                    Contact Us
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="main_menu">
-                <nav class="navbar navbar-expand-lg navbar-light">
-                    <div class="container-fluid">
-                        <!-- Brand and toggle get grouped for better mobile display -->
-                        <a class="navbar-brand logo_h" href="index.html">
-                            <img src="img/logo.png" alt="">
-                        </a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                                aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <!-- Collect the nav links, forms, and other content for toggling -->
-                        <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-                            <div class="row w-100">
-                                <div class="col-lg-7 pr-0">
-                                    <ul class="nav navbar-nav center_nav pull-right">
-                                        <li class="nav-item active">
-                                            <a class="nav-link" href="index.html">Home</a>
-                                        </li>
-                                        <li class="nav-item submenu dropdown">
-                                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Shop</a>
-                                            <ul class="dropdown-menu">
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="category.html">Shop Category</a>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="single-product.html">Product Details</a>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="checkout.html">Product Checkout</a>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="cart.html">Shopping Cart</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="confirmation.html">Confirmation</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="nav-item submenu dropdown">
-                                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Blog</a>
-                                            <ul class="dropdown-menu">
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="blog.html">Blog</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="single-blog.html">Blog Details</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="nav-item submenu dropdown">
-                                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages</a>
-                                            <ul class="dropdown-menu">
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="login.html">Login</a>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="tracking.html">Tracking</a>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="elements.html">Elements</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="contact.html">Contact</a>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <div class="col-lg-5">
-                                    <ul class="nav navbar-nav navbar-right right_nav pull-right">
-                                        <hr>
-                                        <li class="nav-item">
-                                            <a href="#" class="icons">
-                                                <i class="fa fa-search" aria-hidden="true"></i>
-                                            </a>
-                                        </li>
-
-                                        <hr>
-
-                                        <li class="nav-item">
-                                            <a href="#" class="icons">
-                                                <i class="fa fa-user" aria-hidden="true"></i>
-                                            </a>
-                                        </li>
-
-                                        <hr>
-
-                                        <li class="nav-item">
-                                            <a href="#" class="icons">
-                                                <i class="fa fa-heart-o" aria-hidden="true"></i>
-                                            </a>
-                                        </li>
-
-                                        <hr>
-
-                                        <li class="nav-item">
-                                            <a href="#" class="icons">
-                                                <i class="lnr lnr lnr-cart"></i>
-                                            </a>
-                                        </li>
-                                        <hr>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-            </div>
-        </header>
-        <!--================Header Menu Area =================-->
+        <jsp:include page="navbar.jsp"/>
 
         <!--================Home Banner Area =================-->
         <section class="banner_area">
@@ -204,16 +136,16 @@
                     <div class="col-lg-9">
                         <div class="product_top_bar">
                             <div class="left_dorp">
-                                <select class="sorting">
-                                    <option value="1">Default sorting</option>
-                                    <option value="2">Default sorting 01</option>
-                                    <option value="4">Default sorting 02</option>
+<!--                                <select class="sorting">
+                                    <option value="0" <%=sort == 0 ? "selected" : ""%>>No filter</option>
+                                    <option value="1" <%=sort == 1 ? "selected" : ""%>>Price: low to high</option>
+                                    <option value="2" <%=sort == 2 ? "selected" : ""%>>Price: high to low</option>                                    
                                 </select>
                                 <select class="show">
-                                    <option value="1">Show 12</option>
-                                    <option value="2">Show 14</option>
-                                    <option value="4">Show 16</option>
-                                </select>
+                                    <option value="12" <%=productPerPage == 12 ? "selected" : ""%>>12 products</option>
+                                    <option value="16" <%=productPerPage == 16 ? "selected" : ""%>>16 products</option>
+                                    <option value="20" <%=productPerPage == 20 ? "selected" : ""%>>20 products</option>
+                                </select>-->
                             </div>
                             <div class="right_page ml-auto">
                                 <nav class="cat_page" aria-label="Page navigation example">
@@ -247,11 +179,23 @@
                                 </nav>
                             </div>
                         </div>
-                        <div class="latest_product_inner row">
+                        <div class="latest_product_inner row pb-3">
+                            <%
+                                if (productList.size() == 0) {
+                                    out.println("<div class='col-lg-3 col-md-3 col-sm-6'>"
+                                            + "  <h3 class='result-not-found'>Result not found!</h3>"
+                                            + "</div>");
+                                } else {
+
+                                    for (Product p : productList) {
+                                        ArrayList<Product_Image> productImgList = productImgM.getProduct_Image(p.getProduct_id());
+
+
+                            %>
                             <div class="col-lg-3 col-md-3 col-sm-6">
                                 <div class="f_p_item">
                                     <div class="f_p_img">
-                                        <img class="img-fluid" src="img/product/feature-product/f-p-1.jpg" alt="">
+                                        <img class="img-fluid" src="<%=imgDir + p.getBrand_id() + "/" + productImgList.get(0).getUrl()%>"  alt="product image">
                                         <div class="p_icon">
                                             <a href="#">
                                                 <i class="lnr lnr-heart"></i>
@@ -261,162 +205,39 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="#">
-                                        <h4>Long Sleeve T-Shirt</h4>
+                                    <a href="product-detail.jsp?id=<%=p.getProduct_id()%>">
+                                        <h4><%=p.getName()%></h4>
                                     </a>
-                                    <h5>$150.00</h5>
+                                    <h5>$ <%=p.getCurrent_price()%></h5>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6">
-                                <div class="f_p_item">
-                                    <div class="f_p_img">
-                                        <img class="img-fluid" src="img/product/feature-product/f-p-2.jpg" alt="">
-                                        <div class="p_icon">
-                                            <a href="#">
-                                                <i class="lnr lnr-heart"></i>
-                                            </a>
-                                            <a href="#">
-                                                <i class="lnr lnr-cart"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <a href="#">
-                                        <h4>Long Sleeve T-Shirt</h4>
-                                    </a>
-                                    <h5>$150.00</h5>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6">
-                                <div class="f_p_item">
-                                    <div class="f_p_img">
-                                        <img class="img-fluid" src="img/product/feature-product/f-p-3.jpg" alt="">
-                                        <div class="p_icon">
-                                            <a href="#">
-                                                <i class="lnr lnr-heart"></i>
-                                            </a>
-                                            <a href="#">
-                                                <i class="lnr lnr-cart"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <a href="#">
-                                        <h4>Long Sleeve T-Shirt</h4>
-                                    </a>
-                                    <h5>$150.00</h5>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6">
-                                <div class="f_p_item">
-                                    <div class="f_p_img">
-                                        <img class="img-fluid" src="img/product/feature-product/f-p-4.jpg" alt="">
-                                        <div class="p_icon">
-                                            <a href="#">
-                                                <i class="lnr lnr-heart"></i>
-                                            </a>
-                                            <a href="#">
-                                                <i class="lnr lnr-cart"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <a href="#">
-                                        <h4>Long Sleeve T-Shirt</h4>
-                                    </a>
-                                    <h5>$150.00</h5>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6">
-                                <div class="f_p_item">
-                                    <div class="f_p_img">
-                                        <img class="img-fluid" src="img/product/feature-product/f-p-5.jpg" alt="">
-                                        <div class="p_icon">
-                                            <a href="#">
-                                                <i class="lnr lnr-heart"></i>
-                                            </a>
-                                            <a href="#">
-                                                <i class="lnr lnr-cart"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <a href="#">
-                                        <h4>Long Sleeve TShirt</h4>
-                                    </a>
-                                    <h5>$150.00</h5>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6">
-                                <div class="f_p_item">
-                                    <div class="f_p_img">
-                                        <img class="img-fluid" src="img/product/feature-product/f-p-4.jpg" alt="">
-                                        <div class="p_icon">
-                                            <a href="#">
-                                                <i class="lnr lnr-heart"></i>
-                                            </a>
-                                            <a href="#">
-                                                <i class="lnr lnr-cart"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <a href="#">
-                                        <h4>Long Sleeve TShirt</h4>
-                                    </a>
-                                    <h5>$150.00</h5>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6">
-                                <div class="f_p_item">
-                                    <div class="f_p_img">
-                                        <img class="img-fluid" src="img/product/feature-product/f-p-3.jpg" alt="">
-                                        <div class="p_icon">
-                                            <a href="#">
-                                                <i class="lnr lnr-heart"></i>
-                                            </a>
-                                            <a href="#">
-                                                <i class="lnr lnr-cart"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <a href="#">
-                                        <h4>Long Sleeve T-Shirt</h4>
-                                    </a>
-                                    <h5>$150.00</h5>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6">
-                                <div class="f_p_item">
-                                    <div class="f_p_img">
-                                        <img class="img-fluid" src="img/product/feature-product/f-p-4.jpg" alt="">
-                                        <div class="p_icon">
-                                            <a href="#">
-                                                <i class="lnr lnr-heart"></i>
-                                            </a>
-                                            <a href="#">
-                                                <i class="lnr lnr-cart"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <a href="#">
-                                        <h4>Long Sleeve TShirt</h4>
-                                    </a>
-                                    <h5>$150.00</h5>
-                                </div>
-                            </div>
+                            <%
+                                    }
+                                }
+                            %>
+
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="left_sidebar_area">
-                            <aside class="left_widgets cat_widgets">
+                            <aside class="left_widgets p_filter_widgets">
                                 <div class="l_w_title">
                                     <h3>Browse Categories</h3>
                                 </div>
                                 <div class="widgets_inner">
                                     <ul class="list">
+                                        <li class="category <%=categoryId == 0? "active": ""%>">
+                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber : ""%>&categoryId=0&<%=brandId != 0 ? "brandId=" + brandId : ""%>&<%=volumeStart != 0 ? "volumeStart=" + volumeStart : ""%>&<%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd : ""%>&<%=priceStart != 0 ? "priceStart=" + priceStart : ""%>&<%=priceEnd != 0 ? "priceEnd=" + priceEnd : ""%>&<%=sort != 0 ? "sort=" + sort : ""%>&<%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">All Categories</a>
+                                        </li> 
                                         <%
-                                            for (int i = 0; i < category_list.size(); i++){
+                                            for (Category c : categoryList) {
+                                                if (c.getCategory_status() != 0) {
                                         %>
-                                        <li>
-                                            <a href="#"><%= category_list.get(i).getCategory_name()%></a>
+                                        <li class="category <%=categoryId == c.getCategory_id()? "active": ""%>">
+                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber : ""%>&categoryId=<%=c.getCategory_id()%>&<%=brandId != 0 ? "brandId=" + brandId : ""%>&<%=volumeStart != 0 ? "volumeStart=" + volumeStart : ""%>&<%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd : ""%>&<%=priceStart != 0 ? "priceStart=" + priceStart : ""%>&<%=priceEnd != 0 ? "priceEnd=" + priceEnd : ""%>&<%=sort != 0 ? "sort=" + sort : ""%>&<%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>"><%= c.getCategory_name()%></a>
                                         </li>   
                                         <% }
+                                            }
                                         %>
                                     </ul>
                                 </div>
@@ -428,38 +249,47 @@
                                 <div class="widgets_inner">
                                     <h4>Brand</h4>
                                     <ul class="list">
-                                        <li>
-                                            <a href="#">Channel</a>
+                                         <li class="<%=brandId == 0 ? "active" : ""%>">
+                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber : ""%>&<%=categoryId != 0 ? "categoryId=" + categoryId : ""%>&brandId=0&<%=volumeStart != 0 ? "volumeStart=" + volumeStart : ""%>&<%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd : ""%>&<%=priceStart != 0 ? "priceStart=" + priceStart : ""%>&<%=priceEnd != 0 ? "priceEnd=" + priceEnd : ""%>&<%=sort != 0 ? "sort=" + sort : ""%>&<%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">All Brands</a>
                                         </li>
-                                        <li>
-                                            <a href="#">Dior</a>
+                                        <%
+                                            for (Brand b : brandList) {
+                                        %>
+                                        <li class="<%=brandId == b.getBrand_id() ? "active" : ""%>">
+                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber : ""%>&<%=categoryId != 0 ? "categoryId=" + categoryId : ""%>&brandId=<%=b.getBrand_id()%>&<%=volumeStart != 0 ? "volumeStart=" + volumeStart : ""%>&<%=volumeEnd != 0 ? "volumeEnd=" + volumeEnd : ""%>&<%=priceStart != 0 ? "priceStart=" + priceStart : ""%>&<%=priceEnd != 0 ? "priceEnd=" + priceEnd : ""%>&<%=sort != 0 ? "sort=" + sort : ""%>&<%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>"><%=b.getBrand_name()%></a>
                                         </li>
-                                        <li class="active">
-                                            <a href="#">Lolita</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Versace</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Victoria Secret</a>
-                                        </li>
+                                        <%
+                                            }
+                                        %>
+
                                     </ul>
                                 </div>
                                 <div class="widgets_inner">
                                     <h4>Volume</h4>
                                     <ul class="list">
-                                        <li>
-                                            <a href="#">0 - 50ml</a>
+                                        <li class="<%=(volumeStart == 0 && volumeEnd == 1000) ? "active" : ""%>">
+                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber : ""%>&<%=categoryId != 0 ? "categoryId=" + categoryId : ""%>&<%=brandId != 0 ? "brandId=" + brandId : ""%>&volumeStart=0&volumeEnd=1000&<%=priceStart != 0 ? "priceStart=" + priceStart : ""%>&<%=priceEnd != 0 ? "priceEnd=" + priceEnd : ""%>&<%=sort != 0 ? "sort=" + sort : ""%>&<%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
+                                                All Volume
+                                            </a>
                                         </li>
-                                        <li>
-                                            <a href="#">51 - 100ml</a>
+                                        <li class="<%=(volumeStart == 0 && volumeEnd == 50) ? "active" : ""%>">
+                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber : ""%>&<%=categoryId != 0 ? "categoryId=" + categoryId : ""%>&<%=brandId != 0 ? "brandId=" + brandId : ""%>&volumeStart=0&volumeEnd=50&<%=priceStart != 0 ? "priceStart=" + priceStart : ""%>&<%=priceEnd != 0 ? "priceEnd=" + priceEnd : ""%>&<%=sort != 0 ? "sort=" + sort : ""%>&<%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
+                                                0 - 50ml
+                                            </a>
                                         </li>
-                                        <li class="active">
-                                            <a href="#">101 - 150ml</a>
+                                        <li class="<%=(volumeStart == 51 && volumeEnd == 100) ? "active" : ""%>">
+                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber : ""%>&<%=categoryId != 0 ? "categoryId=" + categoryId : ""%>&<%=brandId != 0 ? "brandId=" + brandId : ""%>&volumeStart=51&volumeEnd=100&<%=priceStart != 0 ? "priceStart=" + priceStart : ""%>&<%=priceEnd != 0 ? "priceEnd=" + priceEnd : ""%>&<%=sort != 0 ? "sort=" + sort : ""%>&<%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
+                                                51 - 100ml
+                                            </a>
+                                        </li>
+                                        <li class="<%=(volumeStart == 101 && volumeEnd == 150) ? "active" : ""%>">
+                                            <a href="category.jsp?<%=pageNumber != 0 ? "pageNumber=" + pageNumber : ""%>&<%=categoryId != 0 ? "categoryId=" + categoryId : ""%>&<%=brandId != 0 ? "brandId=" + brandId : ""%>&volumeStart=101&volumeEnd=150&<%=priceStart != 0 ? "priceStart=" + priceStart : ""%>&<%=priceEnd != 0 ? "priceEnd=" + priceEnd : ""%>&<%=sort != 0 ? "sort=" + sort : ""%>&<%=productPerPage != 0 ? "productPerPage=" + productPerPage : ""%>">
+                                                101 - 150ml
+                                            </a>
                                         </li>                                        
                                     </ul>
                                 </div>
-                                <div class="widgets_inner">
+<!--                                <div class="widgets_inner">
                                     <h4>Price</h4>
                                     <div class="range_item">
                                         <div id="slider-range"></div>
@@ -468,7 +298,7 @@
                                             <input type="text" id="amount" readonly>
                                         </div>
                                     </div>
-                                </div>
+                                </div>-->
                             </aside>
                         </div>
                     </div>
@@ -509,147 +339,55 @@
         </section>
         <!--================End Category Product Area =================-->
 
-        <!--================ Subscription Area ================-->
-        <section class="subscription-area section_gap">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="section-title text-center">
-                            <h2>Subscribe for Our Newsletter</h2>
-                            <span>We won’t send any kind of spam</span>
+        <!--        ================ Subscription Area ================
+                <section class="subscription-area section_gap">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="section-title text-center">
+                                    <h2>Subscribe for Our Newsletter</h2>
+                                    <span>We won’t send any kind of spam</span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-lg-6">
-                        <div id="mc_embed_signup">
-                            <form target="_blank" novalidate action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&id=92a4423d01"
-                                  method="get" class="subscription relative">
-                                <input type="email" name="EMAIL" placeholder="Email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'"
-                                       required="">
-                                <!-- <div style="position: absolute; left: -5000px;">
-                                                <input type="text" name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="">
-                                        </div> -->
-                                <button type="submit" class="newsl-btn">Get Started</button>
-                                <div class="info"></div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!--================ End Subscription Area ================-->
-
-        <!--================ start footer Area  =================-->
-        <footer class="footer-area section_gap">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3  col-md-6 col-sm-6">
-                        <div class="single-footer-widget">
-                            <h6 class="footer_title">About Us</h6>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore dolore magna aliqua.</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-footer-widget">
-                            <h6 class="footer_title">Newsletter</h6>
-                            <p>Stay updated with our latest trends</p>
-                            <div id="mc_embed_signup">
-                                <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-                                      method="get" class="subscribe_form relative">
-                                    <div class="input-group d-flex flex-row">
-                                        <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '"
-                                               required="" type="email">
-                                        <button class="btn sub-btn">
-                                            <span class="lnr lnr-arrow-right"></span>
-                                        </button>
-                                    </div>
-                                    <div class="mt-10 info"></div>
-                                </form>
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6">
+                                <div id="mc_embed_signup">
+                                    <form target="_blank" novalidate action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&id=92a4423d01"
+                                          method="get" class="subscription relative">
+                                        <input type="email" name="EMAIL" placeholder="Email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'"
+                                               required="">
+                                         <div style="position: absolute; left: -5000px;">
+                                                        <input type="text" name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="">
+                                                </div> 
+                                        <button type="submit" class="newsl-btn">Get Started</button>
+                                        <div class="info"></div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="single-footer-widget instafeed">
-                            <h6 class="footer_title">Instagram Feed</h6>
-                            <ul class="list instafeed d-flex flex-wrap">
-                                <li>
-                                    <img src="img/instagram/Image-01.jpg" alt="">
-                                </li>
-                                <li>
-                                    <img src="img/instagram/Image-02.jpg" alt="">
-                                </li>
-                                <li>
-                                    <img src="img/instagram/Image-03.jpg" alt="">
-                                </li>
-                                <li>
-                                    <img src="img/instagram/Image-04.jpg" alt="">
-                                </li>
-                                <li>
-                                    <img src="img/instagram/Image-05.jpg" alt="">
-                                </li>
-                                <li>
-                                    <img src="img/instagram/Image-06.jpg" alt="">
-                                </li>
-                                <li>
-                                    <img src="img/instagram/Image-07.jpg" alt="">
-                                </li>
-                                <li>
-                                    <img src="img/instagram/Image-08.jpg" alt="">
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-6 col-sm-6">
-                        <div class="single-footer-widget f_social_wd">
-                            <h6 class="footer_title">Follow Us</h6>
-                            <p>Let us be social</p>
-                            <div class="f_social">
-                                <a href="#">
-                                    <i class="fa fa-facebook"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="fa fa-twitter"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="fa fa-dribbble"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="fa fa-behance"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row footer-bottom d-flex justify-content-between align-items-center">
-                    <p class="col-lg-12 footer-text text-center"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </p>
-                </div>
-            </div>
-        </footer>
-        <!--================ End footer Area  =================-->
+                </section>
+                ================ End Subscription Area ================-->
 
+        <jsp:include page="footer.jsp"/>
 
-
-
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="js/jquery-3.2.1.min.js"></script>
-        <script src="js/popper.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/stellar.js"></script>
-        <script src="vendors/lightbox/simpleLightbox.min.js"></script>
-        <script src="vendors/nice-select/js/jquery.nice-select.min.js"></script>
-        <script src="vendors/isotope/imagesloaded.pkgd.min.js"></script>
-        <script src="vendors/isotope/isotope-min.js"></script>
-        <script src="vendors/owl-carousel/owl.carousel.min.js"></script>
-        <script src="js/jquery.ajaxchimp.min.js"></script>
-        <script src="js/mail-script.js"></script>
-        <script src="vendors/jquery-ui/jquery-ui.js"></script>
-        <script src="vendors/counter-up/jquery.waypoints.min.js"></script>
-        <script src="vendors/counter-up/jquery.counterup.js"></script>
-        <script src="js/theme.js"></script>
+        <!--         Optional JavaScript 
+                 jQuery first, then Popper.js, then Bootstrap JS 
+                <script src="js/jquery-3.2.1.min.js"></script>
+                <script src="js/popper.js"></script>
+                <script src="js/bootstrap.min.js"></script>
+                <script src="js/stellar.js"></script>
+                <script src="vendors/lightbox/simpleLightbox.min.js"></script>
+                <script src="vendors/nice-select/js/jquery.nice-select.min.js"></script>
+                <script src="vendors/isotope/imagesloaded.pkgd.min.js"></script>
+                <script src="vendors/isotope/isotope-min.js"></script>
+                <script src="vendors/owl-carousel/owl.carousel.min.js"></script>
+                <script src="js/jquery.ajaxchimp.min.js"></script>
+                <script src="js/mail-script.js"></script>
+                <script src="vendors/jquery-ui/jquery-ui.js"></script>
+                <script src="vendors/counter-up/jquery.waypoints.min.js"></script>
+                <script src="vendors/counter-up/jquery.counterup.js"></script>
+                <script src="js/theme.js"></script>-->
     </body>
 </html>

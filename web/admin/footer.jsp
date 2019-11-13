@@ -46,7 +46,7 @@
         var listHref = $('li a');
         for (var i = 0; i < listHref.length; i++) {
             var href = listHref[i].href;
-            if (currentURL == href) {
+            if (currentURL == href) {   
                 var parent = listHref[i].parentElement;
                 parent.className = "active";
             }

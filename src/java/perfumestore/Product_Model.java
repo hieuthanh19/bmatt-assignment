@@ -119,9 +119,8 @@ public class Product_Model {
 
                 if (result.length() + stringArr[i].length() <= maxLength) {
                     result += " " + stringArr[i];
-                }
-                else{
-                    
+                } else {
+
                     result += "...";
                     break;
                 }
@@ -364,39 +363,69 @@ public class Product_Model {
     }
 
     /**
-     * Get product base on page
+     * Get product base on conditions
      *
      * @param page
      * @param search
-     * @param sortColumn
+     * @param sort
      * @param productsPerPage
+     * @param categoryId
+     * @param brandId
+     * @param volume_start
+     * @param volume_end
+     * @param priceStart
+     * @param priceEnd
      * @return
      */
-    public ArrayList<Product> getPaging(int page, String search, String sortColumn, int productsPerPage) {
+    public ArrayList<Product> getPaging(int page, String search, int sort, int productsPerPage, int categoryId, int brandId, double volume_start, double volume_end, double priceStart, double priceEnd) {
         try {
+            con = GetConnection.getConnection();
+
             String sqlStr = "";
             sqlStr += " SELECT a.*, b.brand_name, c.category_name ";
             sqlStr += " FROM `products` as a, `brand` as b, `category` as c ";
-            sqlStr += " WHERE a.category_id = c.category_id AND a.brand_id = b.brand_id ";
-            sqlStr += " ORDER BY a.product_id ";
+            sqlStr += " WHERE a.category_id = c.category_id AND a.brand_id = b.brand_id AND a.product_status AND a.`product_status` != 0 ";
 
-            if (search != "") {
-                //sqlStr += " AND (a.sp_ten like '%" + search + "%' OR b.l_ten like '%" + search + "%') ";
+            if (categoryId != 0) {
+                sqlStr += " AND a.category_id = " + categoryId + " ";
+            }
+            if (brandId != 0) {
+                sqlStr += " AND a.brand_id = " + brandId + " ";
+            }
+            //get volume range
+            sqlStr += " AND (a.volume > " + volume_start + " ";
+            sqlStr += " AND a.volume <= " + volume_end + ") ";
+            //get price range
+            sqlStr += "  AND (a.current_price > " + priceStart + " ";
+            sqlStr += "  AND a.current_price < " + priceEnd + ") ";
+
+            if (!search.isEmpty()) {
+                sqlStr += " AND (a.name like '%" + search + "%' OR c.category_name like '%" + search + "%' OR b.brand_name like '%" + search + "%') ";
             }
 
-            if (sortColumn != "") {
+            if (sort != 0) {
+                sqlStr += " ORDER BY a.current_price ";
+                if (sort == 1) {
+                    sqlStr += " ASC ";
+                }
+                if (sort == 2) {
+
+                    sqlStr += " DESC ";
+                }
+            } else {
+                sqlStr += " ORDER BY a.product_id ";
             }
 
             //phan trang
-            int totalProduct = getNumberOfProduct(search, sortColumn);
+            int totalProduct = getNumberOfProduct(search);
             int totalPages = (int) Math.ceil(totalProduct / (float) productsPerPage);
             int index = (page - 1) * productsPerPage;
 
             sqlStr += " LIMIT " + index + ", " + productsPerPage;
 
-            this.st = this.con.createStatement();
-            this.rs = this.st.executeQuery(sqlStr);
-            product = new ArrayList<Product>();
+            pst = con.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);
+            rs = pst.executeQuery();
+            ArrayList<Product> productList = new ArrayList<>();
             while (rs.next()) {
                 int product_id = rs.getInt("product_id");
                 String name = rs.getString("name");
@@ -409,26 +438,26 @@ public class Product_Model {
                 int product_status = rs.getInt("product_status");
                 String brandName = rs.getString("brand_name");
                 String category_name = rs.getString("category_name");
-
-                product.add(new Product(product_id, name, volume, category_id, brand_id, original_price, current_price, description, product_status, brandName, category_name));
-                product.get(product.size() - 1);
+                productList.add(new Product(product_id, name, volume, category_id, brand_id, original_price, current_price, description, product_status, brandName, category_name));
+                productList.get(productList.size() - 1);
             }
             pst.close();
+            return productList;
         } catch (SQLException ex) {
             Logger.getLogger(Product_Model.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
-        return this.product;
+
     }
 
     /**
      * Get total number of products
      *
      * @param search
-     * @param sortColumn
      * @return
      * @throws SQLException
      */
-    public int getNumberOfProduct(String search, String sortColumn) throws SQLException {
+    public int getNumberOfProduct(String search) throws SQLException {
         String sqlStr = "";
         sqlStr += " SELECT count(*) as soLuong ";
         sqlStr += " FROM `products`";
@@ -439,13 +468,14 @@ public class Product_Model {
         this.st = this.con.createStatement();
         this.rs = this.st.executeQuery(sqlStr);
         rs.next();
-        st.close();
+
         return rs.getInt("soLuong");
     }
 
     /**
      * Get all product
-     * @return 
+     *
+     * @return
      */
     public ArrayList<Product> getAllProduct() {
         try {
@@ -457,11 +487,11 @@ public class Product_Model {
                     + " WHERE a.category_id = c.category_id AND a.brand_id = b.brand_id"
                     + " ORDER BY a.product_id";
             //create query
-            pst = con.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);            
-            
+            pst = con.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);
+
             //excute query
             rs = pst.executeQuery();
-            
+
             ArrayList<Product> resultList = new ArrayList<>();
             //get data
             while (rs.next()) {
@@ -477,10 +507,10 @@ public class Product_Model {
                 int product_status = rs.getInt("product_status");
                 String brandName = rs.getString("brand_name");
                 String category_name = rs.getString("category_name");
-                resultList.add(new Product(product_id, name, volume, category_id, brand_id, original_price, current_price, description, product_status, brandName, category_name));                                
+                resultList.add(new Product(product_id, name, volume, category_id, brand_id, original_price, current_price, description, product_status, brandName, category_name));
             }
             pst.close();
-            return resultList;            
+            return resultList;
 
         } catch (SQLException ex) {
             Logger.getLogger(Product_Model.class.getName()).log(Level.SEVERE, null, ex);
