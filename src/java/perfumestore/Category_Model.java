@@ -5,11 +5,8 @@
  */
 package perfumestore;
 
-
 import connection.GetConnection;
-import java.awt.Frame;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,15 +14,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Nhat Thanh
  */
 public class Category_Model {
-    
+
     //attributes and arraylist
     private ArrayList<Category> category = new ArrayList<Category>();
     private Connection con;
@@ -37,7 +32,8 @@ public class Category_Model {
 
     /**
      * Create new Category Model
-     * @throws SQLException 
+     *
+     * @throws SQLException
      */
     public Category_Model() throws SQLException {
         try {
@@ -55,38 +51,40 @@ public class Category_Model {
 
     /**
      * Load Category from database
+     *
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public ArrayList<Category> loadCategory() throws SQLException {
+
         ArrayList<Category> category = new ArrayList<Category>();
-        try {
-            con = getCon.getConnection();
-            st = con.createStatement();
-            //Create sql select all
-            str = "SELECT * FROM `category`";
-            //execute query
-            rs = st.executeQuery(str);
-            if (rs.isBeforeFirst()) {
-                while (rs.next()) {
-                    //set value to select
-                    int category_id = rs.getInt("category_id");
-                    String category_name = rs.getString("category_name");
-                    int category_status = rs.getInt("category_status");
-                    category.add(new Category(category_id, category_name, category_status));
-                }
+        con = getCon.getConnection();
+        st = con.createStatement();
+        //Create sql select all
+        str = "SELECT * FROM `category`";
+        //execute query
+        rs = st.executeQuery(str);
+        if (rs.isBeforeFirst()) {
+            while (rs.next()) {
+                //set value to select
+                int category_id = rs.getInt("category_id");
+                String category_name = rs.getString("category_name");
+                int category_status = rs.getInt("category_status");
+                category.add(new Category(category_id, category_name, category_status));
             }
-        } catch (Exception e) {
+            pst.close();
+            return category;
         }
-        return category;
+        pst.close();
+        return null;
     }
-    
-    
+
     /**
      * load date to table
+     *
      * @param table
      * @param frame
-     * @param arr 
+     * @param arr
      */
     //public void loadCategoryToTable(JTable table, Frame frame, ArrayList<Category> arr){       
     //   DefaultTableModel dtm = (DefaultTableModel) table.getModel();
@@ -97,14 +95,14 @@ public class Category_Model {
     //        dtm.addRow(row);
     //    }
     //}
-    
     /**
      * insert new category
+     *
      * @param category_id
      * @param category_name
      * @param category_status
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public int insertCategory(int category_id, String category_name, int category_status) throws SQLException {
         try {
@@ -120,40 +118,57 @@ public class Category_Model {
             pst.executeUpdate();
             rs = pst.getGeneratedKeys();
             rs.next();
+            pst.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return 0;
     }
-    
-    public static void main (String []args) throws SQLException, Category_Exception{
-        Category_Model a = new Category_Model();
-        //a.update(1, "VNient", 1);
-        System.out.println(a.insertCategory(5, "lesbian", 1));
-    }
-    
+
+//    
     /**
      * Get category from category_id
-     * @param category_id
+     *
+     * @param categoryId
      * @return Category if success. Otherwise, null
      */
-    public Category getCategory(int category_id) {
-        for (int i = 0; i < category.size(); i++) {
-            if (category.get(i).getCategory_id()== category_id) {
-                return category.get(i);
+    public Category getCategory(int categoryId) {
+        try {
+            con = getCon.getConnection();
+            String sqlStr = "";
+            sqlStr += " SELECT * ";
+            sqlStr += " FROM `category`";
+            //sqlStr += " WHERE a.l_ma = b.l_ma ";
+            sqlStr += " WHERE category_id= " + categoryId;
+
+            pst = con.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);
+
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                int category_id = rs.getInt("category_id");
+                String category_name = rs.getString("category_name");
+                int category_status = rs.getInt("category_status");
+                Category category = new Category(category_id, category_name, category_status);
+                pst.close();
+                return category;
             }
+            return null;
+        } catch (SQLException ex) {
+            Logger.getLogger(Category_Model.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
-        return null;
     }
-    
+
     /**
      * update information of Category
+     *
      * @param category_id
      * @param category_name
      * @param category_status
      * @return
      * @throws SQLException
-     * @throws Category_Exception 
+     * @throws Category_Exception
      */
     public boolean updateCategory(int category_id, String category_name, int category_status) throws SQLException, Category_Exception {
         try {
@@ -164,20 +179,22 @@ public class Category_Model {
             //create query
             pst = con.prepareStatement(str);
             //set values
-            pst.setInt(3, category_id);
             pst.setString(1, category_name);
             pst.setInt(2, category_status);
+            pst.setInt(3, category_id);
             //excute query
             pst.executeUpdate();
+            pst.close();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
-        }        
+        }
         return false;
     }
-    
+
     /**
      * get All Category
+     *
      * @return category list
      */
     public ArrayList<Category> getAll_Category() {
@@ -194,8 +211,9 @@ public class Category_Model {
                 int category_id = rs.getInt("category_id");
                 String category_name = rs.getString("category_name");
                 int category_status = rs.getInt("category_status");
-                category.add(new Category(category_id, category_name, category_status));                
+                category.add(new Category(category_id, category_name, category_status));
             }
+            st.close();
         } catch (SQLException ex) {
             Logger.getLogger(Category_Model.class.getName()).log(Level.SEVERE, null, ex);
         }

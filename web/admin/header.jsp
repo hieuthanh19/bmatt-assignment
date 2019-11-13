@@ -1,4 +1,18 @@
+<%@page import="perfumestore.Account"%>
+<%@page import="perfumestore.AccountModel"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    Account acc = null;
+    if (session.getAttribute("username") != null) {
+        /**
+         * GET ACCOUNT
+         */
+        String username = (String) session.getAttribute("username");
+        String password = (String) session.getAttribute("password");
+        AccountModel accM = new AccountModel();
+        acc = accM.verifyAccount(username, password);
+    }
+%>
 <!-- BEGIN: Header-->
 <nav class="header-navbar navbar-expand-lg navbar navbar-with-menu floating-nav navbar-light navbar-shadow">
     <div class="navbar-wrapper">
@@ -21,10 +35,17 @@
                         </div>
                     </li>
                     <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
-                            <div class="user-nav d-sm-flex d-none"><span class="user-name text-bold-600">Admin</span><span class="user-status">Available</span></div><span><img class="round" src="../admin/app-assets/images/portrait/small/avatar-admin.png" alt="avatar" height="40" width="40"></span>
+                            <div class="user-nav d-sm-flex d-none">
+                                <span class="user-name text-bold-600"><%=acc != null ? acc.getUsername() : "Admin"%></span>
+                                <span class="user-status">Available</span>
+                            </div>
+                                <span >
+                                <!--<i class="round feather icon-user" style="color: #7367F0; height: 40px; width: 40px;"  ></i>-->
+                                <img class="round admin-avtar" src="../admin/app-assets/images/portrait/small/avatar-admin.png" alt="avatar" height="35" width="35">
+                            </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="page-user-profile.html"><i class="feather icon-user"></i> Edit Profile</a><a class="dropdown-item" href="app-email.html"><i class="feather icon-mail"></i> My Inbox</a><a class="dropdown-item" href="app-todo.html"><i class="feather icon-check-square"></i> Task</a><a class="dropdown-item" href="app-chat.html"><i class="feather icon-message-square"></i> Chats</a>
-                            <div class="dropdown-divider"></div><a class="dropdown-item" href="auth-login.html"><i class="feather icon-power"></i> Logout</a>
+                            <div class="dropdown-divider"></div><a class="dropdown-item" href="logout-process.jsp"><i class="feather icon-power"></i> Logout</a>
                         </div>
                     </li>
                 </ul>
@@ -41,7 +62,7 @@
         <ul class="nav navbar-nav flex-row">
             <li class="nav-item mr-auto"><a class="navbar-brand" href="../admin/html/ltr/vertical-menu-template/index.html">
                     <div class="brand-logo"></div>
-                    <h2 class="brand-text mb-0">BMatt Store</h2>
+                    <h2 class="brand-text mb-0">BMatt</h2>
                 </a></li>
             <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="feather icon-x d-block d-xl-none font-medium-4 primary toggle-icon"></i><i class="toggle-icon feather icon-disc font-medium-4 d-none d-xl-block collapse-toggle-icon primary" data-ticon="icon-disc"></i></a></li>
         </ul>
@@ -80,7 +101,7 @@
 
             <li class=" nav-item"><a href="../admin/comment.jsp"><i class="feather icon-message-square"></i><span class="menu-title">Bình luận</span></a>
             </li>
-            <li class=" nav-item"><a href="#"><i class="feather icon-list"></i><span class="menu-title">Store Management</span></a>
+            <li class=" nav-item"><a href="#"><i class="feather icon-list"></i><span class="menu-title">Store</span></a>
                 <ul class="menu-content">
                     <li><a class="dd-menu" href="../admin/products"><i class="feather icon-package"></i><span class="menu-item">Products</span></a>
                     </li>
@@ -110,12 +131,12 @@
                 </ul>
             </li>
 
-            <li class=" nav-item"><a href="../admin/users.jsp"><i class="feather icon-users"></i><span class="menu-title">Users</span></a>
+            <li class=" nav-item"><a href="../admin/accounts.jsp"><i class="feather icon-users"></i><span class="menu-title">Accounts</span></a>
                 <ul class="menu-content">
-                    <li><a href="../admin/users.jsp"><i class="feather icon-users"></i><span class="menu-item">All Users</span></a>
+                    <li><a href="../admin/accounts.jsp"><i class="feather icon-users"></i><span class="menu-item">All Accounts</span></a>
                     </li>
-                    <li><a href="../admin/add-user.jsp"><i class="feather icon-user-plus"></i><span class="menu-item">Add User</span></a>
-                    </li>
+                    <!--                    <li><a href="../admin/add-user.jsp"><i class="feather icon-user-plus"></i><span class="menu-item">Add User</span></a>
+                                        </li>-->
                 </ul>
             </li>
 

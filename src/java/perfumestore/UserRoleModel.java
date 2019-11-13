@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -56,8 +58,10 @@ public class UserRoleModel {
         rs = pst.executeQuery();
         //if result found
         if (rs.next() != false) {
+            pst.close();
             return true;
         }
+        pst.close();
         return false;
     }
 
@@ -143,15 +147,15 @@ public class UserRoleModel {
      * @return
      * @throws SQLException
      */
-    public UserRole getUserRole(String roleName) throws SQLException {
+    public UserRole getUserRole(int roleId) throws SQLException {
         //connect to DB
         con = getCon.getConnection();
         //create sql string
-        String sqlStr = "SELECT * FROM " + tblName + " WHERE " + tblCols[0] + "= ?";
+        String sqlStr = "SELECT * FROM " + tblName + " WHERE role_id = ?";
         //create query
         pst = con.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);
         //set values
-        pst.setString(1, roleName);
+        pst.setInt(1, roleId);
         //excute query
         rs = pst.executeQuery();
         //get return data
@@ -165,5 +169,38 @@ public class UserRoleModel {
             return result;
         }
         return null;
+    }
+
+    /**
+     * Get all user role
+     * @return 
+     */
+    public ArrayList<UserRole> getAllUserRole() {
+        try {
+            //connect to DB
+            con = getCon.getConnection();
+            //create sql string
+            String sqlStr = "SELECT * FROM " + tblName;
+            //create query
+            pst = con.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);
+
+            //excute query
+            rs = pst.executeQuery();
+            ArrayList<UserRole> userRoleList = new ArrayList<>();
+            //get return data
+            while (rs.next()) {
+                int role_id = rs.getInt("role_id");
+                String role_name = rs.getString("role_name");
+                int user_role_status = rs.getInt("user_role_Status");
+                //add to result list
+                userRoleList.add(new UserRole(role_id, role_name, user_role_status));
+            }
+            pst.close();
+            return userRoleList;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserRoleModel.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 }

@@ -50,6 +50,88 @@ public class Product_Model {
         }
     }
 
+    public Product loadMyProduct(int id) throws SQLException {
+
+        Product ob = new Product();
+        try {
+            String str;
+            con = getCon.getConnection();
+            st = con.createStatement();
+            str = "SELECT * FROM `products` WHERE `product_id` = " + id;
+            rs = st.executeQuery(str);
+            while (rs.next()) {
+                String name = rs.getString("Name");
+                double volume = rs.getDouble("Volume");
+                int category_id = rs.getInt("Category_Id");
+                int brand_id = rs.getInt("Brand_Id");
+                double original_price = rs.getDouble("Original_Price");
+                double current_price = rs.getDouble("Current_Price");
+                String description = rs.getString("Description");
+                int product_status = rs.getInt("Product_Status");
+                //Date created_at = rs.getDate("Created_At");
+                ob = new Product(id, name, volume, category_id, brand_id, original_price, current_price, description, product_status);
+                //product.add(new Product(product_id, name, volume, category_id, brand_id, original_price, current_price, description, product_status, created_at));
+                //return ob;
+            }
+        } catch (Exception e) {
+        }
+        return ob;
+    }
+
+    /**
+     * Remove all redundant white space
+     *
+     * @param description
+     * @return
+     */
+    public String formatDescription(String description) {
+        String trimmed = description.trim();
+        return trimmed.replaceAll("\\s+", "");
+
+    }
+
+    /**
+     * Format string for displaying
+     *
+     * @param string
+     * @param maxLength
+     * @return
+     */
+    public String formatStringForDisplaying(String string, int maxLength) {
+        if (string == null) {
+            return "Empty Description!";
+        }
+
+        String[] stringArr = string.split(" ");
+        String result = "";
+
+        //loop
+        for (int i = 0; i < stringArr.length; i++) {
+            //
+            if (i == 0) {
+                result += stringArr[0];
+                if (result.length() > maxLength) {
+                    result += "...";
+                    break;
+
+                }
+            } else {
+
+                if (result.length() + stringArr[i].length() <= maxLength) {
+                    result += " " + stringArr[i];
+                }
+                else{
+                    
+                    result += "...";
+                    break;
+                }
+
+            }
+
+        }
+        return result;
+    }
+
     /**
      * Load product from database
      *
@@ -150,15 +232,14 @@ public class Product_Model {
      * @return
      * @throws SQLException
      */
-    public int insertProduct(int product_id, String name, double volume, int category_id, int brand_id, double original_price, double current_price, String description, int product_status) throws SQLException {
+    public int insertProduct(String name, double volume, int category_id, int brand_id, double original_price, double current_price, String description, int product_status) throws SQLException {
         try {
             String sqlStr = "";
             //link load from Motel database in SQL Server
-            sqlStr = "INSERT INTO `products`(`name`, `volume`, `category_id`, `brand_id`, `original_price`, `current_price`, `description`, `product_status`, `product_id`) VALUES (?,?,?,?,?,?,?,?,?)";
+            sqlStr = "INSERT INTO `products`(`name`, `volume`, `category_id`, `brand_id`, `original_price`, `current_price`, `description`, `product_status`) VALUES (?,?,?,?,?,?,?,?)";
             //create query
             pst = con.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);
-            //set values
-            pst.setInt(9, product_id);
+            //set values            
             pst.setString(1, name);
             pst.setDouble(2, volume);
             pst.setInt(3, category_id);
@@ -171,10 +252,11 @@ public class Product_Model {
             pst.executeUpdate();
             rs = pst.getGeneratedKeys();
             rs.next();
+            return rs.getInt(1);
         } catch (SQLException e) {
             e.printStackTrace();
+            return -1;
         }
-        return 0;
     }
 
     /**
@@ -189,13 +271,13 @@ public class Product_Model {
             con = getCon.getConnection();
             //create sql string
             String sqlStr = "SELECT a.*, b.brand_name, c.category_name "
-                    + "FROM `products` as a, brand as b, category as c "
-                    + "WHERE a.category_id = c.category_id AND a.brand_id = b.brand_id "
-                    + "ORDER BY a.product_id";
+                    + " FROM `products` as a, brand as b, category as c "
+                    + " WHERE a.category_id = c.category_id AND a.brand_id = b.brand_id AND a.product_id = ? "
+                    + " ORDER BY a.product_id";
             //create query
             pst = con.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);
             //set values
-           // pst.setInt(1, product_id);
+            pst.setInt(1, product_id);
             //excute query
             rs = pst.executeQuery();
             //get data
@@ -215,6 +297,7 @@ public class Product_Model {
                 pst.close();
                 return result;
             }
+            pst.close();
             return null;
 
         } catch (SQLException ex) {
@@ -260,6 +343,7 @@ public class Product_Model {
             pst.setInt(9, product_id);
             //excute query
             pst.executeUpdate();
+            pst.close();
             return true;
         } catch (SQLException e) {
         }
@@ -301,7 +385,6 @@ public class Product_Model {
             }
 
             if (sortColumn != "") {
-                //thuc hien sap xep
             }
 
             //phan trang
@@ -330,6 +413,7 @@ public class Product_Model {
                 product.add(new Product(product_id, name, volume, category_id, brand_id, original_price, current_price, description, product_status, brandName, category_name));
                 product.get(product.size() - 1);
             }
+            pst.close();
         } catch (SQLException ex) {
             Logger.getLogger(Product_Model.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -355,7 +439,53 @@ public class Product_Model {
         this.st = this.con.createStatement();
         this.rs = this.st.executeQuery(sqlStr);
         rs.next();
+        st.close();
         return rs.getInt("soLuong");
+    }
+
+    /**
+     * Get all product
+     * @return 
+     */
+    public ArrayList<Product> getAllProduct() {
+        try {
+            //connect to DB
+            con = getCon.getConnection();
+            //create sql string
+            String sqlStr = "SELECT a.*, b.brand_name, c.category_name "
+                    + " FROM `products` as a, brand as b, category as c "
+                    + " WHERE a.category_id = c.category_id AND a.brand_id = b.brand_id"
+                    + " ORDER BY a.product_id";
+            //create query
+            pst = con.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);            
+            
+            //excute query
+            rs = pst.executeQuery();
+            
+            ArrayList<Product> resultList = new ArrayList<>();
+            //get data
+            while (rs.next()) {
+                //set value to select      
+                int product_id = rs.getInt("product_id");
+                String name = rs.getString("name");
+                double volume = rs.getDouble("volume");
+                int category_id = rs.getInt("category_id");
+                int brand_id = rs.getInt("brand_id");
+                double original_price = rs.getDouble("original_price");
+                double current_price = rs.getDouble("current_price");
+                String description = rs.getString("description");
+                int product_status = rs.getInt("product_status");
+                String brandName = rs.getString("brand_name");
+                String category_name = rs.getString("category_name");
+                resultList.add(new Product(product_id, name, volume, category_id, brand_id, original_price, current_price, description, product_status, brandName, category_name));                                
+            }
+            pst.close();
+            return resultList;            
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Product_Model.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
 }

@@ -399,7 +399,7 @@ _:-ms-lang(x) .table-responsive .top .dataTables_filter .form-control:after, .da
     display : none;
   }
 }
-/* loi */
+
 @supports (-moz-osx-font-smoothing: auto) {
   .data-list-view input, .data-thumb-view input {
     width : auto !important;
@@ -407,8 +407,7 @@ _:-ms-lang(x) .table-responsive .top .dataTables_filter .form-control:after, .da
 }
 
 @media not all and (min-resolution: 0.001dpcm) {
-/* loi */
-      @supports (-webkit-appearance: none) {
+  @supports (-webkit-appearance: none) {
     table.data-list-view tbody td.dt-checkboxes-cell input:after, table.data-thumb-view tbody td.dt-checkboxes-cell input:after {
       left : -0.485rem;
     }

@@ -24,6 +24,7 @@ public class UserRole {
      *
      * @param role_id
      * @param role_name
+     * @param user_role_status
      */
     public UserRole(int role_id, String role_name, int user_role_status) {
         this.role_id = role_id;
@@ -39,7 +40,7 @@ public class UserRole {
      * @return 
      */
     public int getRole_id() {
-        return 0;
+        return this.role_id;
     }
 
     /**
