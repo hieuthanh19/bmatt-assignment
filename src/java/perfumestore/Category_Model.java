@@ -56,26 +56,27 @@ public class Category_Model {
      * @throws SQLException
      */
     public ArrayList<Category> loadCategory() throws SQLException {
+
         ArrayList<Category> category = new ArrayList<Category>();
-        try {
-            con = getCon.getConnection();
-            st = con.createStatement();
-            //Create sql select all
-            str = "SELECT * FROM `category`";
-            //execute query
-            rs = st.executeQuery(str);
-            if (rs.isBeforeFirst()) {
-                while (rs.next()) {
-                    //set value to select
-                    int category_id = rs.getInt("category_id");
-                    String category_name = rs.getString("category_name");
-                    int category_status = rs.getInt("category_status");
-                    category.add(new Category(category_id, category_name, category_status));
-                }
+        con = getCon.getConnection();
+        st = con.createStatement();
+        //Create sql select all
+        str = "SELECT * FROM `category`";
+        //execute query
+        rs = st.executeQuery(str);
+        if (rs.isBeforeFirst()) {
+            while (rs.next()) {
+                //set value to select
+                int category_id = rs.getInt("category_id");
+                String category_name = rs.getString("category_name");
+                int category_status = rs.getInt("category_status");
+                category.add(new Category(category_id, category_name, category_status));
             }
-        } catch (Exception e) {
+            pst.close();
+            return category;
         }
-        return category;
+        pst.close();
+        return null;
     }
 
     /**
@@ -117,6 +118,7 @@ public class Category_Model {
             pst.executeUpdate();
             rs = pst.getGeneratedKeys();
             rs.next();
+            pst.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -124,8 +126,6 @@ public class Category_Model {
     }
 
 //    
-    
-
     /**
      * Get category from category_id
      *
@@ -150,6 +150,7 @@ public class Category_Model {
                 String category_name = rs.getString("category_name");
                 int category_status = rs.getInt("category_status");
                 Category category = new Category(category_id, category_name, category_status);
+                pst.close();
                 return category;
             }
             return null;
@@ -183,6 +184,7 @@ public class Category_Model {
             pst.setInt(3, category_id);
             //excute query
             pst.executeUpdate();
+            pst.close();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -211,6 +213,7 @@ public class Category_Model {
                 int category_status = rs.getInt("category_status");
                 category.add(new Category(category_id, category_name, category_status));
             }
+            st.close();
         } catch (SQLException ex) {
             Logger.getLogger(Category_Model.class.getName()).log(Level.SEVERE, null, ex);
         }

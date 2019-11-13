@@ -35,6 +35,17 @@
 
     BrandModel brandM = new BrandModel();
     ArrayList<Brand> brandList = brandM.getAllBrand();
+
+    int errorCode = -1;
+    if (request.getParameter("error") != null) {
+        errorCode = Integer.parseInt(request.getParameter("error"));
+    }
+    String errorMsg = "";
+    if (errorCode == 1) {
+        errorMsg += "Username existed! Please enter another username";
+    } else if (errorCode == 0) {
+        errorMsg += "Can't create account due to an unknown error";
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -63,6 +74,10 @@
             .upload-section{
                 margin-bottom: 20px; 
             }
+
+            .error-message{
+                color: #da5454;
+            }
             /*            a:disabled {
                             pointer-events: none;
                             cursor: default;
@@ -85,7 +100,7 @@
                                 <h2 class="content-header-title float-left mb-0">Products (<%=productList.size()%>)</h2>
                                 <div class="breadcrumb-wrapper col-12">
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="#">Dashboard</a>
+                                        <li class="breadcrumb-item"><a href="index.jsp">Dashboard</a>
                                         </li>
                                         <li class="breadcrumb-item"><a href="#">Store Management</a>
                                         </li>
@@ -102,17 +117,17 @@
                     <section id="data-thumb-view" class="data-thumb-view-header">
                         <div class="action-btns d-none">
                             <div class="btn-dropdown mr-1 mb-1">
-                                <!--                                <div class="btn-group dropdown actions-dropodown">
-                                                                    <button type="button" class="btn btn-white px-1 py-1 dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                        Actions
-                                                                    </button>
-                                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                                        <a class="dropdown-item" href="product-delete.jsp?type=products&id=<%%>">Delete</a>
-                                                                        <a class="dropdown-item" href="#">Archive</a>
-                                                                        <a class="dropdown-item" href="#">Export</a>
-                                                                        <a class="dropdown-item" href="#">Others</a>
-                                                                    </div>
-                                                                </div>-->
+                                <div class="btn-group dropdown actions-dropodown">
+                                    <!--                                                                    <button type="button" class="btn btn-white px-1 py-1 dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                                            Actions
+                                                                                                        </button>
+                                                                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                                                                            <a class="dropdown-item" href="product-delete.jsp?type=products&id=<"">Delete</a>
+                                                                                                            <a class="dropdown-item" href="#">Archive</a>
+                                                                                                            <a class="dropdown-item" href="#">Export</a>
+                                                                                                            <a class="dropdown-item" href="#">Others</a>
+                                                                                                        </div>-->
+                                </div>
                             </div>
                         </div>
                         <!-- dataTable starts -->
@@ -137,7 +152,7 @@
                                 <tbody>
                                     <% for (Product p : productList) {
                                             // String productStatus = p.getProduct_status() == 1 ? "<i class='ficon feather icon-check-circle'>" : "<i class='ficon feather icon-x-circle'>";
-%>
+                                    %>
                                     <tr>
                                         <td></td>
                                         <td><%=p.getProduct_id()%>
@@ -185,10 +200,20 @@
                                         <i class="feather icon-x"></i>
                                     </div>
                                 </div>
-                                <div class="data-items pb-3">
+                                <div class="data-items pb-2">
                                     <form action="../handleCreate" method="post" enctype="multipart/form-data">
-                                        <div class="data-fields px-2 mt-3">
+                                        <div class="data-fields px-2 mt-1">
                                             <div class="row">
+                                                <%
+                                                    if (errorCode != -1) {
+                                                %>
+                                                <div class="col-sm-12 data-field-col">
+                                                    <label class="error-message"><%=errorMsg%></label>
+
+                                                </div>
+                                                <%
+                                                    }
+                                                %>
                                                 <div class="col-sm-12 data-field-col">
                                                     <label for="data-name">Name</label>
                                                     <input type="text" class="form-control productName" id="data-name" name="productName" required  >

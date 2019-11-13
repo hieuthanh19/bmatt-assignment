@@ -6,7 +6,6 @@
 package perfumestore;
 
 import connection.GetConnection;
-import java.awt.Frame;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,8 +14,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -76,8 +73,9 @@ public class Product_Image_Model {
                     int product_img_status = rs.getInt("product_img_status");
                     product_image.add(new Product_Image(img_id, product_id, url, product_img_status));
                 }
+                st.close();
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
         }
         return product_image;
     }
@@ -99,6 +97,7 @@ public class Product_Image_Model {
                 pdi = new Product_Image(id, id, url, product_img_status);
             }
 
+            st.close();
         } catch (Exception e) {
         }
         return pdi;
@@ -107,7 +106,6 @@ public class Product_Image_Model {
     /**
      * insert new product image
      *
-     * @param img_id
      * @param product_id
      * @param url
      * @param product_image_status
@@ -130,6 +128,7 @@ public class Product_Image_Model {
             pst.executeUpdate();
             rs = pst.getGeneratedKeys();
             rs.next();
+            pst.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -160,6 +159,7 @@ public class Product_Image_Model {
                 int product_img_status = rs.getInt("product_img_status");
                 resultList.add(new Product_Image(img_id, product_id, url, product_img_status));
             }
+            pst.close();
             return resultList;
         } catch (SQLException ex) {
             Logger.getLogger(Product_Image_Model.class.getName()).log(Level.SEVERE, null, ex);
@@ -191,6 +191,7 @@ public class Product_Image_Model {
             pst.setInt(3, product_img_status);
             //excute query
             pst.executeUpdate();
+            pst.close();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

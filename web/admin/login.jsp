@@ -14,7 +14,7 @@
     if (errorCode == 1) {
         errorMsg += "Please check your username and password";
     } else if (errorCode == 0) {
-        errorMsg += "Can't not login due to an unknown error";
+        errorMsg += "Can't login due to an unknown error";
     }
 
 %>

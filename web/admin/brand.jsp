@@ -26,7 +26,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Brands | BMatt Admin</title>
+        <title>Brands | BMatt Dashboard</title>
         <jsp:include page="include.jsp"/>
         <style type="text/css">
 
@@ -58,7 +58,7 @@
                                 <h2 class="content-header-title float-left mb-0">Brands (<%=brandList.size()%>)</h2>
                                 <div class="breadcrumb-wrapper col-12">
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="#">Dashboard</a>
+                                        <li class="breadcrumb-item"><a href="index.jsp">Dashboard</a>
                                         </li>
                                         <li class="breadcrumb-item"><a href="#">Store Management</a>
                                         </li>
@@ -76,15 +76,15 @@
                         <div class="action-btns d-none">
                             <div class="btn-dropdown mr-1 mb-1">
                                 <div class="btn-group dropdown actions-dropodown">
-                                    <button type="button" class="btn btn-white px-1 py-1 dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Actions
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="#">Delete</a>
-                                        <a class="dropdown-item" href="#">Archive</a>
-                                        <a class="dropdown-item" href="#">Export</a>
-                                        <a class="dropdown-item" href="#">Others</a>
-                                    </div>
+                                    <!--                                    <button type="button" class="btn btn-white px-1 py-1 dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                            Actions
+                                                                        </button>
+                                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                                            <a class="dropdown-item" href="#">Delete</a>
+                                                                            <a class="dropdown-item" href="#">Archive</a>
+                                                                            <a class="dropdown-item" href="#">Export</a>
+                                                                            <a class="dropdown-item" href="#">Others</a>
+                                                                        </div>-->
                                 </div>
                             </div>
                         </div>
@@ -137,34 +137,37 @@
                             <div class="add-new-data">
                                 <div class="div mt-2 px-2 d-flex new-data-title justify-content-between">
                                     <div>
-                                        <h4>Thêm mới vùng</h4>
+                                        <h4>Add New Brand</h4>
                                     </div>
                                     <div class="hide-data-sidebar">
                                         <i class="feather icon-x"></i>
                                     </div>
                                 </div>
-                                <div class="data-items pb-3">
-                                    <div class="data-fields px-2 mt-3">
+                                <div class="data-items pb-1">
+                                    <div class="data-fields px-2 mt-1">
                                         <div class="row">
                                             <div class="col-sm-12 data-field-col">
-                                                <label for="data-name">Tên vùng</label>
+                                                <label for="data-name">Brand Name</label>
                                                 <input type="text" class="form-control" id="data-name">
                                             </div>
 
                                             <div class="col-sm-12 data-field-col">
-                                                <label for="data-name">Mô tả</label>
+                                                <label for="data-name">Country</label>
                                                 <input type="textarea" class="form-control" id="data-name">
                                             </div>
 
                                             <div class="col-sm-12 data-field-col">
-                                                <label for="data-name">Đường dẫn tĩnh</label>
-                                                <input type="text" class="form-control" id="data-name">
+                                                <label for="data-name">Status: </label>
+                                                <div class="custom-control custom-radio custom-control-inline">
+                                                    <input name="productStatus" id="status-locked" type="radio" class="custom-control-input productStatus" value="0"> 
+                                                    <label for="status-locked" class="custom-control-label">Locked</label>
+                                                </div>
+                                                <div class="custom-control custom-radio custom-control-inline">
+                                                    <input name="productStatus" id="status-unlock" type="radio" class="custom-control-input productStatus" value="1" checked> 
+                                                    <label for="status-unlock" class="custom-control-label">Active</label>
+                                                </div>
                                             </div>
-                                            <div class="col-sm-12 data-field-col data-list-upload">
-                                                <form action="#" class="dropzone dropzone-area" id="dataListUpload">
-                                                    <div class="dz-message">Ảnh đại diện</div>
-                                                </form>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>

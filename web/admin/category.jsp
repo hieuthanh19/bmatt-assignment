@@ -44,7 +44,7 @@
                 max-height: 100px;
                 max-width: 100px;
             }
-              .product-edit{
+            .product-edit{
                 color: #FFA11E;;
             }
             .product-delete{
@@ -70,7 +70,7 @@
                                 <h2 class="content-header-title float-left mb-0">Categories (<%=cateList.size()%>)</h2>
                                 <div class="breadcrumb-wrapper col-12">
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="#">Dashboard</a>
+                                        <li class="breadcrumb-item"><a href="index.jsp">Dashboard</a>
                                         </li>
                                         <li class="breadcrumb-item"><a href="#">Store Management</a>
                                         </li>
@@ -126,7 +126,8 @@
                                         </td>
                                         <td style="align:center;">
                                             <a href="#" class="product-edit"><i class="ficon feather icon-edit"></i></a>
-                                            <a href="#" class="product-delete" onclick="if (confirm('Are you sure you want to lock <%=c.getCategory_name()%>?')) location.href = 'handle-delete.jsp?type=category&id=<%=c.getCategory_id()%>'">
+                                            <a href="#" class="product-delete" onclick="if (confirm('Are you sure you want to lock <%=c.getCategory_name()%>?'))
+                                                        location.href = 'handle-delete.jsp?type=category&id=<%=c.getCategory_id()%>'">
                                                 <i class="ficon feather icon-trash"></i>
                                             </a>
                                         </td>
@@ -144,33 +145,30 @@
                             <div class="add-new-data">
                                 <div class="div mt-2 px-2 d-flex new-data-title justify-content-between">
                                     <div>
-                                        <h4>Thêm mới vùng</h4>
+                                        <h4>Add New Category</h4>
                                     </div>
                                     <div class="hide-data-sidebar">
                                         <i class="feather icon-x"></i>
                                     </div>
                                 </div>
-                                <div class="data-items pb-3">
-                                    <div class="data-fields px-2 mt-3">
+                                <div class="data-items pb-1">
+                                    <div class="data-fields px-2 mt-1">
                                         <div class="row">
                                             <div class="col-sm-12 data-field-col">
-                                                <label for="data-name">Tên vùng</label>
+                                                <label for="data-name">Name</label>
                                                 <input type="text" class="form-control" id="data-name">
                                             </div>
 
                                             <div class="col-sm-12 data-field-col">
-                                                <label for="data-name">Mô tả</label>
-                                                <input type="textarea" class="form-control" id="data-name">
-                                            </div>
-
-                                            <div class="col-sm-12 data-field-col">
-                                                <label for="data-name">Đường dẫn tĩnh</label>
-                                                <input type="text" class="form-control" id="data-name">
-                                            </div>
-                                            <div class="col-sm-12 data-field-col data-list-upload">
-                                                <form action="#" class="dropzone dropzone-area" id="dataListUpload">
-                                                    <div class="dz-message">Ảnh đại diện</div>
-                                                </form>
+                                                <label for="data-name">Status: </label>
+                                                <div class="custom-control custom-radio custom-control-inline">
+                                                    <input name="productStatus" id="status-locked" type="radio" class="custom-control-input productStatus" value="0"> 
+                                                    <label for="status-locked" class="custom-control-label">Locked</label>
+                                                </div>
+                                                <div class="custom-control custom-radio custom-control-inline">
+                                                    <input name="productStatus" id="status-unlock" type="radio" class="custom-control-input productStatus" value="1" checked> 
+                                                    <label for="status-unlock" class="custom-control-label">Active</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

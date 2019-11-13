@@ -297,6 +297,7 @@ public class Product_Model {
                 pst.close();
                 return result;
             }
+            pst.close();
             return null;
 
         } catch (SQLException ex) {
@@ -342,6 +343,7 @@ public class Product_Model {
             pst.setInt(9, product_id);
             //excute query
             pst.executeUpdate();
+            pst.close();
             return true;
         } catch (SQLException e) {
         }
@@ -411,6 +413,7 @@ public class Product_Model {
                 product.add(new Product(product_id, name, volume, category_id, brand_id, original_price, current_price, description, product_status, brandName, category_name));
                 product.get(product.size() - 1);
             }
+            pst.close();
         } catch (SQLException ex) {
             Logger.getLogger(Product_Model.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -436,6 +439,7 @@ public class Product_Model {
         this.st = this.con.createStatement();
         this.rs = this.st.executeQuery(sqlStr);
         rs.next();
+        st.close();
         return rs.getInt("soLuong");
     }
 

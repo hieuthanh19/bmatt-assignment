@@ -58,8 +58,10 @@ public class UserRoleModel {
         rs = pst.executeQuery();
         //if result found
         if (rs.next() != false) {
+            pst.close();
             return true;
         }
+        pst.close();
         return false;
     }
 

@@ -15,24 +15,28 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="perfumestore.Product_Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <%    if (session.getAttribute("username") == null) {
         response.sendRedirect("");
     }
 %>
 <%
-    int pageNumber = 1;
-    String search = "";
-    String sortColumn = "";
-    int productsPerPage = 4;
-    if (request.getParameter("pageNumber") != null) {
-        pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-    }
     AccountModel accM = new AccountModel();
     ArrayList<Account> accList = accM.getAllAccount();
     UserRoleModel userRoleM = new UserRoleModel();
     ArrayList<UserRole> userRoleList = userRoleM.getAllUserRole();
     UserModel userM = new UserModel();
 
+    int errorCode = -1;
+    if (request.getParameter("error") != null) {
+        errorCode = Integer.parseInt(request.getParameter("error"));
+    }
+    String errorMsg = "";
+    if (errorCode == 1) {
+        errorMsg += "Username existed! Please enter another username";
+    } else if (errorCode == 0) {
+        errorMsg += "Can't create account due to an unknown error";
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -58,6 +62,10 @@
             .product-delete{
                 color: red;
             }
+
+            .error-message{
+                color: #da5454;
+            }
             /*            a:disabled {
                             pointer-events: none;
                             cursor: default;
@@ -78,7 +86,7 @@
                                 <h2 class="content-header-title float-left mb-0">All Accounts (<%=accList.size()%>)</h2>
                                 <div class="breadcrumb-wrapper col-12">
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="#">Dashboard</a>
+                                        <li class="breadcrumb-item"><a href="index.jsp">Dashboard</a>
                                         </li>
                                         <li class="breadcrumb-item"><a href="#">Accounts</a>
                                         </li>
@@ -124,11 +132,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% for (Account a : accList) {
+                                    <%
+                                        int i = 1;
+                                        for (Account a : accList) {
                                     %>
                                     <tr>
                                         <td></td>
-                                        <td><%=a.getAccount_id()%>
+                                        <td><%=i%>
                                         </td>
                                         <td class="product-name"><%=a.getUsername()%></td>
                                         <td class="product-name"><%=userM.getUser(a.getAccount_id()).getFull_name()%></td>
@@ -139,12 +149,15 @@
                                         </td>
                                         <td style="align:center;">
                                             <a href="#" class="product-edit" onclick="location.href = 'account-edit.jsp?type=account&id=<%=a.getAccount_id()%>'"><i class="ficon feather icon-edit"></i></a>
-                                            <a href="#" class="product-delete" onclick="if (confirm('Are you sure you want to lock <%=a.getUsername()%>?')) location.href = 'handle-delete.jsp?type=account&id=<%=a.getAccount_id()%>'">
+                                            <a href="#" class="product-delete" onclick="if (confirm('Are you sure you want to lock <%=a.getUsername()%>?'))
+                                                        location.href = 'handle-delete.jsp?type=account&id=<%=a.getAccount_id()%>'">
                                                 <i class="ficon feather icon-trash"></i>
                                             </a>
                                         </td>
                                     </tr>
-                                    <%                                            }
+                                    <%                                  ++i;
+                                        }
+
                                     %>
                                 </tbody>
                             </table>
@@ -154,32 +167,59 @@
                         <!-- add new sidebar starts -->
                         <div class="add-new-data-sidebar">
                             <div class="overlay-bg"></div>
-                            <div class="add-new-data">
-                                <form action="handle-create.jsp" method="post">
-                                    <div class="div mt-2 px-2 d-flex new-data-title justify-content-between">
-                                        <div>
-                                            <h4>New Account</h4>
-                                        </div>
-                                        <div class="hide-data-sidebar">
-                                            <i class="feather icon-x"></i>
-                                        </div>
+                            <div class="add-new-data">                                
+                                <div class="div mt-2 px-2 d-flex new-data-title justify-content-between">
+                                    <div>
+                                        <h4>New Account</h4>
                                     </div>
-                                    <div class="data-items pb-3">
-                                        <div class="data-fields px-2 mt-3">
+                                    <div class="hide-data-sidebar">
+                                        <i class="feather icon-x"></i>
+                                    </div>
+                                </div>
+                                <div class="data-items pb-2">
+                                    <form action="../handleCreate" method="post" enctype="multipart/form-data">
+                                        <div class="data-fields px-2 mt-1">
                                             <div class="row">
+                                                <%                                                        if (errorCode != -1) {
+                                                %>
                                                 <div class="col-sm-12 data-field-col">
-                                                    <label for="data-name">Username</label>
-                                                    <input type="text" class="form-control" id="data-name" name="username" required>
+                                                    <label class="error-message"><%=errorMsg%></label>
+
+                                                </div>
+                                                <%
+                                                    }
+                                                %>
+                                                <div class="col-sm-12 data-field-col">
+                                                    <label for="data-name">Username(*)</label>
+                                                    <input type="text" class="form-control" name="username"  required >
                                                 </div>
 
                                                 <div class="col-sm-12 data-field-col">
-                                                    <label for="data-name">Password</label>
-                                                    <input type="password" class="form-control" id="data-name" name="password" required>
+                                                    <label for="data-name">Password(*)</label>
+                                                    <input type="password" class="form-control"  name="password" placeholder="Use 6 or more characters" required minlength="6">
+                                                </div>
+
+                                                <div class="col-sm-12 data-field-col">
+                                                    <label for="data-name">Name(*)</label>
+                                                    <input type="text" class="form-control"  name="fullname" required>
+                                                </div>
+
+                                                <div class="col-sm-12 data-field-col">
+                                                    <label for="data-name">Email(*)</label>
+                                                    <input type="email" class="form-control" name="email" required pattern="^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$" placeholder="example@exmaple.com" >
+                                                </div>
+                                                <div class="col-sm-12 data-field-col">
+                                                    <label for="data-name">Address</label>
+                                                    <input type="text" class="form-control" name="address" >
+                                                </div>
+                                                <div class="col-sm-12 data-field-col">
+                                                    <label for="data-name">Phone Number</label>
+                                                    <input type="tel" class="form-control"  name="phoneNumber" minlength="10">
                                                 </div>
 
                                                 <div class="col-sm-12 data-field-col">
                                                     <label for="data-category"> Role </label>
-                                                    <select class="form-control" id="data-category" name="category">
+                                                    <select class="form-control" id="data-user-role" name="user-role">
                                                         <% for (UserRole us : userRoleList) {
 
                                                         %>
@@ -199,19 +239,20 @@
                                                         <label for="status-unlock" class="custom-control-label">Active</label>
                                                     </div>
                                                 </div>
-                                                    <input type="hidden" name="type" value="account">
+                                                <input type="hidden" name="type" value="account">
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="add-data-footer d-flex justify-content-around px-5">
-                                        <div class="add-data-btn">
-                                            <button class="btn btn-primary" type="submit">Create</button>
+                                        <div class="add-data-footer d-flex justify-content-around px-4">
+                                            <div class="add-data-btn">
+                                                <button class="btn btn-primary" type="submit">Create</button>
+                                            </div>
+                                            <div class="cancel-data-btn">
+                                                <button class="btn btn-outline-danger">Cancel</button>
+                                            </div>
                                         </div>
-                                        <div class="cancel-data-btn">
-                                            <button class="btn btn-outline-danger">Cancel</button>
-                                        </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
+
                             </div>
                         </div>
                         <!-- add new sidebar ends -->

@@ -46,7 +46,7 @@ public class AccountModel {
      * Check if given username is duplicate
      *
      * @param account_username
-     * @return
+     * @return true is exist, false if not
      * @throws SQLException
      */
     public boolean isUsernameExist(String account_username) throws SQLException {
@@ -61,6 +61,7 @@ public class AccountModel {
         rs = pst.executeQuery();
         //if result found
         if (rs.next() != false) {
+            pst.close();
             return true;
         }
         return false;
@@ -122,9 +123,11 @@ public class AccountModel {
             String acc_password = rs.getString(tblCols[2]);
             //compare with input
             if (acc_password.equals(getMd5(password))) {
+                pst.close();
                 return true;
             }
         }
+        pst.close();
         return false;
     }
 
@@ -147,8 +150,10 @@ public class AccountModel {
         rs = pst.executeQuery();
         //if result found
         if (rs.next() != false) {
+            pst.close();
             return true;
         }
+        pst.close();
         return false;
     }
 
@@ -202,6 +207,7 @@ public class AccountModel {
             pst.close();
             return acc_id;
         } else {
+            pst.close();
             return -1;
         }
 
@@ -238,6 +244,7 @@ public class AccountModel {
             pst.close();
         }//invalid 
         else {
+            pst.close();
             throw new AccountException("Account ID is not exist!");
         }
     }
@@ -271,9 +278,11 @@ public class AccountModel {
             //check if password is correct
             if (acc_password.equals(getMd5(password))) {
                 Account a = new Account(acc_id, acc_username, acc_password, acc_status, role_id);
+                pst.close();
                 return a;
             }
         }
+        pst.close();
         return null;
     }
 
@@ -302,11 +311,14 @@ public class AccountModel {
                 int role_id = rs.getInt(tblCols[4]);
                 //check if password is correct
                 Account a = new Account(acc_id, acc_username, acc_password, acc_status, role_id);
+                pst.close();
                 return a;
             }
+            pst.close();
             return null;
         } catch (SQLException ex) {
             Logger.getLogger(AccountModel.class.getName()).log(Level.SEVERE, null, ex);
+            
             return null;
         }
     }
@@ -339,11 +351,13 @@ public class AccountModel {
                 //check if password is correct
                 resultList.add(new Account(acc_id, acc_username, acc_password, acc_status, role_id));
             }
+            pst.close();
             return resultList;
         } catch (SQLException ex) {
             Logger.getLogger(AccountModel.class.getName()).log(Level.SEVERE, null, ex);
+            
             return null;
-        }
+        }   
     }
     
 //    public static void main(String[] args){

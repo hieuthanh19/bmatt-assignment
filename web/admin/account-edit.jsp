@@ -47,7 +47,7 @@
     <head>
         <!-- Title Section START -->
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Account Edit | BMatt Admin</title>
+        <title>Account Edit | BMatt Dashboard</title>
         <!-- Title Section END -->
 
         <!-- Latest compiled and minified CSS -->

@@ -35,7 +35,14 @@
                         </div>
                     </li>
                     <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
-                            <div class="user-nav d-sm-flex d-none"><span class="user-name text-bold-600"><%=acc != null ? acc.getUsername() : "Admin"%></span><span class="user-status">Available</span></div><span><img class="round" src="../admin/app-assets/images/portrait/small/avatar-admin.png" alt="avatar" height="40" width="40"></span>
+                            <div class="user-nav d-sm-flex d-none">
+                                <span class="user-name text-bold-600"><%=acc != null ? acc.getUsername() : "Admin"%></span>
+                                <span class="user-status">Available</span>
+                            </div>
+                                <span >
+                                <!--<i class="round feather icon-user" style="color: #7367F0; height: 40px; width: 40px;"  ></i>-->
+                                <img class="round admin-avtar" src="../admin/app-assets/images/portrait/small/avatar-admin.png" alt="avatar" height="35" width="35">
+                            </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="page-user-profile.html"><i class="feather icon-user"></i> Edit Profile</a><a class="dropdown-item" href="app-email.html"><i class="feather icon-mail"></i> My Inbox</a><a class="dropdown-item" href="app-todo.html"><i class="feather icon-check-square"></i> Task</a><a class="dropdown-item" href="app-chat.html"><i class="feather icon-message-square"></i> Chats</a>
                             <div class="dropdown-divider"></div><a class="dropdown-item" href="logout-process.jsp"><i class="feather icon-power"></i> Logout</a>
