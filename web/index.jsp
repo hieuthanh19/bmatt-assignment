@@ -11,14 +11,14 @@
 <%@page import="perfumestore.Product_Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    Product_Model pM = new Product_Model();
-    Product_Image_Model productImgM = new Product_Image_Model();
-    int pageNumber = 1;
-    String search = "";
-    String sortColumn = "";
+//    int pageNumber = 1;
+//    String search = "";
+//    String sortColumn = "";
     final int Product_Per_Page = 10;
     String imgDir = "img/product/single-product/";
-
+    
+    Product_Model pM = new Product_Model();
+    Product_Image_Model productImgM = new Product_Image_Model();
     ArrayList<Product> productList = pM.getAllProduct();
 
 
@@ -201,7 +201,7 @@
                             for (Product p : productList) {
                                 ArrayList<Product_Image> productImgList = productImgM.getProduct_Image(p.getProduct_id());
                                 if (i < Product_Per_Page) {
-                                    if (p.getProduct_status() == 1 && p.getCategoty_id()==1) {
+                                    if (p.getProduct_status() == 1 && p.getCategoty_id() == 1) {
                         %>
                         <div class="col col<%=i + 1%>">
                             <div class="f_p_item">
@@ -255,7 +255,7 @@
                             for (Product p : productList) {
                                 ArrayList<Product_Image> productImgList = productImgM.getProduct_Image(p.getProduct_id());
                                 if (i < 10) {
-                                    if (p.getProduct_status() == 1 && p.getCategoty_id()==2) {
+                                    if (p.getProduct_status() == 1 && p.getCategoty_id() == 2) {
                         %>
                         <div class="col col<%=i + 1%>">
                             <div class="f_p_item">

@@ -46,6 +46,11 @@
     } else if (errorCode == 0) {
         errorMsg += "Can't create account due to an unknown error";
     }
+    String action = "";
+    if (request.getParameter("action") != null) {
+        action = request.getParameter("action");
+    }
+
 %>
 <!DOCTYPE html>
 <html>
@@ -101,9 +106,7 @@
                                 <div class="breadcrumb-wrapper col-12">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="index.jsp">Dashboard</a>
-                                        </li>
-                                        <li class="breadcrumb-item"><a href="#">Store Management</a>
-                                        </li>
+                                        </li>                                        
                                         <li class="breadcrumb-item">Products
                                         </li>
                                     </ol>
@@ -152,7 +155,7 @@
                                 <tbody>
                                     <% for (Product p : productList) {
                                             // String productStatus = p.getProduct_status() == 1 ? "<i class='ficon feather icon-check-circle'>" : "<i class='ficon feather icon-x-circle'>";
-                                    %>
+%>
                                     <tr>
                                         <td></td>
                                         <td><%=p.getProduct_id()%>
@@ -189,8 +192,8 @@
 
                         <!-- add new sidebar starts -->
                         <div class="add-new-data-sidebar">
-                            <div class="overlay-bg"></div>
-                            <div class="add-new-data">
+                            <div class="overlay-bg <%=action.equals("add")? "show" : ""%>"></div>
+                            <div class="add-new-data <%=action.equals("add")? "show" : ""%>">
 
                                 <div class="div mt-2 px-2 d-flex new-data-title justify-content-between">
                                     <div>

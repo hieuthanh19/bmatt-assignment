@@ -288,8 +288,9 @@ public class AccountModel {
 
     /**
      * Get account from account ID
+     *
      * @param accId
-     * @return 
+     * @return
      */
     public Account getAccount(int accId) {
         try {
@@ -318,7 +319,47 @@ public class AccountModel {
             return null;
         } catch (SQLException ex) {
             Logger.getLogger(AccountModel.class.getName()).log(Level.SEVERE, null, ex);
-            
+
+            return null;
+        }
+    }
+
+    /**
+     * Get account using password encrypted by MD5
+     *
+     * @param username
+     * @param passwordMD5 password encrypted using MD5
+     * @return
+     */
+    public Account getAccount(String username, String passwordMD5) {
+        try {
+            //connect to DB
+            con = GetConnection.getConnection();
+            //Create sql string
+            String sqlStr = "select * from " + tblName + " where " + tblCols[1] + "= ? AND " + tblCols[2] + "= ?";
+            //crete query
+            pst = con.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);
+            pst.setString(1, username);
+            pst.setString(2, passwordMD5);
+            //execute query
+            rs = pst.executeQuery();
+            //if result found
+            if (rs.next() != false) {
+                int acc_id = rs.getInt(tblCols[0]);
+                String acc_username = rs.getString(tblCols[1]);
+                String acc_password = rs.getString(tblCols[2]);
+                int acc_status = rs.getInt(tblCols[3]);
+                int role_id = rs.getInt(tblCols[4]);
+                //check if password is correct
+                Account a = new Account(acc_id, acc_username, acc_password, acc_status, role_id);
+                pst.close();
+                return a;
+            }
+            pst.close();
+            return null;
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountModel.class.getName()).log(Level.SEVERE, null, ex);
+
             return null;
         }
     }
@@ -355,11 +396,11 @@ public class AccountModel {
             return resultList;
         } catch (SQLException ex) {
             Logger.getLogger(AccountModel.class.getName()).log(Level.SEVERE, null, ex);
-            
+
             return null;
-        }   
+        }
     }
-    
+
 //    public static void main(String[] args){
 //        try {
 //            AccountModel accM = new AccountModel();

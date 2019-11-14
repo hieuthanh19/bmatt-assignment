@@ -4,7 +4,23 @@
     Author     : ThanhKH
 --%>
 
+<%@page import="perfumestore.Product_Image"%>
+<%@page import="perfumestore.Product"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="perfumestore.Product_Image_Model"%>
+<%@page import="perfumestore.Product_Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%
+    String imgDir = "img/product/single-product/";
+    String search = "";
+    if (request.getParameter("search") != null) {
+        search = request.getParameter("search");
+    }
+    Product_Model pM = new Product_Model();
+    Product_Image_Model productImgM = new Product_Image_Model();
+    ArrayList<Product> productList = pM.getAllProduct();
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,6 +37,11 @@
         <!-- main css -->
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/responsive.css">
+                <style>
+/*                    .main_title{
+                        font-size: 
+                    }*/
+                </style>
     </head>
     <body>
         <jsp:include page="navbar.jsp"/>
@@ -29,10 +50,10 @@
             <div class="banner_inner d-flex align-items-center">
                 <div class="container">
                     <div class="banner_content text-center">
-                        <h2>Contact Us</h2>
+                        <h2>Search</h2>
                         <div class="page_link">
                             <a href="index.jsp">Home</a>
-                            <a href="contact.jsp">Contact Us</a>
+                            <a href="search.jsp">Search</a>
                         </div>
                     </div>
                 </div>
@@ -40,38 +61,26 @@
         </section>
         <!--================End Home Banner Area =================-->
 
-        <!--================Contact Area =================-->
-        <section class="contact_area p_120">
+        <!--================Search Area =================-->
+        <section class="contact_area p_60">
             <div class="container">
                 <!--                <div id="mapBox" class="mapBox" data-lat="10.0134708" data-lon="105.731497" data-zoom="17" data-info="FPTU"
                                      data-mlat="10.0134708" data-mlon="105.731497">
                                 </div>-->
                 <div class="row">
-                    <div class="col-lg-12">
-                        <div class="contact_info">
-                            <div class="info_item">
-                                <i class="lnr lnr-home"></i>
-                                <h6>
-                                    <a href="https://www.google.com/maps/place/%C4%90%E1%BA%A1i+H%E1%BB%8Dc+Fpt+C%E1%BA%A7n+Th%C6%A1/@10.0290131,105.7499822,19.08z/data=!4m5!3m4!1s0x31a088447e3665c1:0x284416539d0f64ba!8m2!3d10.0286845!4d105.7497459" target="_blank">
-                                        FPT University, Cantho, Vietnam
-                                    </a>
-                                </h6>
-                                <p>Our main office</p>
-                            </div>
-                            <div class="info_item">
-                                <i class="lnr lnr-phone-handset"></i>
-                                <h6>
-                                    <a href="tel:0808150808">0808150808</a>
-                                </h6>
-                                <p>Mon to Fri 8am to 6 pm</p>
-                            </div>
-                            <div class="info_item">
-                                <i class="lnr lnr-envelope"></i>
-                                <h6>
-                                    <a href="mailto:perfume_store@bmatt.com">contact@bmatt.com</a>
-                                </h6>
-                                <p>Send us your query anytime!</p>
-                            </div>
+
+                    <div class="col-lg-6 offset-3">
+                        <div class="search-bar">
+                            <!-- Search bar start -->
+                            <form action="category.jsp" method="get">
+                                <div class="input-group mb-4 border rounded-pill search-bar">
+                                    <input type="text" name="search" value="<%=search%>" placeholder="What're you searching for?" aria-describedby="button-addon3" class="form-control bg-none border-0">
+                                    <div class="input-group-append border-0">
+                                        <button id="button-addon3" type="submit" class="btn btn-link text-info" ><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- Search bar end -->
                         </div>
                     </div>
                     <!--                    <div class="col-lg-9">
@@ -97,10 +106,73 @@
                                                 </div>
                                             </form>
                                         </div>-->
+
+
                 </div>
             </div>
         </section>
-        <!--================Contact Area =================-->
+        <!--================Search Area =================-->
+
+        <!--================Feature Product Area =================-->
+        <section class="feature_product_area section_gap" id="feature-product">
+            <div class="main_box">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="main_title">
+                            <h3>Fragrances You May Interest</h3>
+                            
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <%                            int i = 0;
+                            for (Product p : productList) {
+                                ArrayList<Product_Image> productImgList = productImgM.getProduct_Image(p.getProduct_id());
+                                if (i < 10) {
+                                    if (p.getProduct_status() == 1) {
+                        %>
+
+                        <div class="col col<%=i + 1%>">
+                            <div class="f_p_item">
+                                <div class="f_p_img">
+                                    <img class="img-fluid" src="<%=imgDir + p.getBrand_id() + "/" + productImgList.get(0).getUrl()%>"  alt="product image">
+                                    <div class="p_icon">
+                                        <a href="#">
+                                            <i class="lnr lnr-heart"></i>
+                                        </a>
+                                        <a href="#">
+                                            <i class="lnr lnr-cart"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+
+                                <a href="product-detail.jsp?id=<%=p.getProduct_id()%>">
+                                    <h4><%=p.getName()%></h4>
+                                </a>
+
+                                <h5>$ <%=p.getCurrent_price()%></h5>
+                            </div>
+
+                        </div>
+                        <%
+                                        ++i;
+                                    }
+                                } else {
+                                    break;
+                                }
+                            }
+                        %>      
+
+
+                    </div>
+                    <div class="row">
+                        <a class="green_btn mx-auto" href="category.jsp">See more</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--================End Feature Product Area =================-->
 
         <jsp:include page="footer.jsp"/>
         <!-- contact js -->

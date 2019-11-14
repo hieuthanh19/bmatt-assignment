@@ -101,7 +101,7 @@
     overflow: hidden;
     width: 100%;
     min-height: 395px;
-    background: url(../img/banner/home-hero.jpg) no-repeat center bottom;
+    background: url(../img/banner/page-title-banner.jpg) no-repeat center bottom;
     background-size: contain;
     z-index: 1; }
     .banner_area .banner_inner .overlay {

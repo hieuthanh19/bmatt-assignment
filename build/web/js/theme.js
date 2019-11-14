@@ -229,7 +229,7 @@
         var $markerLat = $('#mapBox').data('mlat');
         var $markerLon = $('#mapBox').data('mlon');
         var map = new GMaps({
-        el: '#mapBox',
+        div: '#mapBox',
         lat: $lat,
         lng: $lon,
         scrollwheel: false,

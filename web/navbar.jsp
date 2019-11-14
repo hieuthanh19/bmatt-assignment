@@ -4,8 +4,21 @@
     Author     : ThanhKH
 --%>
 
+<%@page import="perfumestore.AccountModel"%>
+<%@page import="perfumestore.Account"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%
+    Account acc = null;
+    if (session.getAttribute("username") != null) {
+        /**
+         * GET ACCOUNT
+         */
+        String username = (String) session.getAttribute("username");
+        String password = (String) session.getAttribute("password");
+        AccountModel accM = new AccountModel();
+        acc = accM.getAccount(username, password);
+    }
+%>
 <!--================Header Menu Area =================-->
 <header class="header_area">
     <div class="top_menu row m0">
@@ -13,16 +26,17 @@
 
             <div class="float-right">
                 <ul class="right_side">
-                    <li>
+                    <li>                        
+                        <a href="registration.jsp">
+                            Register
+                        </a>
+                    </li>  
+                    <li >                        
                         <a href="login.jsp">
-                            Login/Register
+                            Login
                         </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            My Account
-                        </a>
-                    </li>
+                    </li>                   
+
                     <li>
                         <a href="contact.jsp">
                             Contact Us
@@ -37,7 +51,7 @@
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <a class="navbar-brand logo_h" href="index.jsp">
-                    <img src="img/logo.png" alt="">
+                    <img src="img/logo.png" alt="brand logo">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -54,11 +68,11 @@
                                     <a class="nav-link" href="index.jsp">Home</a>
                                 </li>                                      
                                 <li class="nav-item ">
-                                    <a class="nav-link" href="category.jsp?categoryId=1">Women's Fragrance</a>
+                                    <a class="nav-link" href="category.jsp">Store</a>
                                 </li>                                      
-                                <li class="nav-item ">
-                                    <a class="nav-link" href="category.jsp?categoryId=2">Men's Fragrance</a>
-                                </li>                                      
+                                <!--                                <li class="nav-item ">
+                                                                    <a class="nav-link" href="category.jsp?categoryId=2">Men's Fragrance</a>
+                                                                </li>                                      -->
 
 
                                 <!--  <li class="nav-item submenu dropdown">
@@ -89,7 +103,7 @@
                             <ul class="nav navbar-nav navbar-right right_nav pull-right">
                                 <hr>
                                 <li class="nav-item">
-                                    <a href="#" class="icons">
+                                    <a href="search.jsp" class="icons">
                                         <i class="fa fa-search" aria-hidden="true"></i>
                                     </a>
                                 </li>
