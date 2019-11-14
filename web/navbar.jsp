@@ -26,6 +26,9 @@
 
             <div class="float-right">
                 <ul class="right_side">
+                    <%
+                        if (acc == null) {
+                    %>
                     <li>                        
                         <a href="registration.jsp">
                             Register
@@ -36,7 +39,18 @@
                             Login
                         </a>
                     </li>                   
+                    <%
+                    } else {
+                    %>
+                    <li >                        
+                        <a href="logout-process.jsp">
+                            Logout
+                        </a>
+                    </li> 
 
+                    <%
+                        }
+                    %>
                     <li>
                         <a href="contact.jsp">
                             Contact Us
@@ -110,19 +124,7 @@
 
                                 <hr>
 
-                                <li class="nav-item">
-                                    <a href="#" class="icons">
-                                        <i class="fa fa-user" aria-hidden="true"></i>
-                                    </a>
-                                </li>
-
-                                <hr>
-
-                                <li class="nav-item">
-                                    <a href="#" class="icons">
-                                        <i class="fa fa-heart-o" aria-hidden="true"></i>
-                                    </a>
-                                </li>
+                               
 
                                 <hr>
 

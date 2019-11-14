@@ -25,7 +25,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="icon" href="img/favicon.png" type="image/png">
+        <link rel="shortcut icon" href="img/favicon.png" type="image/png">
         <title>Contact | BMatt Shop</title>
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="vendors/linericon/style.css">
@@ -37,11 +37,11 @@
         <!-- main css -->
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/responsive.css">
-                <style>
-/*                    .main_title{
-                        font-size: 
-                    }*/
-                </style>
+        <style>
+            /*                    .main_title{
+                                    font-size: 
+                                }*/
+        </style>
     </head>
     <body>
         <jsp:include page="navbar.jsp"/>
@@ -120,7 +120,7 @@
                     <div class="row">
                         <div class="main_title">
                             <h3>Fragrances You May Interest</h3>
-                            
+
                         </div>
                     </div>
                     <div class="row">

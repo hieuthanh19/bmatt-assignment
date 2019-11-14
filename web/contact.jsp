@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="icon" href="img/favicon.png" type="image/png">
+        <link rel="shortcut icon" href="img/favicon.png" type="image/png">
         <title>Contact | BMatt Shop</title>
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="vendors/linericon/style.css">
@@ -63,7 +63,7 @@
                                 <h6>
                                     <a href="tel:0808150808">0808150808</a>
                                 </h6>
-                                <p>Mon to Fri 8am to 6 pm</p>
+                                <p>Mon to Fri 8 am to 6 pm</p>
                             </div>
                             <div class="info_item">
                                 <i class="lnr lnr-envelope"></i>
