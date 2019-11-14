@@ -25,7 +25,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 @WebServlet(urlPatterns = {"/handle-edit"})
 public class HandleEdit extends HttpServlet {
 
-    private final String UPLOAD_ABSOLUTE_DIR = "C:\\Users\\Laptop\\OneDrive\\STUDY\\2019 FALL\\PRJ321\\bmatt-assignment\\web\\img\\product\\single-product";
+    private final String UPLOAD_ABSOLUTE_DIR = "C:\\Users\\Laptop\\OneDrive\\STUDY\\2019 FALL\\bmatt-assignment\\web\\img\\product\\single-product";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

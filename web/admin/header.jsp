@@ -3,14 +3,16 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     Account acc = null;
-    if (session.getAttribute("username") != null) {
+    if (session.getAttribute("admin-username") != null) {
         /**
          * GET ACCOUNT
          */
-        String username = (String) session.getAttribute("username");
-        String password = (String) session.getAttribute("password");
+        String username = (String) session.getAttribute("admin-username");
+        String password = (String) session.getAttribute("admin-password");
         AccountModel accM = new AccountModel();
         acc = accM.getAccount(username, password);
+    } else {
+        response.sendRedirect("");
     }
 %>
 <!-- BEGIN: Header-->
@@ -51,9 +53,7 @@
                                                         <a class="dropdown-item" href="app-chat.html"><i class="feather icon-message-square"></i> Chats</a>
                                                         <div class="dropdown-divider"></div>-->
                             <a class="dropdown-item" href="logout-process.jsp">
-                                <i class="feather icon-power"></i> 
-                                Logout
-                            </a>
+                                <i class="feather icon-power"></i> Log out</a>
                         </div>
                     </li>
                 </ul>

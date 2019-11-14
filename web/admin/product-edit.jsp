@@ -17,10 +17,11 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%    if (session.getAttribute("username") == null) {
+<%    if (session.getAttribute("admin-username") == null) {
         response.sendRedirect("");
     }
 %>
+
 <%
     //connection to database
     Product_Model productM = new Product_Model();

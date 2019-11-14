@@ -128,11 +128,13 @@ public class Product_Image_Model {
             pst.executeUpdate();
             rs = pst.getGeneratedKeys();
             rs.next();
+            int imgId = rs.getInt(1);
             pst.close();
+            return imgId;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0;
+        return -1;
     }
 
     /**

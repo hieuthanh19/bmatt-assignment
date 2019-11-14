@@ -5,7 +5,6 @@ package Servlet;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,7 +31,7 @@ public class HandleCreate extends HttpServlet {
 
     private String upload_dir = "/img";
     //private final String UPLOAD_ABSOLUTE_DIR = getServletContext().getRealPath(upload_dir);
-    private final String UPLOAD_ABSOLUTE_DIR = "C:\\Users\\Laptop\\OneDrive\\STUDY\\2019 FALL\\PRJ321\\bmatt-assignment\\web\\img\\product\\single-product";
+    private final String UPLOAD_ABSOLUTE_DIR = "C:\\Users\\Laptop\\OneDrive\\STUDY\\2019 FALL\\bmatt-assignment\\web\\img\\product\\single-product";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -91,14 +90,14 @@ public class HandleCreate extends HttpServlet {
             Product_Model productM = new Product_Model();
             Product_Image_Model proImgM = new Product_Image_Model();
 
-            String productName = "";
-            int volume = 0;
-            double productBasePrice = 0.0;
-            double productSellPrice = 0.0;
-            int categoryId = 0;
+//            String productName = "";
+//            int volume = 0;
+//            double productBasePrice = 0.0;
+//            double productSellPrice = 0.0;
+//            int categoryId = 0;
             int brandId = 0;
-            String description = "";
-            int status = -1;
+//            String description = "";
+//            int status = -1;
             String imageName = "";
             List<FileItem> multiparts = null;
 
@@ -126,7 +125,7 @@ public class HandleCreate extends HttpServlet {
                         try {
                             //notFormField++;
                             item.write(new File(UPLOAD_ABSOLUTE_DIR + File.separator + brandId + File.separator + imageName));
-                            request.setAttribute("productImage", imageName);
+                            request.setAttribute("productImage", imageName);                            
                         } catch (Exception ex) {
                             Logger.getLogger(HandleCreate.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -135,7 +134,7 @@ public class HandleCreate extends HttpServlet {
                     else {
                         String fieldName = item.getFieldName();
                         String fieldValue = item.getString();
-                        if (fieldName.equals("productBrand")){
+                        if (fieldName.equals("productBrand")) {
                             brandId = Integer.parseInt(fieldValue);
                         }
                         request.setAttribute(fieldName, fieldValue);

@@ -1,6 +1,7 @@
 # Bmatt Assignment
 Java Web Assignment của nhóm BMatt
-# Leader thân gửi các bạn (nhất là bạn A và T), Code nhớ COMMENT &#128522;
+# Nhớ đổi path chứa hình trong handleCreate và handleEdit &#9785; \
+## Leader thân gửi các bạn (nhất là bạn A và T), Code nhớ COMMENT &#128522;
 ### Lần đầu kết nối, để lấy code về
 Dùng lệnh sau để copy project của nhóm về
 ```

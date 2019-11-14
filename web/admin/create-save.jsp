@@ -9,10 +9,11 @@
 <%@page import="perfumestore.Product_Image_Model"%>
 <%@page import="perfumestore.Product_Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%    if (session.getAttribute("username") == null) {
+<%    if (session.getAttribute("admin-username") == null) {
         response.sendRedirect("");
     }
 %>
+
 <%
     String type = (String) request.getAttribute("type");
     if (type.equals("product")) {
