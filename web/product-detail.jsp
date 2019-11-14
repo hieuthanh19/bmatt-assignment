@@ -232,6 +232,9 @@
                             }
                         %>                        
                     </div>
+                     <div class="row">
+                        <a class="green_btn mx-auto" href="category.jsp?pageNumber=1&brandId=2&volumeStart=1.0&volumeEnd=1000.0&priceEnd=10000.0&productPerPage=12">See more</a>
+                    </div>
                     <!--================End Single Product Area =================-->        
 
                     <!--================ Subscription Area ================
