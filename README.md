@@ -8,7 +8,7 @@ Dưới đây là một số command cơ bản của Git. Chỉ cần nhiêu đ�
 ### Lần đầu kết nối, để tạo project và lấy code về
 Dùng lệnh sau để copy project của nhóm về
 ```
-git clone https://github.com/hieuthanh19/admin-page.git
+git clone https://github.com/hieuthanh19/bmatt-assignment.git
 ```
 
 ### Để đẩy code lên Github
