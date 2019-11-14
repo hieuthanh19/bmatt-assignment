@@ -207,7 +207,7 @@
       range: true,
       min: 0,
       max: 500,
-      values: [ 10, 500 ],
+      values: [ 0, 1000 ],
       slide: function( event, ui ) {
         $( "#amount" ).val( "$" + ui.values[ 0 ] + " $" + ui.values[ 1 ] );
       }
@@ -229,7 +229,7 @@
         var $markerLat = $('#mapBox').data('mlat');
         var $markerLon = $('#mapBox').data('mlon');
         var map = new GMaps({
-        el: '#mapBox',
+        div: '#mapBox',
         lat: $lat,
         lng: $lon,
         scrollwheel: false,

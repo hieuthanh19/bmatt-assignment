@@ -71,9 +71,7 @@
                                 <div class="breadcrumb-wrapper col-12">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="index.jsp">Dashboard</a>
-                                        </li>
-                                        <li class="breadcrumb-item"><a href="#">Store Management</a>
-                                        </li>
+                                        </li>                                       
                                         <li class="breadcrumb-item">Categories
                                         </li>
                                     </ol>

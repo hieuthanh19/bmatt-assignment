@@ -17,8 +17,8 @@
     if (acc == null) {
         response.sendRedirect("login.jsp?errorCode=1");
     } else {
-        if (acc != null && acc.getAccount_status()!=0 && acc.getRole_id()!=1) {            
-            session.setAttribute("username", username);
+        if (acc != null && acc.getAccount_status()!=0) {            
+            session.setAttribute("username", username);            
             session.setAttribute("password", acc.getPassword());
         } else if (session.getAttribute("username") == null) {
             session.removeAttribute("username");

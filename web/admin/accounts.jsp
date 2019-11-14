@@ -83,14 +83,12 @@
                     <div class="content-header-left col-md-12 col-12 mb-2">
                         <div class="row breadcrumbs-top">
                             <div class="col-12">
-                                <h2 class="content-header-title float-left mb-0">All Accounts (<%=accList.size()%>)</h2>
+                                <h2 class="content-header-title float-left mb-0">Accounts (<%=accList.size()%>)</h2>
                                 <div class="breadcrumb-wrapper col-12">
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="index.jsp">Dashboard</a>
-                                        </li>
-                                        <li class="breadcrumb-item"><a href="#">Accounts</a>
-                                        </li>
-                                        <li class="breadcrumb-item">All Accounts
+                                        </li>                                        
+                                        <li class="breadcrumb-item">Accounts
                                         </li>
                                     </ol>
                                 </div>
@@ -166,8 +164,8 @@
 
                         <!-- add new sidebar starts -->
                         <div class="add-new-data-sidebar">
-                            <div class="overlay-bg"></div>
-                            <div class="add-new-data">                                
+                            <div class="overlay-bg <%=errorCode!=-1? "show" : ""%>"></div>
+                            <div class="add-new-data <%=errorCode!=-1? "show" : ""%>">                                
                                 <div class="div mt-2 px-2 d-flex new-data-title justify-content-between">
                                     <div>
                                         <h4>New Account</h4>
@@ -191,7 +189,7 @@
                                                 %>
                                                 <div class="col-sm-12 data-field-col">
                                                     <label for="data-name">Username(*)</label>
-                                                    <input type="text" class="form-control" name="username"  required >
+                                                    <input type="text" class="form-control" name="username"  placeholder="Use 6 or more characters" required minlength="6">
                                                 </div>
 
                                                 <div class="col-sm-12 data-field-col">
@@ -228,7 +226,7 @@
                                                         %>
                                                     </select>
                                                 </div>
-                                                <div class="col-sm-12 data-field-col data-list-upload">
+                                                <div class="col-sm-12 data-field-col data-list-upload pb-1">
                                                     <label for="data-name">Status: </label>
                                                     <div class="custom-control custom-radio custom-control-inline">
                                                         <input name="status" id="status-locked" type="radio" class="custom-control-input" value="0" > 
