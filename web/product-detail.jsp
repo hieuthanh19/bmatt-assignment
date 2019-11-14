@@ -38,29 +38,31 @@
     if (pd.getProduct_status() != 1) {
         trangThai = "Sold out";
     }
+    //format volume
+    String volume = String.format("%.0f", pd.getVolume());
 
-    String brand_name = "Chanel";
-    int brand_id = pd.getBrand_id();
-    if (brand_id == 2) {
-        brand_name = "Victoria Secret";
-    } else if (brand_id == 3) {
-        brand_name = "Lolita";
-    } else if (brand_id == 4) {
-        brand_name = "Versace";
-    } else if (brand_id == 5) {
-        brand_name = "Dior";
-    }
+    ArrayList<Product> suggestList = pdm.getPaging(1, "", 0, 5, 0, pd.getBrand_id(), 0, 1000, 0, 10000);
 
-    String categoty_name = "Female";
-    int categoty_id = pd.getCategoty_id();
-    if (categoty_id == 2) {
-        categoty_name = "Male";
-    } else if (categoty_id == 3) {
-        categoty_name = "Children";
-    } else if (categoty_id == 4) {
-        categoty_name = "Unisex";
-    }
-
+//    String brand_name = "Chanel";
+//    int brand_id = pd.getBrand_id();
+//    if (brand_id == 2) {
+//        brand_name = "Victoria Secret";
+//    } else if (brand_id == 3) {
+//        brand_name = "Lolita";
+//    } else if (brand_id == 4) {
+//        brand_name = "Versace";
+//    } else if (brand_id == 5) {
+//        brand_name = "Dior";
+//    }
+//    String categoty_name = "Female";
+//    int categoty_id = pd.getCategoty_id();
+//    if (categoty_id == 2) {
+//        categoty_name = "Male";
+//    } else if (categoty_id == 3) {
+//        categoty_name = "Children";
+//    } else if (categoty_id == 4) {
+//        categoty_name = "Unisex";
+//    }
 
 %> 
 <!DOCTYPE html>
@@ -73,7 +75,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <link rel="icon" href="img/favicon.png" type="image/png">
-        <title>Detail | BMatt Shop</title>
+        <title><%=pd.getName()%> | BMatt Shop</title>
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="css/bootstrap.css">
@@ -100,8 +102,8 @@
                     <div class="banner_content text-center">
                         <h2>Single Product Page</h2>
                         <div class="page_link">
-                            <a href="index.html">Home</a>
-                            <a href="category.html">Category</a>
+                            <a href="index.jsp">Home</a>
+                            <a href="category.jsp">Category</a>
                             <a href="single-product.html">Product Details</a>
                         </div>
                     </div>
@@ -136,20 +138,22 @@
                             <h2>$<%=pd.getCurrent_price()%></h2>
                             <ul class="list">
                                 <li>
-                                    <a class="active" href="#">
-                                        <span>Brand name</span> : <%=brand_name%></a>
+                                    <a class="active" href="category.jsp?brandId=<%=pd.getBrand_id()%>">
+                                        <span>Brand name</span> : <%=pd.getBrandName()%></a>
                                 </li>
                                 <li>
-                                    <a class="active" href="#">
-                                        <span>Category</span> : <%=categoty_name%></a>
+                                    <a class="active" href="category.jsp?categoryId=<%=pd.getCategoty_id()%>">
+                                        <span>Category</span> : <%=pd.getCategory_name()%></a>
                                 </li>
                                 <li>
-                                    <a class="active" href="#">
-                                        <span>Volume</span> : <%=pd.getVolume()%> ml</a>
+                                    <a class="active" href="category.jsp?volumeStart=1&volumeEnd=<%=pd.getVolume()%>">
+                                        <span>Volume</span> : <%=volume%> ml</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="active">
-                                        <span>Availability</span>  :  <%=trangThai%></a>
+                                    <a class="" >
+                                        <span>Availability</span>  :  <%=trangThai%>
+                                    </a>
+
                                 </li>
                             </ul>
                             <p><%=pd.getDescription()%></p>
@@ -182,42 +186,30 @@
 
         <!--================Start Women Fragrance Area =================-->
 
-        <%
-                                            
-                            Product_Model prmd = new Product_Model();
-
-                            int brand_ID = 5;
-                            String brandName="Dior";
-                            ArrayList<Product> lst = new ArrayList<Product>();
-                            lst = prmd.loadProductList(brand_ID);
-                            int n=5;
-        %>
         <section class="feature_product_area section_gap" id="feature-product">
             <div class="main_box">
                 <div class="container-fluid">
                     <div class="row">
 
-                        <h2><%=brandName%></h2><br>
+                        <h2>Products from <%=pd.getBrandName()%></h2><br>
 
-                        <p><a href="#feature-product" ></a></p>
-
-
+                        <!--                        <p><a href="#feature-product" ></a></p>-->
                     </div>
-                    <div class="row">
+                    <div class="row pt-3">
                         <%
+                            int i = 0;
+                            for (Product p : suggestList) {
+                                Product_Image_Model primd = new Product_Image_Model();
 
-                            for (int i = 0; i< n; i++) {
-                            Product_Image_Model primd = new Product_Image_Model();
-                            
-                            Product_Image pri = new Product_Image();
-                            pri = primd.myProductImage(lst.get(i).getProduct_id());
-                            
-                                
+                                Product_Image pri = new Product_Image();
+                                pri = primd.myProductImage(p.getProduct_id());
+
+
                         %>
                         <div class="col col<%=i + 1%>">
                             <div class="f_p_item">
                                 <div class="f_p_img">
-                                    <img class="img-fluid" src="img/product/single-product/<%=brand_ID%>/<%=pri.getUrl()%>"  alt="product image">
+                                    <img class="img-fluid" src="img/product/single-product/<%=p.getBrand_id()%>/<%=pri.getUrl()%>"  alt="product image">
                                     <div class="p_icon">
                                         <a href="#">
                                             <i class="lnr lnr-heart"></i>
@@ -227,54 +219,54 @@
                                         </a>
                                     </div>
                                 </div>
-                                <a href="product-detail.jsp?id=<%=lst.get(i).getProduct_id()%>">
-                                    <h4><%=lst.get(i).getName()%></h4>
+                                <a href="product-detail.jsp?id=<%=p.getProduct_id()%>">
+                                    <h4><%=p.getName()%></h4>
                                 </a>
-                                <h5>$ <%=lst.get(i).getCurrent_price()%></h5>
+                                <h5>$ <%=p.getCurrent_price()%></h5>
                             </div>
 
-  
+
                         </div>
                         <%
-                                    
+                                ++i;
                             }
                         %>                        
                     </div>
-        <!--================End Single Product Area =================-->        
+                    <!--================End Single Product Area =================-->        
 
-       <!--================ Subscription Area ================
-        <section class="subscription-area section_gap">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="section-title text-center">
-                            <h2>Subscribe for Our Newsletter</h2>
-                            <span>We won’t send any kind of spam</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-lg-6">
-                        <div id="mc_embed_signup">
-                            <form target="_blank" novalidate action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&id=92a4423d01"
-                                  method="get" class="subscription relative">
-                                <input type="email" name="EMAIL" placeholder="Email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'"
-                                       required="">
-                                 <div style="position: absolute; left: -5000px;">
-                                                <input type="text" name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="">
-                                        </div> 
-                                <button type="submit" class="newsl-btn">Get Started</button>
-                                <div class="info"></div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        ================ End Subscription Area ================
-
-        <jsp:include page="footer.jsp"/>
-       
-    </body>
-
-</html>
+                    <!--================ Subscription Area ================
+                     <section class="subscription-area section_gap">
+                         <div class="container">
+                             <div class="row justify-content-center">
+                                 <div class="col-lg-8">
+                                     <div class="section-title text-center">
+                                         <h2>Subscribe for Our Newsletter</h2>
+                                         <span>We won’t send any kind of spam</span>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="row justify-content-center">
+                                 <div class="col-lg-6">
+                                     <div id="mc_embed_signup">
+                                         <form target="_blank" novalidate action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&id=92a4423d01"
+                                               method="get" class="subscription relative">
+                                             <input type="email" name="EMAIL" placeholder="Email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'"
+                                                    required="">
+                                              <div style="position: absolute; left: -5000px;">
+                                                             <input type="text" name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="">
+                                                     </div> 
+                                             <button type="submit" class="newsl-btn">Get Started</button>
+                                             <div class="info"></div>
+                                         </form>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </section>
+                     ================ End Subscription Area ================
+             
+                    <jsp:include page="footer.jsp"/>
+                   
+                </body>
+            
+            </html>

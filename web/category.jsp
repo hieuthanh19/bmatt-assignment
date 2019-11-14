@@ -23,6 +23,10 @@
     if (request.getParameter("search") != null) {
         search = request.getParameter("search");
     }
+    int sort = 0;
+    if (request.getParameter("sort") != null) {
+        sort = Integer.parseInt(request.getParameter("sort"));
+    }
 
     int categoryId = 0;
     if (request.getParameter("categoryId") != null) {
@@ -50,10 +54,6 @@
         priceEnd = Double.parseDouble(request.getParameter("priceEnd"));
     }
 
-    int sort = 0;
-    if (request.getParameter("sort") != null) {
-        sort = Integer.parseInt(request.getParameter("sort"));
-    }
     int productPerPage = 12;
     if (request.getParameter("productPerPage") != null) {
         productPerPage = Integer.parseInt(request.getParameter("productPerPage"));
