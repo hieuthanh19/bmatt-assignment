@@ -16,10 +16,11 @@
 <%@page import="java.sql.Connection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%    if (session.getAttribute("username") == null) {
+<%    if (session.getAttribute("admin-username") == null) {
         response.sendRedirect("");
     }
 %>
+
 <%
     String search = "";
     String imgDir = "img/product/single-product/";
@@ -192,8 +193,8 @@
 
                         <!-- add new sidebar starts -->
                         <div class="add-new-data-sidebar">
-                            <div class="overlay-bg <%=action.equals("add")? "show" : ""%>"></div>
-                            <div class="add-new-data <%=action.equals("add")? "show" : ""%>">
+                            <div class="overlay-bg <%=action.equals("add") ? "show" : ""%>"></div>
+                            <div class="add-new-data <%=action.equals("add") ? "show" : ""%>">
 
                                 <div class="div mt-2 px-2 d-flex new-data-title justify-content-between">
                                     <div>
@@ -278,7 +279,8 @@
                                                     <!--                                                <form method="post" enctype="multipart/form-data" action="../handleCreate" class="dropzone dropzone-area productImage" id="dataListUpload" name="productImage">-->
                                                     <div class="dz-message">Product Picture</div>                                                    
                                                     <input type="file" class="productImage" name="productImage">
-                                                </div>                                                                                                                                                
+                                                </div> 
+                                                <input type="hidden" name="type" value="product">
                                             </div>
                                         </div>
                                         <div class="add-data-footer d-flex justify-content-around px-5">

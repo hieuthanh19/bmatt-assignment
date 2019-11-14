@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-    if (session.getAttribute("username") == null) {
+    if (session.getAttribute("admin-username") == null) {
 %>
 <jsp:include page="./login.jsp"></jsp:include>
 

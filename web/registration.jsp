@@ -71,7 +71,7 @@
         try {
             if (!Username.isEmpty() && !Password.isEmpty() && Password.equals(Confirm_password)) {
                 account_id = am.insert(Username, Password, 1, 1);
-                response.sendRedirect("login.jsp");
+                response.sendRedirect("index.jsp");
             }
 
             //check if Username already exists
@@ -88,7 +88,7 @@
         try {
             if (account_id != -1) {
                 //add new client to DB
-                u_id = usm.insert(Username, Address, Phone, Email, Profile_picture, account_id, 1);
+                u_id = usm.insert(Name, Address, Phone, Email, Profile_picture, account_id, 1);
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -133,7 +133,7 @@
                             <h3>Create an Account</h3>
                             <form class="row login_form" action="registration.jsp" method="post" id="contactForm" novalidate="novalidate"  onsubmit="return checkPassword(this)">
                                 <div class="col-md-12 form-group">
-                                    <input type="text" class="form-control" id="username" name="username" value="" placeholder="Username" required/>
+                                    <input type="text" class="form-control" id="username" name="username" value="" placeholder="Username" required pattern="/\s/"/>
                                 </div>
                                 <div class="col-md-12 form-group">
                                     <input type="text" class="form-control" id="name" name="name" value="" placeholder="Name" required/>

@@ -16,10 +16,11 @@
 <%@page import="perfumestore.Product_Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%    if (session.getAttribute("username") == null) {
+<%    if (session.getAttribute("admin-username") == null) {
         response.sendRedirect("");
     }
 %>
+
 <%
     AccountModel accM = new AccountModel();
     ArrayList<Account> accList = accM.getAllAccount();

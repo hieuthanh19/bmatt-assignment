@@ -18,10 +18,10 @@
         response.sendRedirect("login.jsp?errorCode=1");
     } else {
         if (acc != null && acc.getAccount_status()!=0) {            
-            session.setAttribute("username", username);            
-            session.setAttribute("password", acc.getPassword());
-        } else if (session.getAttribute("username") == null) {
-            session.removeAttribute("username");
+            session.setAttribute("admin-username", username);            
+            session.setAttribute("admin-password", acc.getPassword());
+        } else if (session.getAttribute("admin-username") == null) {
+            session.removeAttribute("admin-username");
         }
         response.sendRedirect("index.jsp");
     }

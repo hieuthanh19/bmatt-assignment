@@ -262,7 +262,7 @@ public class AccountModel {
         //connect to DB
         con = getCon.getConnection();
         //Create sql string
-        String sqlStr = "select * from " + tblName + " where " + tblCols[1] + "= ?";
+        String sqlStr = "select * from " + tblName + " where BINARY " + tblCols[1] + "= ?";
         //crete query
         pst = con.prepareStatement(sqlStr, Statement.RETURN_GENERATED_KEYS);
         pst.setString(1, username);
