@@ -42,6 +42,12 @@
         <!-- main css -->
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/responsive.css">
+
+        <style>
+            .error-message{
+                color: #da5454;
+            }
+        </style>
     </head>
 
     <body>
@@ -111,7 +117,7 @@
         </section>
         <!--================End Login Box Area =================-->
 
-        
+
 
         <jsp:include page="footer.jsp"/>
 
