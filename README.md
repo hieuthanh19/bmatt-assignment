@@ -1,10 +1,8 @@
 # BMatt Perfume Shop (Shop nước bông BMatt)
 Java Web Assignment của nhóm BMatt
-# Nhớ đổi path chứa hình trong handleCreate và handleEdit &#128546;
-A Sad story from ThanhKH &#128546;
-## Leader thân gửi các bạn (như là bạn A, M và T không dấu), Code nhớ COMMENT &#128522;
+**Nhớ đổi path chứa hình trong handleCreate và handleEdit**
 # Hướng dẫn sử dụng Git
-Dưới đây là một số command cơ bản của Git. Chỉ cần nhiêu đây là đủ để leader không chửi rồi &#128578;
+Dưới đây là một số command cơ bản của Git.
 ### Lần đầu kết nối, để tạo project và lấy code về
 Dùng lệnh sau để copy project của nhóm về
 ```
